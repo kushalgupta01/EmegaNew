@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Manage Orders</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/common/checkbox.css" rel="stylesheet" />
+<link href="css/main.css" rel="stylesheet" />
+<link href="css/manage.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<link href="/client/css/header.css" rel="stylesheet" />
+<script src="js/manage.js" type="module"></script>
+<script src="/common/pdfkit.js"></script>
+<script src="/common/blob-stream.js"></script>
+<script src="/common/JsBarcode.code128.min.js"></script>
+<script src="/common/FileSaver.min.js"></script>
+<script src ="/common/jquery-3.2.1.min.js"></script>
+<script src ="/common/dropdown.js"></script>
+</head>
+<body>
+<div id="container" data-page-type="manage">
+
+	<!-- <div id="header" class="titleonly">
+		<div class="title">Manage Orders</div>
+	</div> -->
+	<div class="wrapper">
+		<div id="header">
+			<div id="position">
+			<div id="logo"><img id="back-to-menu2"src="/common/images/logo.svg"></div></div> 
+			<div class="title">Title</div>
+			<input id="recordList-count" type="text" readonly>
+		</div>
+	    <!-- Sidebar  -->
+		<nav id="sidebar">
+			 <div class="sidebar-header">
+	            <a href="/client/index.html"><img src="/common/images/logo.svg" alt="logo"></a>
+	            <button type="button" id="sidebarCollapse-mobile" class="show-sidebar">
+                    <i class="fa fa-bars"></i>
+                </button>
+	        </div>
+			<ul class="list-unstyled nav-links">
+	            <li>
+	                <a href="/client/index.html">
+						<i class="fa fa-home" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Home</span>
+					</a>
+	            </li>
+	            <li id="li-pendingorders" class="habitania catwalk atpack pacojaanson hide">
+                    <a href="javascript:void(0)" class="has-sub">
+						<i class="fas fa-box-open" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Pending Orders</span>
+					</a>
+					<ul class="sub-nav" style="display: none;">
+						<li id="li-collectorders">
+							<a id="li-a" href="/client/order-collect/orders.html?p=collect"><span class="fas fa-crosshairs"></span> Collect orders</a>
+						</li>							
+						<!-- <li id="li-addneworder">
+							<a id="li-a" href="/client/order-collect/addnew.html"><span class="fas fa-box-open"></span> New orders</a>
+						</li> -->
+						<li id="li-outofstock">
+							<a id="li-a" href="/client/order-collect/orders.html?p=stock"><span class="fas fa-surprise"></span> Out of Stock</a>
+						</li>
+						<li id="li-ordered">
+							<a id="li-a" href="/client/order-collect/orders.html?p=ordered"><span class="fas fa-thumbtack "></span> Ordered</a>
+						</li>
+					</ul>
+                </li>
+				<li id="li-manageorders">
+					<a href="javascript:void(0)" class="has-sub">
+						<i class="fa fa-tasks" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Manage Orders</span>
+					</a>
+					<ul class="sub-nav" style="display: block;">
+						<li id="li-addneworder" class="active">
+								<a id="li-a" href="/client/order-collect/manage.html"><span class="fas fa-eye"></span> View Order</a>
+						</li>
+					</ul>
+				</li>
+				<li id="li-manageinventory" class="combinedgroup hide">
+                    <a href="/client/inventory/inventory.html">
+						<i class="fa fa-table" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Manage Inventory</span>
+					</a>
+                </li>
+				<li id="li-packorders" class="habitania catwalk hide">
+                    <a href="/client/order-pack/index.html">
+						<i class="fa fa-table" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Pack Orders</span>
+					</a>
+                </li>
+				<li id="li-orderdownload">
+					<a href="/client/order-download/index.html">
+						<i class="fa fa-download" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Download Orders</span>
+					</a>
+				</li>
+				<li id="refunds">
+                	<a href="/client/order-collect/orders.html?p=refunds">
+          				<i class="fas fa-money-bill-wave"></i>
+          				<span class='sidebar-menu-text'>Refunds</span>
+          			</a>
+          		</li>
+          		<li id="addOrders" class="combinedgroup hide">
+                	<a href="/client/add-order/addOrder.html">
+          				<i class="fas fa-folder-plus"></i>
+          				<span class="sidebar-menu-text">Add Orders</span> 
+          			</a>
+          		</li>
+	        </ul>
+	    </nav>
+	    <!-- Page Content  -->
+	    <div id="layout-admin" class="collapse-sidebar">
+	        <div id="header" class="header titleonly">
+	            <div class="header-left">
+	                <button type="button" id="sidebarCollapse" class="show-sidebar">
+	                    <i class="fa fa-bars"></i>
+	                </button>
+	                <div class="logo">
+	                    <div class="title"><span>Manage Orders</span></div>
+	                </div>
+	            </div>
+	            <div class="header-right">	              
+	                <div id="record-nav-buttons">
+						<button id="record-logout" class="action-btn btn-navy nomargin top right-left" autocomplete="off"><a id="username"></a> - <span class="fas fa-sign-out-alt"></span></button>
+						<button id="back-to-menu" class="menu action-btn btn-navy nomargin top right-center"><span class="fas fa-undo"></span> Menu</button>
+						<!-- <button id="record-refresh" class="action-btn btn-navy nomargin top right" autocomplete="off"><span class="fas fa-sync"></span> Refresh</button> -->
+					</div>
+	            </div>
+	        </div>
+			<div id="home">
+			<div id="home-content" class="manage">
+				<div class="page-line centre">
+					<label for="record-store-input">Store:
+						<select id="record-store-input"></select>
+					</label>
+					<input type="text" id="record-num-input" placeholder="Enter record number" value="" autocomplete="off" required>
+					<button id="record-load-record" class="action-btn btn-darkcyan">Load Record #</button>
+					<button id="record-load-dbid" class="action-btn btn-darkcyan">Load DB ID</button>
+					<button id="record-load-buyerid" class="action-btn btn-darkcyan">Load BuyerID</button>
+					<button id="record-load-orderid" class="action-btn btn-darkcyan">Load OrderID</button>
+				</div>
+				<div id="record-nav-buttons">
+					<button id="record-logout" class="action-btn btn-navy absolute nomargin top right-left" autocomplete="off"><span id="username">Someone</span> - Logout</button>
+					<button id="back-to-home" class="action-btn btn-navy absolute nomargin top right-center" autocomplete="off">Back to menu</button>
+				</div>
+				<div id="record-details" class="page-line hide">
+					<div id="record-combined-list" hide></div>			
+						<table id="record-buyer-details" class="content-table">
+							<thead>
+								<tr>
+									<th colspan="2">Buyer Details</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr><td>ID</td><td id="record-buyer-id"></td></tr>
+								<tr><td>Name</td><td class="buyer-name" contentEditable="true"></td></tr>
+								<tr><td>Address 1</td><td class="buyer-address1" contentEditable="true"></td></tr>
+								<tr><td>Address 2</td><td class="buyer-address2" contentEditable="true"></td></tr>
+								<tr><td>City</td><td class="buyer-city" contentEditable="true"></td></tr>
+								<tr><td>State</td><td class="buyer-state" contentEditable="true"></td></tr>
+								<tr><td>Postcode</td><td class="buyer-postcode" contentEditable="true"></td></tr>
+								<tr><td>Country</td><td class="buyer-country" contentEditable="true"></td></tr>
+								<tr><td>Phone</td><td class="buyer-phone" contentEditable="true"></td></tr>
+								<tr><td>Email</td><td id="buyer-email" contentEditable="true"></td></tr>
+								<tr><td>Delivery Note</td><td class="record-delivery-note" contentEditable="true"></td></tr>
+								<tr><td colspan="2" rowspan="2"><button id="record-buyer-save" class="centre action-btn" style="background-color:#97c6e9 ; color:#000000">Update buyer details</button></td></tr>
+							</tbody>
+						</table>
+						<table id="record-order-details" class="content-table">
+							<thead>
+								<tr>
+									<th colspan="2">Order Details</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr><td>Database ID</td><td id="record-db-id"></td></tr>
+								<tr><td>Record ID</td><td id="record-id"></td></tr>
+								<tr><td>Order ID</td><td id="record-order-id"></td></tr>							
+								<tr><td>Purchase date</td><td id="record-order-purchase-date"></td></tr>
+								<tr><td>Order type</td><td><select id="record-type"></select></td></tr>
+								<tr><td>Order status</td><td><select id="record-status"></select></td></tr>							
+								<tr><td>Tracking numbers (newest at the bottom)</td><td><textarea id="record-tracking" class="wide" autocomplete="off"></textarea></td></tr>
+								<tr><td rowspan="2" colspan="2">
+									<div class="mb30 checkbox">Show ABN on invoice:
+										<input type="checkbox" id="record-show-abn" value="" autocomplete="off">
+										<label for="record-show-abn"></label>
+									</div>
+									<button id="manage-save-invoice" class="action-btn" style="background-color:#97c6e9 ; color:#000000">Save invoice</button>
+									<button id="manage-open-tracking" class="action-btn line" style="background-color:#97c6e9 ; color:#000000">Open tracking details</button>
+									<br><br>
+									<button id="manage-send-invoice" class="action-btn" style="background-color:#97c6e9 ; color:#000000">Send invoice</button>
+									<button id="manage-send-tracking" class="action-btn line" style="background-color:#97c6e9 ; color:#000000">Send tracking details</button>
+								</td></tr>
+						</table>
+						<table id="record-collect-pack-details" class="content-table">
+							<thead>
+								<tr>
+									<th colspan="2">Collect/Pack Details</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr><td>Collector</td><td id="record-collector"></td></tr>
+								<tr><td>Collected time</td><td id="record-collected-time"></td></tr>							
+								<tr><td>Latest access</td><td id="record-packed-time"></td></tr>	
+								<tr><td>Bucket</td><td id="record-groupnum" contentEditable="true"></td></tr>
+								<tr><td>Weight</td><td id="record-weight" contentEditable="true"></td></tr>
+								<tr><td>Packer</td><td id="record-packer"></td></tr>						
+								<tr><td>Packed time</td><td><textarea id="record-pre-packed-time" class="line wide" autocomplete="off" readonly></textarea></td></tr>		
+							</tbody>
+						</table>
+						 <div id="box-table-container" >
+							<table id="box-table" class="content-table">					
+								<thead class="table-head">
+									<tr class="table-success">
+										<th>Box No</th>							
+										<th>Weight</th>
+										<th>Tracking No</th>
+									</tr>					
+								</thead>													
+								<tbody id="box-table-body">									
+								</tbody>
+							</table>
+						</div>
+						<!-- <hr>			 -->
+						<br>
+						<div id="rec-details">Order notes: </td><td><textarea id="record-notes" class="line wide" autocomplete="off"></textarea></div>
+						<!-- <br> -->
+						<table id="itemTable" class="content-table">
+							<thead>
+								<tr>
+									<td id="items-details" colspan="6">Original Items</td>
+								</tr>
+								<tr>
+									<th>Item#</th>
+									<th>SKU</th>
+									<th>Title</th>
+									<th>Quantity</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>	
+						<table id="alterItemTable" class="content-table">
+							<thead>
+								<tr>
+									<td id="alter-items-details" colspan="6">Alternative Items</td>
+								</tr>
+								<tr>
+									<th>Item#</th>
+									<th>SKU</th>
+									<th>Title</th>
+									<th>Quantity</th>
+									<th>Price</th>
+									<th>Alternative Item</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>	
+						<table id="replaceItemTable" class="content-table">
+							<thead>
+								<tr>
+									<td id="replace-items-details" colspan="6">Replacement Items</td>
+								</tr>
+								<tr>
+									<th>Item#</th>
+									<th>SKU</th>
+									<th>Title</th>
+									<th>Quantity</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>									
+						<br>
+						<br>					
+				</div>
+				<div id= "record-details-btns" class="centre padding-btn pad-less hide">
+					<button id="manage-replaceStock" class="action-btn btn-KashmirBlue">Replacement</button>
+					<button id="manage-alternativeStock" class="action-btn btn-KashmirBlue">Alternative</button>
+					<button id="manage-save" class="action-btn btn-KashmirBlue">Save</button>
+					<button id="manage-reset" class="action-btn btn-KashmirBlue">Reset</button>
+					<button id="manage-close" class="action-btn btn-KashmirBlue">Close</button>
+					<button id="manage-create-label" class="action-btn btn-KashmirBlue">Create label</button>
+					<button id="manage-copy-excel-customer-support" class="action-btn btn-KashmirBlue">Copy for CS</button>
+					<button id="order-logs" class="action-btn btn-KashmirBlue">Logs</button>
+				</div>				
+			</div>
+			</div>
+			<div id="notification" class="hide">
+				<div class="content"></div>
+				<div class="close"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="box-outer">
+	<div id="box-container">
+		<div id="send-invoice-box" class="hide">
+			<div class="title"></div>
+			<div id="send-invoice-text" class="line padded centre"></div>
+			<div class="box-actions">
+				<button id="send-invoice-send" class="action-btn">Send</button>
+				<button id="send-invoice-cancel" class="action-btn">Close</button>
+			</div>
+		</div>
+		<div class="close"></div>
+
+		<!-- item-replacement -->
+		<div id="item-replace-box" class="hide"> 
+			<div>
+				<label class="col-sm-2 col-form-label">ITEMS</label>
+				<label id="item-replace-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="item-replace-quan-feedback" class="col-sm-4 feedback hide"></label>  
+				<br/>
+				<table id="item-replace-table" class="table">
+					<thead>
+						<tr>
+							<!-- <th scope="col">Id</th> -->
+							<th></th>
+							<th scope="col">Store</th>
+							<th scope="col">Item Title</th>
+							<th scope="col">Sku</th>
+							<th scope="col">Item No</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+							<!-- <th scope="col">Action</th> -->
+						</tr>
+					</thead>
+					<tbody id="item-replace-table-body"></tbody>						
+				</table>									
+			</div>
+			<div id="content-action-btns" class="action-btns">
+				<button id="replace-items-add-items" class="btn btn-primary">Add Items</button>
+				<button id="replace-items-close" class="btn btn-secondary">Close</button>
+			</div>	
+		</div>
+
+		<!-- item-alternative -->
+		<div id="item-alternative-box" class="hide"> 
+			<div>
+				<label class="col-sm-2 col-form-label">ITEMS</label>
+				<label id="item-alternative-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="item-alternative-quan-feedback" class="col-sm-4 feedback hide"></label>  
+				<br/>
+				<table id="item-alternative-table" class="table">
+					<thead>
+						<tr>
+							<th> </th>
+							<!-- <th scope="col">Id</th> -->
+							<th scope="col">Store</th>
+							<th scope="col">Item Title</th>
+							<th scope="col">Sku</th>
+							<th scope="col">Item No</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody id="item-alternative-table-body"></tbody>
+						
+				</table>
+				<div>
+					<h4>Add Items</h4>
+					<div>
+						<div id="alternative-item-searchbar">
+							<input id="alternative-item-keyword" placeholder="Item No, Item Name, SKU"
+								style="height:40px;width:250px;">
+				
+							<select id="alternative-item-searchfield-stores"></select>
+				
+							<label for="title">SearchBy:</label>
+							<input type="radio" name="alternative-item-searchfield" value="itemno" checked>
+							<label for="itemno">Item No</label>
+							<input type="radio" name="alternative-item-searchfield" value="itemname">
+							<label for="itemname">Item Name</label>
+							<input type="radio" name="alternative-item-searchfield" value="sku">
+							<label for="sku">SKU</label>
+				
+							<button id="alternative-item-search" class="action-btn btn-darkcyan">Search</button>
+						</div>
+					</div>
+					<h4>Result Items</h4>
+					<table id="alternative-items-search" class="scroll table table-bordered">
+						<thead class="table-head">
+							<tr class="table-success">
+								<th></th>
+								<!-- <th>Id</th> -->
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>ItemNo</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+						<tfoot>
+							<tr>
+								<td colspan="6">
+									<button id="alternative-items-select-item" class="btn btn-primary">Select Item</button>
+									<button id="alternative-items-close" class="btn btn-secondary">Close</button>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					<h4>Selected Items</h4>
+					<table id="alternative-items-selected" class="scroll table table-bordered">
+						<thead class="table-head">
+							<tr class="table-success">
+								<th></th>
+								<!-- <th>Id</th> -->
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>ItemNo</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th>Alternative Item</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div id="content-action-btns" class="action-btns">
+					<button id="alternative-items-add-items" class="btn btn-primary">Add Items</button>
+					<button id="alternative-items-remove-items" class="btn btn-warning">Removed Selected Item</button>
+				</div>	
+			</div>
+		</div> 
+
+		<!-- logs -->
+		<div id="order-transLogs" class="hide">
+			<div>
+				<p>
+					<span>Record #: </span>
+					<strong><span class="record-id"></span></strong>
+				</p>
+				<p>
+					<span>Name: </span>
+					<strong><span class="record-buyer-name"></span></strong>
+				</p>
+				<!-- <div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div> -->
+			</div>
+			<br>
+			<table id="order-transLogs-table" class="content-table">
+				<thead>
+					<tr>
+						<th>Field</th>
+						<th>Old value</th>
+						<th>New value</th>
+						<th>User</th>
+						<th>Time & Date</th>
+					</tr>
+				</thead>
+				<tbody id="order-transLogs-table-body"></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

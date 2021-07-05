@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>Inventory Scan</title>
+<!-- <link href="../common/buttons.css" rel="stylesheet" /> -->
+<link href="./inventoryscan.css" rel="stylesheet" />
+<script src="../common/jquery-3.2.1.min.js"></script>
+<script src="../order-collect/js/config.js" type="module"></script>
+<script src="./inventoryscan.js" type="module"></script>
+</head>
+
+<body>
+<div id="container">
+	<div id="header">
+		<h1>Inventory Scan</h1>
+		<button class="menu action-btn btn-green">Back to Menu</button>
+	</div>
+	<div id="home">
+		<div class="page-line">
+			<div class="await-scan-barcode">Awaiting Barcode Scan...</div>
+		</div>
+		<div class="page-line">
+			<div class="or">OR</div>
+		</div>
+		<div class="page-line">
+			<label class="action-label">Store: </label>
+			<select id="inventory-store" class="action-label">
+			</select>
+			<label class="action-label">SearchBy: </label>
+			<select id="inventory-search" class="action-label">
+				<option value='itemName'>Item Name</option>
+				<option value='sku'>Sku</option>
+				<option value='itemNo'>Item No</option>
+				<option value='customSku'>CustomSku</option>
+				<option value='barcode'>Barcode</option>
+			</select>
+		</div>
+		<div class="page-line">
+			<input type="text" id="inventory-search-value" required>
+		</div>
+		<div class="page-line">
+			<button class="action-btn btn-grey" id="inventory-search-button">Search</button>
+		</div>
+	</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1628 @@
+import '/order-collect/js/config.js';
+import { NotificationBar } from '/common/notification.js';
+import { apiServer,  apiServerLocal} from '/common/api-server.js';
+import { addListener, removeListener, getDateValue, getQueryValue, checkLogin } from '/common/tools.js';
+
+window.page = {
+	//liveMessages: new LiveMessages(wsServer),
+	notification: new NotificationBar(),
+	orders: {},
+	type: 'Receive Stock',
+	tab: null,
+	user: {
+		id: '',
+		username: '',
+		firstname: '',
+		lastname: '',
+		type: '',
+	},
+	userToken: localStorage.getItem('usertoken') || '',
+	local: window.location.hostname.startsWith('1'),
+	localUser: !!localStorage.getItem('local'),
+	loadTime: 0,
+	customers: {},
+	activeRow: null,
+	activeRow2: null,
+	activeRow3: null,
+};
+
+window.saleRecords = {};
+window.cols = ['store', 'title', 'sku', 'barcode', 'cartonBarcode', 'looseQty', 'location', 'image', 'type', 'newLocation'];
+window.selectCols = ['store', 'title', 'sku', 'barcode', 'location', 'existingLocation', 'image'];
+
+// window.colsEditable = ['looseQty', 'newLocation'];
+window.colsBay = ['location','totalQty'];
+window.header = ['Created Date', 'Store', 'Title', 'SKU', 'Barcode', 'Carton Barcode', 'Total Qty', 'PO Number', 'Type'];
+/*if (page.local) {
+	apiServer = apiServerLocal;
+}*/
+
+const apiUrl = window.apiServer;
+
+document.addEventListener('DOMContentLoaded', async function() {
+	checkLogin();
+	addListener('#header .menu', 'click', function(e) {
+		window.location.href = '/inventory/inventorymanagement.html';
+	});
+
+	// Check login
+	{
+		let loginSuccess = false;
+		if (page.userToken) {
+			let formData = new FormData();
+
+			let response = await fetch(apiServer+'users/login', {method: 'post', headers: {'DC-Access-Token': page.userToken}, body: formData});
+			let data = await response.json();
+
+			if (response.ok && data.result == 'success') {
+				loginSuccess = true;
+				page.user = data.user;
+			}
+		}
+
+		if (!loginSuccess) {
+			// Not logged in
+			window.location.href = '/';
+			return;
+		}
+	}
+
+
+	var barcodeScanner = {
+        value: '',
+        startTime: null,
+        timer: null,
+        timeLimit: 600,
+    };
+
+    // let storeSelect = document.querySelector("#supplier-store");
+    // let option = document.createElement('option');
+    // option.value = '-';
+    // option.textContent = '-';
+    // storeSelect.appendChild(option);
+
+    // for (let store in stores) {
+    // 	if (['3','6','21','30','34'].includes(store)) continue;
+    //     let option = document.createElement('option');
+    //     option.value = store;
+    //     option.textContent = stores[store].name;
+    //     storeSelect.appendChild(option);
+    // }
+
+    /*let checkboxValue = document.querySelector('#type-select input[name="sts"]:checked').value;
+	// console.log(checkboxValue);
+	if (checkboxValue == 'Loose') {
+		document.getElementById('content-orders-receive-container').disabled = true;
+		document.getElementById('content-orders-receive').disabled = false;
+	} */
+
+	document.addEventListener('keypress', async function(e) {
+        if (e.charCode == 13 || e.charCode == 0) { // 13, 0; Enter key
+            e.preventDefault();
+            e.stopPropagation();
+
+            clearTimeout(barcodeScanner.timer);
+            barcodeScanner.timer = null;
+            console.log(barcodeScanner.value);
+            let formData = new FormData();
+            formData.append('scanned', barcodeScanner.value);
+           
+
+            let response = await fetch(apiUrl+'inventory/search', {method: 'post', headers: {'DC-Access-Token': localStorage.getItem('usertoken')}, body: formData});
+            let data = await response.json();
+            if (data.result == 'success') {
+                let inventorys = data.data;
+                await addToTable(inventorys);
+                // await addToBayTable(inventorys);
+                
+            }else{
+                page.notification.show(data.result, {hide: false});
+            }
+            
+
+            barcodeScanner.value = ''; // Reset barcode scanner value
+        } else {
+            // Save the character
+            barcodeScanner.value += e.key.toString();
+
+            if (!barcodeScanner.timer) {
+                // Reset scanner value if timeout
+                barcodeScanner.timer = setTimeout(function () {
+                    barcodeScanner.timer = null;
+                    //barcodeScanner.value = '';
+                }, barcodeScanner.timeLimit);
+            }
+        }
+
+        console.log(barcodeScanner.value);
+    });
+	
+	document.querySelector('#content-order-summary table thead th.selected-all').addEventListener('click', selectAllOrders, false);
+	document.querySelector('#content-order-summary table thead th.selected-all input').addEventListener('change', selectAllOrders, false);
+	document.getElementById('content-stock-pick').addEventListener('click', pickStock, false);
+	document.getElementById('content-delete-selected').addEventListener('click', deleteSelected, false);
+	document.getElementById('content-orders-save').addEventListener('click', saveDocument, false);
+	document.getElementById('content-orders-receive').addEventListener('click', receiveLooseOrders, false);
+	document.getElementById('content-orders-receive-container').addEventListener('click', receiveContainerOrders, false);
+	document.querySelector('#box-container .close').addEventListener('click', closeBox);
+	//document.querySelector('#type-select .checkbox').addEventListener('click', getCheckboxValue);
+	document.querySelector('#locationtable2 thead th.selected-all').addEventListener('click', selectAllOrders2, false);
+	document.querySelector('#locationtable2 thead th.selected-all input').addEventListener('change', selectAllOrders2, false);
+
+	//add new row to table
+	document.querySelector('#bay-add').addEventListener('click', function() {
+		addNewRow();
+	});
+
+	document.querySelector('#bay-add2').addEventListener('click', function(e) {
+		addNewRow2(e);
+	});
+
+	//add new row
+	document.querySelector('#bay-save2').addEventListener('click', function(e) {
+		saveBayDetails2(e);
+	});	
+});
+
+function getCheckboxValue() {
+
+	let checkboxValue = document.querySelector('#type-select input[name="sts"]:checked').value;
+	// console.log(checkboxValue);
+	if (checkboxValue == 'Loose') {
+		document.getElementById('content-orders-receive-container').disabled = true;
+		document.getElementById('content-orders-receive').disabled = false;
+	} 
+	else 
+	if (checkboxValue == 'Container') {
+		document.getElementById('content-orders-receive').disabled = true;
+		document.getElementById('content-orders-receive-container').disabled = false;
+	}
+
+}
+
+function selectAllOrders(e) {
+	var tagIsInput = e.target.tagName.toLowerCase() == 'input';
+	if (!tagIsInput) e.target.firstChild.checked = !e.target.firstChild.checked;
+
+	var checked = tagIsInput ? e.target.checked : e.target.firstChild.checked;
+
+	if (checked) {
+		// Select
+		let tableBodyTrs = e.target.closest('.content-page').querySelectorAll('table tbody tr:not(.hide)');
+		for (let tr of tableBodyTrs) {
+			tr.firstChild.firstChild.checked = true;
+		}
+	}
+	else {
+		// De-select
+		let tableBodyTrs = e.target.closest('.content-page').querySelectorAll('table tbody tr');
+		for (let tr of tableBodyTrs) {
+			tr.firstChild.firstChild.checked = false;
+		}
+	}
+}
+
+function selectAllOrders2(e) {
+	var tagIsInput = e.target.tagName.toLowerCase() == 'input';
+	if (!tagIsInput) e.target.firstChild.checked = !e.target.firstChild.checked;
+
+	var checked = tagIsInput ? e.target.checked : e.target.firstChild.checked;
+
+	if (checked) {
+		// Select
+		let tableBodyTrs = document.querySelector('#bay-table-body2').querySelectorAll('table tbody tr:not(.hide)');
+		for (let tr of tableBodyTrs) {
+			tr.firstChild.firstChild.checked = true;
+		}
+	}
+	else {
+		// De-select
+		let tableBodyTrs = document.querySelector('#bay-table-body2').querySelectorAll('table tbody tr');
+		for (let tr of tableBodyTrs) {
+			tr.firstChild.firstChild.checked = false;
+		}
+	}
+}
+
+// Save document for upload
+function saveDocument() {
+	var table = document.querySelector('#content-container #order-items');
+	var tableBody = table.querySelector('tbody');
+	var tableBodyTr = tableBody.querySelectorAll('tr:not(.hide)');
+	var tableHeaderTh = table.querySelectorAll('thead th');
+	var orderRows = [];
+	var headerRow = [];
+	var requiredCols = {};
+	var excludedCols = {};
+	var orderRequiredCols = {};
+	var orderNamesValid = true;
+	var send = true;
+
+	let poNum = document.querySelector('#supplier-poNum').value.toLowerCase();
+	 	if(!poNum) {
+	 		send = false;
+			let poNumfeed = document.querySelector('#poNum-feedback');
+			poNumfeed.classList.remove('hide');
+			poNumfeed.textContent = 'Please enter your PO Number.';		
+	 	}
+
+	let fullname = document.querySelector('#supplier-fullname').value;
+		if (!fullname) {
+			send = false;
+			let fullnamefeed = document.querySelector('#fullname-feedback');
+			fullnamefeed.textContent = 'Please enter supplier Name.';
+			fullnamefeed.classList.remove('hide');
+		}
+
+	let date = document.querySelector('#received-date').value;	
+		if (date == '') {
+			send = false;
+			let datefeed = document.querySelector('#date-feedback');
+			datefeed.textContent = "Please choose a date.";
+			datefeed.classList.remove('hide');
+		}
+
+	if (!send) {
+		page.notification.show('please complete the form.');
+		return;
+	}
+
+ 	let quantity = document.querySelector('[class="looseQty"]').textContent;
+	if (quantity == '' || isNaN(quantity) || quantity == 0) {
+		page.notification.show('Invalid quantities.');
+		return;
+	}
+
+	// Get indices of columns that should be excluded
+	{
+		
+		headerRow = window.header;
+		for (let i=1; i<11; i++) {
+			headerRow.push('Location'+i);
+			headerRow.push('Qty'+i);
+		}
+		orderRows.push(headerRow);
+	}
+
+	if (!tableBodyTr.length) {
+		page.notification.show('No order have been added.');
+		return;
+	}
+
+	// Get each row's data
+	for (let tr_i = 0; tr_i < tableBodyTr.length; tr_i++) {
+		let tableRow = tableBodyTr[tr_i];
+		let tds = tableRow.querySelectorAll('td');
+		let orderRow = [];
+
+		// Save each value
+		for (let td_i = 1; td_i < tds.length; td_i++) {
+			if (td_i==1) {
+				orderRow.push(date);
+				let td = tds[td_i];
+				orderRow.push(td.textContent);
+			}
+			else if (td_i==7 || td_i==8) {
+				continue;
+			} else if (td_i==9) {
+				orderRow.push(poNum);
+				let td = tds[td_i];
+				orderRow.push(td.textContent);
+			} else if (td_i==10) {
+				let td = tds[td_i];
+				let options = td.querySelectorAll('option');
+				for (let option of options) {
+					orderRow.push(option.dataset.location);
+					orderRow.push(option.dataset.qty);
+				}
+				
+			} else {
+				let td = tds[td_i];
+			    orderRow.push(td.textContent);
+			}
+			
+		}
+
+		// Save the row
+		orderRows.push(orderRow);
+	}
+
+	//console.log(orderRows);
+	// Create document for upload
+	createTemplate(orderRows);
+		
+	getCheckboxValue();
+}
+
+function createTemplate(orderRows) {
+	//console.log(orderRows);
+	var workbook = XLSX.utils.book_new();
+	var worksheet = XLSX.utils.aoa_to_sheet(orderRows);
+	XLSX.utils.book_append_sheet(workbook, worksheet, page.type + '_template');
+	XLSX.writeFile(workbook, page.type+'-'+getDateValue(new Date())+'.xlsx');
+}
+
+
+function addToTable(inventorys) {
+	if (inventorys.length == 1) {
+		let inventoryDetail = inventorys[0];
+		// let loc = inventoryDetail.locations;
+		// console.log(loc);
+		// console.log(inventoryDetail);
+
+		let tbody = document.querySelector('#order-items tbody');
+		let trs = document.querySelectorAll('#order-items tbody tr');
+
+		let existStock = false;
+		for (let tr of trs) {
+			if (tr.dataset.invid == inventoryDetail.id) {
+				existStock = true;
+				let currentlooseQty = parseInt(tr.querySelector('.looseQty').textContent);
+				tr.querySelector('.looseQty').textContent =  currentlooseQty + 1;
+				break;
+			}
+		}
+
+		if (!existStock) {
+
+			let checkboxValue = document.querySelector('#type-select input[name="sts"]:checked').value;
+			// console.log(checkboxValue);
+			if (checkboxValue == 'Loose') {
+				/*document.getElementById('content-orders-receive-container').disabled = true;
+				document.getElementById('content-orders-receive').disabled = false;*/
+
+				let tr = document.createElement('tr');
+				tr.dataset.invid = inventoryDetail.id;
+				for (let attr in inventoryDetail) {
+					tr.dataset[attr] = JSON.stringify(inventoryDetail[attr]);
+				}
+				let td = document.createElement('td'), input = document.createElement('input');
+				td.className = 'selected';
+				input.type = 'checkbox';
+				input.autocomplete = 'off';
+				td.appendChild(input);
+				tr.appendChild(td);
+				for (let col of cols) {
+					let td = document.createElement('td');
+					td.classList.add(col);
+					// if (colsEditable.includes(col)) {
+					// 	td.contentEditable = true;
+					// }
+					let text = '';
+					switch (col) {
+						case 'store':
+							text = inventoryDetail.store ? stores[inventoryDetail.store].name : '';
+							break;
+						case 'title':
+							text = inventoryDetail.itemName;
+							break;
+						case 'sku':
+							text = inventoryDetail.customSku;
+							break;
+						case 'barcode':
+							text = inventoryDetail.itemBarcode;
+							break;
+						case 'cartonBarcode':
+							text = inventoryDetail.cartonBarcode;
+							break;
+						// case 'looseQty':
+						// 	text = '0';
+						// 	break;
+						// case 'newLocation':
+						// 	text = '';
+						// 	break;
+						// case 'existingLocation':
+						// 	text = inventoryDetail.bay;						
+						// 	break;
+						case 'type':
+							text = document.querySelector('#type-select form').elements['sts'].value;
+							break;
+						default:
+							text = '';
+					}
+
+					if (col == 'image') {
+						let img = document.createElement('img');
+						img.src = inventoryDetail.image;
+						td.appendChild(img);
+					} 
+					else if (col == 'location') {
+						var baybtn = document.createElement('input');
+		        		baybtn.setAttribute('type','button');
+		        		baybtn.setAttribute('class','bayDetails action-btn btn-lightseagreen');
+		        		baybtn.setAttribute("style", "border-radius: 10%;");
+		        		baybtn.value = "Add Location";
+		        		td.appendChild(baybtn);
+
+		        		baybtn.addEventListener("click", function(e){
+		        			// console.log('11');
+		        			page.activeRow = e.target.closest('tr');
+		        			showBayLocationDetails(e, inventorys);       			
+		        		});
+													
+					} 
+					else if (col == 'newLocation') {			
+		        		let select = document.createElement('select');
+						select.setAttribute('id','bay');
+
+						/*let locs = inventoryDetail.locations;
+						// console.log(locs);					
+
+						for (let loc of locs) {
+							let totalQty = loc.indivQty + loc.cartonQty * inventoryDetail.quantityPerCarton;
+
+							let option = document.createElement('option');
+							option.setAttribute('value', loc.id);
+							// option.textContent = loc.bay + ' - ' + totalQty;			
+							option.textContent = '';			
+							select.appendChild(option);
+						}*/
+						td.appendChild(select);		
+					}
+					else {
+						td.textContent = text || '';					
+					}
+
+					tr.appendChild(td);
+				}
+				tbody.appendChild(tr);
+			} 
+			else 
+			if (checkboxValue == 'Container') {
+				/*document.getElementById('content-orders-receive').disabled = true;
+				document.getElementById('content-orders-receive-container').disabled = false;*/
+
+				let tr = document.createElement('tr');
+				tr.dataset.invid = inventoryDetail.id;
+				for (let attr in inventoryDetail) {
+					tr.dataset[attr] = JSON.stringify(inventoryDetail[attr]);
+				}
+				let td = document.createElement('td'), input = document.createElement('input');
+				td.className = 'selected';
+				input.type = 'checkbox';
+				input.autocomplete = 'off';
+				td.appendChild(input);
+				tr.appendChild(td);
+				for (let col of cols) {
+					let td = document.createElement('td');
+					td.classList.add(col);
+					// if (colsEditable.includes(col)) {
+					// 	td.contentEditable = true;
+					// }
+					let text = '';
+					switch (col) {
+						case 'store':
+							text = inventoryDetail.store ? stores[inventoryDetail.store].name : '';
+							break;
+						case 'title':
+							text = inventoryDetail.itemName;
+							break;
+						case 'sku':
+							text = inventoryDetail.customSku;
+							break;
+						case 'barcode':
+							text = inventoryDetail.itemBarcode;
+							break;
+						case 'cartonBarcode':
+							text = inventoryDetail.cartonBarcode;
+							break;
+						// case 'looseQty':
+						// 	text = '0';
+						// 	break;
+						case 'type':
+							text = document.querySelector('#type-select form').elements['sts'].value;
+							break;
+						default:
+							text = '';
+					}
+
+					if (col == 'image') {
+						let img = document.createElement('img');
+						img.src = inventoryDetail.image;
+						td.appendChild(img);
+					} 
+					else if (col == 'location') {
+
+						let select = document.createElement('select');
+						select.setAttribute('id','bay');
+
+						let locs = inventoryDetail.locations;
+						// console.log(locs);					
+
+						for (let loc of locs) {
+							let totalQty = loc.indivQty + loc.cartonQty * inventoryDetail.quantityPerCarton;
+
+							let option = document.createElement('option');
+							option.setAttribute('value', loc.id);
+							option.textContent = loc.bay + ' - ' + totalQty;						
+							select.appendChild(option);
+						}
+						td.appendChild(select);									
+					} 
+					else if (col == 'newLocation') {
+						var baybtn = document.createElement('input');
+		        		baybtn.setAttribute('type','button');
+		        		baybtn.setAttribute('class','bayDetails action-btn btn-lightseagreen');
+		        		baybtn.setAttribute("style", "border-radius: 10%;");
+		        		baybtn.value = "Add Location";
+		        		td.appendChild(baybtn);
+
+		        		baybtn.addEventListener("click", function(e){
+		        			// console.log('11');
+		        			page.activeRow = e.target.closest('tr');
+		        			showStagingLocationDetails(e);       			
+		        		});
+					}
+					else {
+						td.textContent = text || '';					
+					}
+
+					tr.appendChild(td);
+				}
+				tbody.appendChild(tr);
+			}
+		}
+	} else {
+		window.inventoryDetails = {};
+		for (let inv of inventorys) {
+			if (!inventoryDetails.hasOwnProperty(inv.id)) {
+				inventoryDetails[inv.id] = inv;
+			}
+		}
+		showAddItemBox(inventorys);
+	}
+}
+
+function addNewRow() {
+	let bayTab = document.getElementById('bay-table-body');
+	let cols = ['Actions', 'location', 'looseQty'];
+	console.log(bayTab);
+	let rowCnt = bayTab.rows.length;
+	console.log(rowCnt);
+	let tr = bayTab.insertRow(rowCnt);
+	console.log(tr);
+
+	for (let c = 0; c < cols.length; c++) {
+		let td = document.createElement('td'); 
+		td = tr.insertCell(c);
+		console.log(td);
+
+		if (c == 0) {  
+			let reBtn = document.createElement('input');
+			reBtn.setAttribute('type', 'button');
+            reBtn.setAttribute('value', 'Remove');  
+            reBtn.setAttribute('id','removeRow');  
+
+	            reBtn.addEventListener("click", function(e){        		
+	        		removeRows(e);       			
+	        	});
+
+            td.appendChild(reBtn);
+			td.setAttribute('class','Actions');           
+		}
+		else if(c == 1) {
+			let select = document.createElement('select');
+			select.setAttribute('id','bays');
+
+			for (var i=1; i<=100; i++) {
+				let option = document.createElement('option');
+				option.text = 'STAGE' + i;
+				option.value = 'STAGE' + i;
+				select.appendChild(option);
+			}
+
+			td.appendChild(select);
+		}		
+		else if (c == 2){
+			let decvalBtn = document.createElement('input');
+			decvalBtn.setAttribute('type', 'button');
+        	decvalBtn.setAttribute('value', '⮜');
+        	decvalBtn.setAttribute('class','decreaseValue number-Picker btn-red');
+        	td.appendChild(decvalBtn); 
+
+            	decvalBtn.addEventListener("click", function(e){
+            		indivDecreaseValue(e);
+            	});
+
+        	let ele = document.createElement('input');
+    		ele.setAttribute('type', 'text');           		
+    		ele.setAttribute('value', '0');
+    		ele.setAttribute('id','indiQty');
+    		td.appendChild(ele); 
+
+    		let incvalBtn = document.createElement('input');
+			incvalBtn.setAttribute('type', 'button');
+        	incvalBtn.setAttribute('value', '⮞');
+        	incvalBtn.setAttribute('class','increaseValue number-Picker btn-green');
+        	td.appendChild(incvalBtn); 
+        	
+        	td.setAttribute('class','looseQty');
+
+	        	incvalBtn.addEventListener("click", function(e){
+	        		indivIncreaseValue(e);
+	        });
+		} 		
+		tr.appendChild(td);
+	}
+	bayTab.appendChild(tr);
+
+}
+
+// function addNewRow2() {
+// 	let bayTab = document.getElementById('bay-table-body2');
+// 	let cols = ['checkbox', 'location', 'looseQty', 'receivedQty', 'addQty'];
+// 	console.log(bayTab);
+// 	let rowCnt = bayTab.rows.length;
+// 	//console.log(rowCnt);
+// 	let tr = bayTab.insertRow(rowCnt);
+// 	//console.log(tr);
+
+// 	for (let c = 0; c < cols.length; c++) {
+// 		let td = document.createElement('td'); 
+// 		td = tr.insertCell(c);
+// 		//console.log(td);
+
+// 		if (c == 0) {  
+// 			let input = document.createElement('input');
+// 			input.setAttribute('type', 'checkbox');
+// 			input.setAttribute('class', 'selected');
+// 			input.autocomplete = 'off';
+// 			td.appendChild(input);         
+// 		}
+// 		else if(c == 1) {
+// 			let ele = document.createElement('input');
+//         	ele.setAttribute('type', 'text');
+//             ele.setAttribute('value', '');
+//             ele.setAttribute('id','bay');
+//             td.appendChild(ele);
+//             ele.readOnly = true;
+//             td.setAttribute('class','location');
+// 		}		
+// 		else if (c == 2){			
+//         	let ele = document.createElement('input');
+//     		ele.setAttribute('type', 'text');           		
+//     		ele.setAttribute('value', '');
+//     		ele.setAttribute('id','indiQty');
+//     		ele.readOnly = true;
+//     		td.appendChild(ele);    		
+// 		} 
+// 		else if (c == 3){			
+//         	let ele = document.createElement('input');
+//     		ele.setAttribute('type', 'text');           		
+//     		ele.setAttribute('value', '');
+//     		ele.setAttribute('id','receivedQty');
+//     		ele.readOnly = true;
+//     		td.appendChild(ele);    		
+// 		} 		
+// 		else if (c == 4) {
+
+// 			let addvalBtn = document.createElement('input');
+// 			addvalBtn.setAttribute('type', 'button');
+//         	addvalBtn.setAttribute('value', '✏️');
+//         	addvalBtn.setAttribute('class','editValue');
+//         	td.appendChild(addvalBtn); 
+
+//         	addvalBtn.addEventListener("click", function(e){
+//         		addLocationQty(e);
+//         	});
+
+//    			let reBtn = document.createElement('input');
+// 			reBtn.setAttribute('type', 'button');
+//             reBtn.setAttribute('value', '🗑️');  
+//             reBtn.setAttribute('id','removeRow');  
+
+// 	            reBtn.addEventListener("click", function(e){        		
+// 	        		removeRows2(e);       			
+// 	        	});
+
+//             td.appendChild(reBtn);
+// 			td.setAttribute('class','Actions');
+// 		}	
+// 		tr.appendChild(td);
+// 	}
+// 	bayTab.appendChild(tr);
+
+// }
+
+function showStagingLocationDetails(e) {
+
+	document.getElementById('box-outer').classList.add('flex');
+	document.getElementById('location').classList.remove('hide');
+
+	let baytBody = document.querySelector('#location #bay-table-body');
+
+
+	let itemSKU = e.target.closest('tr').dataset.sku;
+	// console.log(itemSKU);
+	document.querySelector('#bay-table-body').dataset.sku = itemSKU;
+	document.querySelector('#sku span').textContent = itemSKU;
+
+	let itemName = e.target.closest('tr').dataset.itemName;
+	// console.log(itemName);
+	document.querySelector('#itemname span').textContent = itemName;
+
+	let itemInvId = e.target.closest('tr').dataset.id;
+	baytBody.dataset.id = itemInvId;
+
+
+	while (baytBody.firstChild) {
+		baytBody.removeChild(baytBody.firstChild);
+	}
+
+	let cols = ['Actions', 'location', 'looseQty'];
+	// let colsEditable = ['looseQty'];
+
+	// let locations = JSON.parse(e.target.closest('tr').dataset.locations);
+	// console.log(locations);
+
+	// for(let loc of locations) {
+
+		let tr = document.createElement('tr');
+		// tr.dataset.id = loc.id;
+		for (let col of cols) {
+			let td = document.createElement('td');
+			td.classList.add(col);
+
+			if(col == 'Actions') {
+				let reBtn = document.createElement('input');
+				reBtn.setAttribute('type', 'button');
+            	reBtn.setAttribute('value', 'Remove');
+            	reBtn.setAttribute('id','removeRow');
+            	td.appendChild(reBtn);      
+
+            	reBtn.addEventListener("click", function(e){
+            		removeRows(e);
+            	});	
+            } 
+            else if (col == 'location') {
+            	let select = document.createElement('select');
+				select.setAttribute('id','bays');
+
+				for (var i=1; i<=100; i++) {
+					let option = document.createElement('option');
+					option.text = 'STAGE' + i;
+					option.value = 'STAGE' + i;
+					select.appendChild(option);
+				}
+
+				td.appendChild(select);
+            }
+            else if (col == 'looseQty') {
+            	let decvalBtn = document.createElement('input');
+				decvalBtn.setAttribute('type', 'button');
+            	decvalBtn.setAttribute('value', '⮜');
+            	decvalBtn.setAttribute('class','decreaseValue number-Picker btn-red');
+            	td.appendChild(decvalBtn); 
+
+            	decvalBtn.addEventListener("click", function(e){
+            		indivDecreaseValue(e);
+            	});
+
+            	let ele = document.createElement('input');
+        		ele.setAttribute('type', 'text');           		
+        		ele.setAttribute('value', '0');
+        		ele.setAttribute('id','indiQty');
+        		td.appendChild(ele); 
+
+        		let incvalBtn = document.createElement('input');
+				incvalBtn.setAttribute('type', 'button');
+            	incvalBtn.setAttribute('value', '⮞');
+            	incvalBtn.setAttribute('class','increaseValue number-Picker btn-green');
+            	td.appendChild(incvalBtn); 
+
+            	incvalBtn.addEventListener("click", function(e){
+            		indivIncreaseValue(e);
+            	});
+
+            }    			
+            else {
+            	td.textContent = "" ;        
+            }
+            tr.appendChild(td);
+		}
+		baytBody.appendChild(tr);
+	// }
+
+	//save Bay details
+	document.querySelector('#bay-save').addEventListener('click', function(e) {
+		saveBayDetails(e);
+	});
+}
+
+function showBayLocationDetails(e, inventorys) {
+	document.getElementById('box-outer').classList.add('flex');
+	document.getElementById('location2').classList.remove('hide');
+
+	let baytBody = document.querySelector('#location2 #bay-table-body2');
+
+	let itemSKU = e.target.closest('tr').dataset.sku;
+	// console.log(itemSKU);
+	document.querySelector('#bay-table-body2').dataset.sku = itemSKU;
+	document.querySelector('#sku2 span').textContent = itemSKU;
+
+	let itemName = e.target.closest('tr').dataset.itemName;
+	// console.log(itemName);
+	document.querySelector('#itemname2 span').textContent = itemName;
+
+	let itemInvId = e.target.closest('tr').dataset.id;
+	baytBody.dataset.id = itemInvId;
+
+	// let locations = e.target.closest('tr').dataset.locations;
+	let inventoryDetail = inventorys[0];
+	let locations = inventoryDetail.locations;
+	console.log(locations);
+
+	while (baytBody.firstChild) {
+		baytBody.removeChild(baytBody.firstChild);
+	}
+
+	let cols = ['checkbox', 'location', 'looseQty', 'receivedQty', 'addQty'];
+	// let colsEditable = ['looseQty'];
+
+	for(let loc of locations) {
+		let tr = document.createElement('tr');
+		tr.dataset.id = loc.id;
+		for (let col of cols) {
+			let td = document.createElement('td');
+			td.classList.add(col);
+
+			if (col == 'checkbox') {
+				let input = document.createElement('input');
+				td.className = 'selected';
+				input.type = 'checkbox';
+				input.autocomplete = 'off';
+				td.appendChild(input);
+			}
+            else if (col == 'location') {
+
+				let ele = document.createElement('input');
+        		ele.setAttribute('type', 'text');
+        		ele.setAttribute('value', loc.bay);
+        		ele.setAttribute('id','bay');
+        		ele.readOnly = true;
+        		td.appendChild(ele); 
+
+            }
+            else if (col == 'looseQty') {
+
+            	let ele = document.createElement('input');
+        		ele.setAttribute('type', 'text');           		
+        		ele.setAttribute('value', loc.indivQty);
+        		ele.setAttribute('id','indiQty');
+        		ele.readOnly = true;
+        		td.appendChild(ele);             	
+
+            }    
+            else if (col == 'receivedQty') {
+
+            	let ele = document.createElement('input');
+        		ele.setAttribute('type', 'text');           		
+        		ele.setAttribute('value', '');
+        		ele.setAttribute('id','receivedQty');
+        		ele.readOnly = true;
+        		td.appendChild(ele);             	
+
+            }    
+            else if (col == 'addQty') {
+            	let editvalBtn = document.createElement('input');
+				editvalBtn.setAttribute('type', 'button');
+            	editvalBtn.setAttribute('value', '✏️');
+            	editvalBtn.setAttribute('class','editValue');
+            	td.appendChild(editvalBtn); 
+
+            	editvalBtn.addEventListener("click", function(e){
+            		page.activeRow2 = tr;
+            		addReceiveQty(e, inventorys);
+            	});
+            }	
+            else {
+            	td.textContent = "" ;        
+            }
+            tr.appendChild(td);
+		}
+		baytBody.appendChild(tr);
+	}
+
+	
+
+}
+
+function removeRows(e) {
+
+	let res = confirm("Are you sure want to remove ?");
+	if(res == true) {
+
+		let bayTab =  document.querySelector('#bay-table-body');
+		let trs = bayTab.querySelectorAll('tr');
+
+		let tr = e.target.parentNode.parentNode;
+		bayTab.removeChild(tr);	
+	}
+}
+
+function removeRows2(e) {
+
+	let res = confirm("Are you sure want to remove ?");
+	if(res == true) {
+
+		let bayTab =  document.querySelector('#bay-table-body2');
+		let trs = bayTab.querySelectorAll('tr');
+
+		let tr = e.target.parentNode.parentNode;
+		bayTab.removeChild(tr);	
+	}
+}
+
+async function saveBayDetails(e) {
+	let bayTab =  document.querySelector('#bay-table-body');
+	let trs = document.querySelectorAll('#bay-table-body tr');
+	let itemTabTrs = page.activeRow;
+
+	// let qtyRows = document.querySelectorAll()
+
+	let locations = [];
+	let invID = bayTab.dataset.id;
+	let customSku =  bayTab.dataset.sku;
+	// let stockQPC = bayTab.dataset.quantityPerCarton;
+	
+	let indivQtySum = 0;
+	for(let tr of trs) {
+		let quantity = parseInt(tr.querySelector('#indiQty').value);
+		if (quantity == '' || isNaN(quantity || quantity == 0)) {
+			page.notification.show('Invalid quantities');
+			return;
+		}
+		// console.log(quantity);
+
+		let stagingBay = tr.querySelector('#bays').value;
+		if (stagingBay == '-') {
+			page.notification.show('Invalid location');
+			return;
+		}				
+		indivQtySum = indivQtySum + quantity;	
+
+		// let type = itemTabTrs.querySelector('.type').textContent;	
+
+		let location = {};
+		location.id = tr.dataset.id;
+		location.bay =  stagingBay;
+		location.indivQty = quantity;	
+	 	locations.push(location);
+	}
+	// console.log(indivQtySum);
+
+	itemTabTrs.querySelector('.looseQty').innerHTML = indivQtySum;
+
+	let formData = new FormData();
+	formData.append('invID',invID);
+	formData.append('customSku',customSku);
+	formData.append('locations',JSON.stringify(locations));
+
+	let response = await fetch(apiServer+'stockInventoryLocation/update', {method: 'POST', headers: {'DC-Access-Token': page.userToken}, body: formData});
+	let responseData = await response.json();
+
+	if (!response.ok || responseData.result != 'success') {	
+
+		page.notification.show(responseData.result);
+	} else {
+		page.notification.show("Updated..");	
+		document.getElementById('box-outer').classList.remove('flex');
+		document.getElementById('location').classList.add('hide');
+	}
+}
+
+async function saveBayDetails2(e) {
+
+	let bayTab =  document.querySelector('#bay-table-body2');
+	let trs = bayTab.querySelectorAll('tr:not(.hide)');
+
+	let itemTabTrs = page.activeRow;
+
+	let locations = [];
+	let invID = bayTab.dataset.id;
+	let customSku =  bayTab.dataset.sku;
+	let indivQtys ;
+	for(let tr of trs) {
+		let location = {};
+		location.id = tr.dataset.id;
+		location.indivQty =  parseInt(tr.querySelector('#indiQty').value);
+		location.bay =  tr.querySelector('#bay').value;
+	 	locations.push(location);
+	}
+
+	let selectedTotal = 0;
+	let noselected = true;
+	let locationsReceived = [];
+	for (let tr_i = 0; tr_i < trs.length; tr_i++) {
+
+		let selectedInput = trs[tr_i].firstChild.querySelector('input');
+
+		if (selectedInput && selectedInput.checked) {
+			noselected = false;
+			let locationReceived = [];
+			let tableRow = trs[tr_i];
+			let tds = tableRow.querySelectorAll('td');
+
+			// Save each value
+			for (let td_i = 1; td_i < tds.length - 1; td_i++) {
+				if (td_i == 1) {
+					locationReceived.push(tds[td_i].firstChild.value);
+				} 
+				else if (td_i == 3) {
+					let td = tds[td_i];
+					selectedTotal = selectedTotal + parseInt(td.firstChild.value);
+					locationReceived.push(td.firstChild.value);
+					console.log(selectedTotal);					
+				} 	
+				//itemTabTrs.querySelector('.looseQty').innerHTML = selectedTotal;			
+			}
+			locationsReceived.push(locationReceived);
+		} 
+	}
+
+	if (noselected){
+		page.notification.show('No location has been selected.');
+		return;
+	}
+
+	if (!selectedTotal) {
+		page.notification.show('please enter received quantity for checked .');
+		return;
+	}
+
+	itemTabTrs.querySelector('.looseQty').innerHTML = selectedTotal;
+
+
+	let select = itemTabTrs.querySelector('#bay');
+	for (let locre of locationsReceived) {
+		let option = document.createElement('option');
+		option.textContent = locre[0] + ' : ' + locre[1];
+		option.dataset.location = locre[0];
+		option.dataset.qty = locre[1];
+		select.appendChild(option);
+	}
+
+	let formData = new FormData();
+	formData.append('invID',invID);
+	formData.append('customSku',customSku);
+	formData.append('locations',JSON.stringify(locations));
+
+	let response = await fetch(apiServer+'stockInventoryLocation/update', {method: 'POST', headers: {'DC-Access-Token': page.userToken}, body: formData});
+	let responseData = await response.json();
+
+	if (!response.ok || responseData.result != 'success') {	
+		page.notification.show(responseData.result);
+	} else {
+		page.notification.show("Updated..");
+		document.getElementById('box-outer').classList.remove('flex');
+		document.getElementById('location2').classList.add('hide');
+	}
+	
+}
+
+function indivDecreaseValue(e) {
+	let input = e.target.parentNode.querySelector('#indiQty');
+	let value = parseInt(input.value, 10);
+    value = isNaN(value) ? 0: value;
+    value < 1 ? value = 1 : '';
+    value--;
+
+    input.value = value;
+}
+
+function indivIncreaseValue(e) {
+    let input = e.target.parentNode.querySelector('#indiQty');
+    let value = parseInt(input.value, 10);
+    value = isNaN(value) ? 0: value;
+    value++;
+
+    input.value = value;
+}
+
+function deleteSelected() {
+	let tbody = document.querySelector('#order-items tbody');
+	let selected = tbody.querySelectorAll('tr');
+	for (let tr of selected) {
+		if (tr.firstChild.querySelector('input').checked) {
+			tbody.removeChild(tr);
+		}
+	}
+}
+
+// Close popup box
+function closeBox() {
+	document.getElementById('box-outer').classList.remove('flex');
+	setTimeout(function() {
+		for (let el of document.querySelectorAll('#box-container > div:not(.close)')) {
+			el.classList.add('hide');
+		}
+	}, 400);
+}
+
+function addReceiveQty(e, inventorys) {
+	clearFeedback();
+
+	document.getElementById('box-outer').classList.add('flex');
+	document.getElementById('location2').classList.add('hide');
+	document.getElementById('receive-qty').classList.remove('hide');
+
+	let baytBody = document.querySelector('#bay-table-body2');
+	let trs = baytBody.querySelectorAll('tr');
+	// console.log(trs);
+
+	let inventoryDetail = inventorys[0];
+	let locations = inventoryDetail.locations;
+	let tr = e.target.parentNode.parentNode;
+
+	document.querySelector('#receive-qty').dataset.id = tr.dataset.id;
+
+	let qty = tr.querySelector('#indiQty').value;
+	document.querySelector('#existingQty').value = qty;	
+
+	let bay = tr.querySelector('#bay').value;
+	document.querySelector('#existingBay').value = bay;	
+	// console.log(qty);
+
+	document.querySelector('#newQty').value = '';
+
+	let qtySaveBtn = document.querySelector('#qty-save');
+
+	qtySaveBtn.addEventListener("click", function(e) {
+		// console.log('11');	
+
+		document.querySelector('#existingQty').value = qty;	
+		let existingQty = parseInt(e.target.parentNode.querySelector('#existingQty').value);
+		let receiveQty = parseInt(document.querySelector('#newQty').value);
+
+		if (!receiveQty) {
+			let receiveQtyfeed = document.querySelector('#newQty-feedback');
+			receiveQtyfeed.textContent = "Please fill here.";
+			receiveQtyfeed.classList.remove('hide');
+			return;
+		} 
+		let totalQty = existingQty + receiveQty;
+		// console.log(totalQty);
+
+		page.activeRow2.querySelector('#indiQty').value = totalQty;
+		page.activeRow2.querySelector('#receivedQty').value = receiveQty;
+
+		document.getElementById('location2').classList.remove('hide');
+		document.getElementById('receive-qty').classList.add('hide');
+
+	});
+	
+}
+
+function addNewRow2(e) {
+
+	document.getElementById('box-outer').classList.add('flex');
+	document.getElementById('location2').classList.add('hide');
+	document.getElementById('new-qty').classList.remove('hide');
+
+	let baytBody = document.querySelector('#bay-table-body2');
+	let trs = baytBody.querySelectorAll('tr');
+	// console.log(trs);
+	let send = true;
+
+	let newQtySaveBtn = document.querySelector('#newQty-save');
+
+	newQtySaveBtn.addEventListener("click", function(e) {
+		// console.log('11');
+		let newBay = document.querySelector('#newBay').value;
+		let newQty = document.querySelector('#new-qty #newQty').value;
+		console.log(newQty);
+
+		if (!newBay && !newQty) {
+			send = false;
+		}
+
+		if (!send) {
+			page.notification.show('please fill in the required fields.');
+			return;
+		} 
+		else {
+
+			document.getElementById('location2').classList.remove('hide');
+			document.getElementById('new-qty').classList.add('hide');
+
+			let bayTab = document.getElementById('bay-table-body2');
+			let cols = ['checkbox', 'location', 'looseQty', 'receivedQty', 'addQty'];
+			//console.log(bayTab);
+			let rowCnt = bayTab.rows.length;
+			//console.log(rowCnt);
+			let tr = bayTab.insertRow(rowCnt);
+			//console.log(tr);
+
+			for (let c = 0; c < cols.length; c++) {
+				let td = document.createElement('td'); 
+				td = tr.insertCell(c);
+				//console.log(td);
+
+				if (c == 0) {  
+					let input = document.createElement('input');
+					input.setAttribute('type', 'checkbox');
+					input.setAttribute('class', 'selected');
+					input.autocomplete = 'off';
+					td.appendChild(input);         
+				}
+				else if(c == 1) {
+					let ele = document.createElement('input');
+		        	ele.setAttribute('type', 'text');
+		            ele.setAttribute('value', newBay);
+		            ele.setAttribute('id','bay');
+		            td.appendChild(ele);
+		            ele.readOnly = true;
+		            td.setAttribute('class','location');
+				}		
+				else if (c == 2){			
+		        	let ele = document.createElement('input');
+		    		ele.setAttribute('type', 'text');           		
+		    		ele.setAttribute('value', newQty);
+		    		ele.setAttribute('id','indiQty');
+		    		ele.readOnly = true;
+		    		td.appendChild(ele);    		
+				} 
+				else if (c == 3){			
+		        	let ele = document.createElement('input');
+		    		ele.setAttribute('type', 'text');           		
+		    		ele.setAttribute('value', newQty);
+		    		ele.setAttribute('id','receivedQty');
+		    		ele.readOnly = true;
+		    		td.appendChild(ele);    		
+				} 		
+				else if (c == 4) {
+
+		   			let reBtn = document.createElement('input');
+					reBtn.setAttribute('type', 'button');
+		            reBtn.setAttribute('value', '🗑️');  
+		            reBtn.setAttribute('id','removeRow');  
+
+			            reBtn.addEventListener("click", function(e){        		
+			        		removeRows2(e);       			
+			        	});
+
+		            td.appendChild(reBtn);
+					td.setAttribute('class','Actions');
+				}	
+				tr.appendChild(td);
+			}
+			bayTab.appendChild(tr);
+		}
+	});
+
+}
+
+async function pickStock() {
+
+	let tbody = document.querySelector('#order-items tbody');
+	let trs = document.querySelectorAll('#order-items tbody tr');
+
+	let docketNo = document.querySelector('.supplier-docknum').textContent;
+	if (trs.length > 0) {
+		if (docketNo) {
+			for(let tr of trs) {
+
+
+				let currentlooseQty = parseInt(tr.querySelector('.looseQty').textContent);
+				// let currentcartonQty = parseInt(tr.querySelector('.cartonQty').textContent);
+				let customSku = tr.querySelector('.sku').textContent;
+
+				let formData = new FormData();
+				// formData.append('id', tr.dataset.id);
+				formData.append('customSku', customSku);
+				formData.append('subtractfromlooseQty',currentlooseQty);
+				// formData.append('subtractfromcartonQty',currentcartonQty);
+				formData.append('docketNo', docketNo);
+
+				let response = await fetch(apiServer + 'stockInventory/update', { method: 'post', headers: { 'DC-Access-Token': page.userToken }, body: formData});
+				let updateStockInventoryData = await response.json();
+
+				if (response.ok && updateStockInventoryData.result == 'success') {	            
+					page.notification.show("Updated.");
+					let orderTableBody = document.querySelector('#order-items tbody');
+					while (orderTableBody.firstChild) {
+						orderTableBody.removeChild(orderTableBody.firstChild);
+					}
+				}
+				else {
+					notification.show(updateStockInventoryData.result);
+					return 'success';
+				}					
+			}
+		} else {
+			page.notification.show("Please enter docketno.");
+		}
+	} else {
+		page.notification.show("Please select item.");
+	}
+
+}
+
+async function receiveLooseOrders() {
+ 	// console.log('11');
+	clearFeedback();
+ 	let send = true;
+ 	let formData = new FormData();
+ 	let data = {};
+ 	data.items = [];
+
+ 	let id = document.querySelector('#delivery-address').dataset.id;
+
+ 	let poNum = document.querySelector('#supplier-poNum').value.toLowerCase();
+ 	if(!poNum) {
+ 		send = false;
+		let poNumfeed = document.querySelector('#poNum-feedback');
+		poNumfeed.classList.remove('hide');
+		poNumfeed.textContent = 'Please enter your PO Number.';		
+ 	}
+ 	data.SalesRecordID = poNum;
+
+
+	let fullname = document.querySelector('#supplier-fullname').value;
+	if (!fullname) {
+		send = false;
+		let fullnamefeed = document.querySelector('#fullname-feedback');
+		fullnamefeed.textContent = 'Please enter supplier Name.';
+		fullnamefeed.classList.remove('hide');
+	}
+
+	data.fullName = fullname;
+
+
+	// let store = document.querySelector('#supplier-store').value;	
+	// if (store == '-') {
+	// 	send = false;
+	// 	let storefeed = document.querySelector('#store-feedback');
+	// 	storefeed.textContent = 'Please choose a store.';
+	// 	storefeed.classList.remove('hide');
+	// }
+	// formData.append('store',store);
+
+	let itemTrs = document.querySelectorAll('#order-items tbody tr');
+	//console.log(itemTrs);
+	if (itemTrs.length == 0) {
+		send = false;
+		let itemfeed = document.querySelector('#item-feedback');
+		itemfeed.textContent = 'Please add items.';
+		itemfeed.classList.remove('hide');
+	}
+
+	let date = document.querySelector('#received-date').value;
+	
+	if (date == '') {
+		send = false;
+		let datefeed = document.querySelector('#date-feedback');
+		datefeed.textContent = "Please choose a date.";
+		datefeed.classList.remove('hide');
+	}
+
+	data.createdDate = date;
+	
+	let hasQuantity = true;
+	let orderSum = 0;
+
+	let i=0;
+	for (let itemTr of itemTrs) {
+		let item = {};
+
+		item.sku = itemTr.dataset.sku;
+		item.itemID = itemTr.dataset.itemNo;
+		item.title = itemTr.dataset.itemName;
+		item.itembarcode = itemTr.dataset.itemBarcode;
+		item.cartonbarode = itemTr.dataset.cartonBarcode;
+		item.image = itemTr.dataset.image;
+
+		let quantity = itemTr.querySelector('[class="looseQty"]').textContent;
+		if (quantity == '' || isNaN(quantity) || quantity == 0) {
+			hasQuantity = false;
+		}
+		item.quantity = quantity;
+		item.unitPrice = itemTr.dataset.price;
+		orderSum = orderSum + parseFloat(item.unitPrice)*parseInt(item.quantity);
+		item.currency = 'AUD';
+		item.lineItemID = poNum + '-' + i;
+		data.items.push(item);
+		i = i + 1;
+	}
+
+
+	if (!hasQuantity) {
+		send = false;
+		let quantityfeed = document.querySelector('#item-quan-feedback');
+		quantityfeed.textContent = 'Invalid quantities';
+		quantityfeed.classList.remove('hide');
+	}
+
+	let createdBy = page.user.firstname +  ' ' +page.user.lastname;
+	console.log(createdBy);
+
+	formData.append('poNo', poNum);
+	formData.append('supplierName', fullname);
+	formData.append('data', JSON.stringify(data));
+	formData.append('createdDate', date);
+	// formData.append('store', store);
+	formData.append('createdBy', createdBy);
+
+
+	console.log(formData.get('data'));
+	if (!send) {
+		page.notification.show("Please complete the form.");
+		return;
+	}else{
+		clearForm();
+	}
+
+	let response = await fetch(apiServer+'receiveOrders', {method: 'post', headers: {'DC-Access-Token': page.userToken}, body: formData});
+	let createOrderData = await response.json();
+
+	if (response.ok && createOrderData.result == 'success') {		
+		page.notification.show("Order added successfully.");	
+		clearForm();	
+		window.location.reload();
+	}
+	else {
+		page.notification.show(createOrderData.result);
+	}
+}
+
+async function receiveContainerOrders() {
+ 	// console.log('11');
+	clearFeedback();
+ 	let send = true;
+ 	let formData = new FormData();
+ 	let data = {};
+ 	data.items = [];
+
+ 	let id = document.querySelector('#delivery-address').dataset.id;
+
+ 	let poNum = document.querySelector('#supplier-poNum').value.toLowerCase();
+ 	if(!poNum) {
+ 		send = false;
+		let poNumfeed = document.querySelector('#poNum-feedback');
+		poNumfeed.classList.remove('hide');
+		poNumfeed.textContent = 'Please enter your PO Number.';		
+ 	}
+ 	data.SalesRecordID = poNum;
+
+
+	let fullname = document.querySelector('#supplier-fullname').value;
+	if (!fullname) {
+		send = false;
+		let fullnamefeed = document.querySelector('#fullname-feedback');
+		fullnamefeed.textContent = 'Please enter supplier Name.';
+		fullnamefeed.classList.remove('hide');
+	}
+
+	data.fullName = fullname;
+
+	
+	// let store = document.querySelector('#supplier-store').value;	
+	// if (store == '-') {
+	// 	send = false;
+	// 	let storefeed = document.querySelector('#store-feedback');
+	// 	storefeed.textContent = 'Please choose a store.';
+	// 	storefeed.classList.remove('hide');
+	// }
+	// formData.append('store',store);
+
+	let itemTrs = document.querySelectorAll('#order-items tbody tr');
+	//console.log(itemTrs);
+	if (itemTrs.length == 0) {
+		send = false;
+		let itemfeed = document.querySelector('#item-feedback');
+		itemfeed.textContent = 'Please add items.';
+		itemfeed.classList.remove('hide');
+	}
+
+	let date = document.querySelector('#received-date').value;
+	
+	if (date == '') {
+		send = false;
+		let datefeed = document.querySelector('#date-feedback');
+		datefeed.textContent = "Please choose a date.";
+		datefeed.classList.remove('hide');
+	}
+
+	data.createdDate = date;	
+
+	let hasQuantity = true;
+	let orderSum = 0;
+
+	let i=0;
+
+	// let type;
+	for (let itemTr of itemTrs) {
+		let item = {};
+
+		item.sku = itemTr.dataset.sku;
+		item.itemID = itemTr.dataset.itemNo;
+		item.title = itemTr.dataset.itemName;
+		item.itembarcode = itemTr.dataset.itemBarcode;
+		item.cartonbarode = itemTr.dataset.cartonBarcode;
+		item.image = itemTr.dataset.image;
+
+		let quantity = itemTr.querySelector('[class="looseQty"]').textContent;
+		if (quantity == '' || isNaN(quantity) || quantity == 0) {
+			hasQuantity = false;
+		}
+		item.quantity = quantity;
+		item.unitPrice = itemTr.dataset.price;
+		orderSum = orderSum + parseFloat(item.unitPrice)*parseInt(item.quantity);
+		item.currency = 'AUD';
+		item.lineItemID = poNum + '-' + i;
+		data.items.push(item);
+		i = i + 1;
+
+		// type = itemTr.querySelector('[class="type"]').textContent;
+	}
+
+	if (!hasQuantity) {
+		send = false;
+		let quantityfeed = document.querySelector('#item-quan-feedback');
+		quantityfeed.textContent = 'Invalid quantities';
+		quantityfeed.classList.remove('hide');
+	}
+
+	let createdBy = page.user.firstname +' '+page.user.lastname;
+	console.log(createdBy);
+
+
+	formData.append('poNo', poNum);
+	formData.append('supplierName', fullname);
+	formData.append('data', JSON.stringify(data));
+	formData.append('createdDate', date);
+	formData.append('store', store);
+	formData.append('createdBy', createdBy);
+
+	console.log(formData.get('data'));
+	if (!send) {
+		page.notification.show("Please complete the form.");
+		return;
+	}else{
+		clearForm();
+	}
+
+	let response = await fetch(apiServer+'receiveOrders', {method: 'post', headers: {'DC-Access-Token': page.userToken}, body: formData});
+	let createOrderData = await response.json();
+
+	if (response.ok && createOrderData.result == 'success') {		
+		page.notification.show("Order added successfully.");	
+		clearForm();
+		window.location.reload();
+	}
+	else {
+		page.notification.show(createOrderData.result);
+	}
+}
+
+function clearFeedback() {
+	let feedbacks = document.querySelectorAll('.feedback');
+	//console.log(feedbacks);
+	for (let fd of feedbacks) {
+		fd.classList.add('hide');
+		fd.textContent = '';
+	}
+}
+
+function clearForm() {
+
+	if (document.querySelector('#supplier-poNum') != null) { document.querySelector('#supplier-poNum').value = ''; }
+	if (document.querySelector('#supplier-firstname') != null) { document.querySelector('#supplier-firstname').value = ''; }
+	if (document.querySelector('#supplier-lastname') != null) { document.querySelector('#supplier-lastname').value = ''; }
+	if (document.querySelector('#supplier-address1') != null) { document.querySelector('#supplier-address1').value = ''; }
+	if (document.querySelector('#supplier-address2') != null) { document.querySelector('#supplier-address2').value = ''; }
+	if (document.querySelector('#supplier-suburb') != null) { document.querySelector('#supplier-suburb').value = ''; }
+	if (document.querySelector('#supplier-state') != null) { document.querySelector('#supplier-state').value = ''; }
+	if (document.querySelector('#supplier-postcode') != null) { document.querySelector('#supplier-postcode').value = ''; }
+	if (document.querySelector('#supplier-country') != null) { document.querySelector('#supplier-country').value = ''; }
+	if (document.querySelector('#supplier-phone') != null) { document.querySelector('#supplier-phone').value = ''; }
+	if (document.querySelector('#supplier-email') != null) { document.querySelector('#supplier-email').value = ''; }
+	// if (document.querySelector('#supplier-note') != null) { document.querySelector('.supplier-note').value = ''; }
+	// if (document.querySelector('#supplier-store') != null) { document.querySelector('#supplier-store').value = '-'; }
+
+	let orderTableBody = document.querySelector('#order-items tbody');
+	while (orderTableBody.firstChild) {
+		orderTableBody.removeChild(orderTableBody.firstChild);
+	}
+	
+}

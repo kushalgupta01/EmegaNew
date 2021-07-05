@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>Packing Home</title>
+<link href="../common/buttons.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<script src="../common/jquery-3.2.1.min.js"></script>
+<script src="js/packscan.js" type="module"></script>
+<script src="js/config.js" type="module"></script>
+</head>
+
+<body>
+<div id="container">
+	<div id="header">
+		<h1>Pack Scan</h1>
+		<button class="menu action-btn btn-green">Back to Packing Home</button>
+	</div>
+	<div id="home">
+		<div class="page-line">
+			<div class="await-scan-label">Awaiting Postage Label Scan...</div>
+		</div>
+		<div class="page-line">
+			<div class="or">OR</div>
+		</div>
+		<div class="page-line">
+			<label class="action-label">Store: </label>
+			<select id="pack-store" class="action-label">
+				<!-- <option value='-'>-</option> -->
+			</select>
+			<label class="action-label">SearchBy: </label>
+			<select id="pack-search" class="action-label">
+				<option value='SalesRecordID'>SalesRecordID</option>
+				<option value='TrackingID'>TrackingID</option>
+			</select>
+		</div>
+		<div class="page-line">
+			<input type="text" id="pack-search-value" required>
+		</div>
+		<div class="page-line">
+			<button class="action-btn btn-grey" id="pack-search-button">Search</button>
+		</div>
+	</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

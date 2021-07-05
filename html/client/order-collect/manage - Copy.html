@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Manage Orders</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/common/checkbox.css" rel="stylesheet" />
+<link href="css/main.css" rel="stylesheet" />
+<link href="css/manage.css" rel="stylesheet" />
+
+<script src="js/manage.js" type="module"></script>
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script src="/common/pdfkit.js"></script>
+<script src="/common/blob-stream.js"></script>
+<script src="/common/JsBarcode.code128.min.js"></script>
+<script src="/common/FileSaver.min.js"></script>
+</head>
+<body>
+<div id="container" data-page-type="manage">
+	<div id="header" class="titleonly">
+		<div class="title">Manage Orders</div>
+	</div>
+	<div id="home">
+		<div id="home-content" class="manage">
+			<div class="page-line centre">
+				<label for="record-store-input">Store:
+					<select id="record-store-input"></select>
+				</label>
+				<input type="text" id="record-num-input" placeholder="Enter record number" value="" autocomplete="off" required>
+				<button id="record-load-record" class="action-btn">Load record #</button>
+				<button id="record-load-dbid" class="action-btn">Load DB ID</button>
+				<button id="record-load-buyerid" class="action-btn">Load BuyerID</button>
+				<button id="record-load-orderid" class="action-btn">Load OrderID</button>
+			</div>
+			<div id="record-details" class="page-line hide">
+				<div id="record-combined-list" class="line hide"></div>
+				<table id="record-buyer-details" class="content-table">
+					<thead>
+						<tr>
+							<th colspan="2">Buyer Details</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td>Name for Delivery</td><td class="buyer-name" contentEditable="true"></td></tr>
+						<tr><td>Address 1</td><td class="buyer-address1" contentEditable="true"></td></tr>
+						<tr><td>Address 2</td><td class="buyer-address2" contentEditable="true"></td></tr>
+						<tr><td>City</td><td class="buyer-city" contentEditable="true"></td></tr>
+						<tr><td>State</td><td class="buyer-state" contentEditable="true"></td></tr>
+						<tr><td>Postcode</td><td class="buyer-postcode" contentEditable="true"></td></tr>
+						<tr><td>Country</td><td class="buyer-country" contentEditable="true"></td></tr>
+						<tr><td>Phone</td><td class="buyer-phone" contentEditable="true"></td></tr>
+						<tr><td>Delivery Note</td><td class="record-delivery-note" contentEditable="true"></td></tr>
+					</tbody>
+				</table>
+				<div class="centre padding-btn">
+					<button id="record-buyer-save" class="action-btn">Update buyer details</button>
+				</div>
+
+				<div class="line">Database ID: <span id="record-db-id"></span></div>
+				<div class="line">Record ID: <span id="record-id"></span></div>
+				<div class="line">Order ID: <span id="record-order-id"></span></div>
+				<div class="line">Buyer ID: <span id="record-buyer-id"></span></div>
+				<div class="line">Buyer email: <span id="record-email"></span></div>
+				<div class="line mb30">Purchase date: <span id="record-order-purchase-date"></span></div>
+				<label for="record-type">Order type:
+					<select id="record-type"></select>
+				</label>
+				<label for="record-status">Order status:
+					<select id="record-status"></select>
+				</label>
+				<div class="line">Collector: <span id="record-collector"></span></div>
+				<div class="line">Collected time: <span id="record-collected-time"></span></div>
+				<div class="line">Packer: <span id="record-packer"></span></div>
+				<div class="line">Latest access: <span id="record-packed-time"></span></div>
+				<div>Packed time history:</div>
+				<textarea id="record-pre-packed-time" class="line wide" autocomplete="off"></textarea>
+				<div>Order notes:</div>
+				<textarea id="record-notes" class="line wide" autocomplete="off"></textarea>
+				<!--<div>Tracking number: <input type="text" id="record-tracking" autocomplete="off"><button id="manage-open-tracking" class="action-btn">Tracking details</button></div>-->
+				<div>Tracking numbers (one per line, oldest at the top, newest at the bottom):</div>
+				<textarea id="record-tracking" class="wide" autocomplete="off"></textarea>
+				<button id="manage-open-tracking" class="action-btn line">Open latest tracking details</button>
+				<div>Bucket: <input type="text" id="record-groupnum" autocomplete="off"></div>
+				<div>Weight: <input type="text" id="record-weight" autocomplete="off"></div>
+				<div>Items: </div>
+				<table id="itemTable" class="content-table">
+					<thead>
+						<tr>
+							<th>Item#</th>
+							<th>SKU</th>
+							<th>Title</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<div>Original Item: </div>
+				<table id="originalItemTable" class="content-table">
+					<thead>
+						<tr>
+							<th>Item#</th>
+							<th>SKU</th>
+							<th>Title</th>
+							<th>Quantity</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<div class="mb30 checkbox">Show ABN on invoice:
+					<input type="checkbox" id="record-show-abn" value="" autocomplete="off">
+					<label for="record-show-abn"></label>
+				</div>
+				<div class="centre padding-btn pad-less">
+					<button id="manage-save" class="action-btn">Save</button>
+					<button id="manage-reset" class="action-btn">Reset</button>
+					<button id="manage-close" class="action-btn">Close</button>
+					<button id="manage-create-label" class="action-btn">Create label</button>
+					<button id="manage-copy-excel-customer-support" class="action-btn">Copy for CS</button>
+					<br>
+					<button id="manage-save-invoice" class="action-btn">Save invoice</button>
+					<button id="manage-send-invoice" class="action-btn">Send invoice</button>
+					<button id="manage-send-tracking" class="action-btn">Send latest tracking</button>
+				</div>
+			</div>
+			<div id="record-nav-buttons">
+				<button id="record-logout" class="action-btn btn-green absolute nomargin top right-left" autocomplete="off"><span id="username">Someone</span> - Logout</button>
+				<button id="back-to-home" class="action-btn btn-green absolute nomargin top right-center" autocomplete="off">Back to menu</button>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+<div id="box-outer">
+	<div id="box-container">
+		<div id="send-invoice-box" class="hide">
+			<div class="title"></div>
+			<div id="send-invoice-text" class="line padded centre"></div>
+			<div class="box-actions">
+				<button id="send-invoice-send" class="action-btn">Send</button>
+				<button id="send-invoice-cancel" class="action-btn">Close</button>
+			</div>
+		</div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

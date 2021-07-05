@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stock Received Report</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="byday.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+
+<script src="byday.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+<script src="/common/FileSaver.min.js"></script>
+<script src="/common/blob-stream.js"></script>
+</head>
+<body>
+	<div id="loading">
+	  <img id="loading-image" src="/order-collect/img/5.gif" alt="Loading..." />
+	</div>
+	<div id="container">
+	<div id="header">
+		<div class="title">Stock Received Report</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container">
+			<div id="content-packer-summary" class="content-page">
+
+				<div id="stock-received-date">
+					By: <input id="dateby" type="date" name="by" />
+					<button id="stock-received-search" class="action-btn">Search</button>
+					<button id="export-to-excel" class="action-btn btn-green">Generate Report</button>
+				</div>
+				<!-- <div class="line">Average time of parcel: <span id="avgTimeParcel"></span></div> -->
+				
+				<table id="stock-received-day" class="content-table">
+					<thead>
+						<tr class="tr-header">
+							<!-- <th></th> -->
+							<th>Store</th>
+							<th>Item Name</th>
+							<th>SKU</th>
+							<th>Stock Received</th>
+							<th>Emega Whs Qty</th>
+							
+						</tr>
+					</thead>
+					<tbody id="logsByDay"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+    </div>
+</body>
+</html>

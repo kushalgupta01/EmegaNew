@@ -1,0 +1,210 @@
+
+html, body {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+html, body, #header h1 {
+	font-family: "Segoe WP Light", "Segoe UI", "Arial", sans-serif;
+}
+
+/* Header */
+#container {
+    display: flex;
+    flex-direction: column;
+	height: 100%;
+}
+#header {
+    background: #2a8dd4;
+    color: #fff;
+	border-bottom: 1px solid #555;
+	width: 100%;
+	height: 6%;
+	display: flex;
+	justify-content: center;
+	position: relative;
+}
+#header h1 {
+    font-size: 22px;
+	font-weight: 400;
+    /* height: 60px; */
+    /* line-height: 60px; */
+}
+.logout {
+    font-size: 22px;
+    font-weight: 400;
+	position: absolute;
+	right: 0;
+    margin: 8px;
+}
+.menu {
+    font-size: 22px;
+    font-weight: 400;
+	position: absolute;
+	right: 0;
+    margin: 8px;
+}
+
+
+/* Panels */
+#home {
+	display: flex;
+	height: 100%;
+}
+#home {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#home .page-line:not(:last-child) {
+	margin-bottom: 30px;
+}
+#home .page-line input {
+	font-size: 26px;
+	background-color: #fbfbfb;
+	text-align: center;
+	border: 1px solid #bbb;
+	border-radius: 4px;
+	margin: 0;
+	margin-bottom: 10px;
+	outline: 0;
+	padding: 8px 10px;
+	transition: background-color 0.2s, border-color 0.2s;
+	width: 100%;
+}
+#home .page-line input:hover, #home .page-line input:focus {
+	background-color: #fff;
+	border-color: #555;
+	/*border-color: #1bc12f;*/
+}
+
+
+/* Main button */
+.action-btn {
+	display: inline-block;
+	font-size: 16px;
+	color: #fff;
+	text-decoration: none;
+	/*text-shadow: 0px 1px 0px #263666;*/
+	border: 1px solid #777;
+	border-radius: 3px;
+	padding: 8px 10px;
+	margin: 0;
+	cursor: pointer;
+}
+.action-btn:not(.nomargin):not(:last-child) {
+	margin-right: 10px;
+}
+.action-btn:disabled {
+	cursor: default;
+	opacity: 0.5;
+}
+
+.action-btn {
+	background-color: #82c2fa;
+}
+.action-btn:not(:disabled):hover {
+	background-color: #38a2ff;
+}
+.action-btn {
+	font-size: 20px;
+	padding: 8px 18px;
+}
+
+.small-btn {
+	font-size: 14px;
+	padding: 2px 6px;
+}
+
+.forlater{
+	margin-left: 20%;
+}
+
+#message{
+	margin-top: 20px;
+	text-align: center;
+	font-size: 30px;
+	font-family: Arial;
+}
+
+
+/* General */
+.flex {
+	display: flex !important;
+}
+.centre {
+	text-align: center;
+}
+.gap {
+	margin-bottom: 30px;
+}
+.gap10 {
+	display: inline-block;
+	width: 10px;
+}
+.padded {
+	margin-bottom: 35px;
+}
+.padded-s {
+	margin-bottom: 15px;
+}
+
+
+
+.action-label {
+	margin-bottom: 15px;
+	margin-right: 10px;
+	font-size: 20px;
+    line-height: 23px;
+    padding: 8px 12px;
+}
+
+
+
+.await-scan-barcode {
+	font-size: 30px;
+}
+
+.or {
+	font-size: 30px;
+}
+
+/* Close button */
+.close {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	transition: transform .25s ease-in-out;
+}
+.close:hover {
+	transform: rotate(180deg);
+}
+.close:before, .close:after {
+	position: absolute;
+	display: block;
+	content: "";
+	border-top: 2px solid rgba(0,0,0,0.3);
+	margin: auto;
+	top: 0; bottom: 0;
+	left: 0; right: 0;
+	height: 0;
+	transform: rotate(45deg);
+	transform-origin: center;
+}
+.close:before {
+	transform: rotate(45deg);
+}
+.close:after {
+	transform: rotate(-45deg);
+}
+.close:hover:before, .close:hover:after {
+	border-top-color: rgb(0,0,0);
+}
+
+
+

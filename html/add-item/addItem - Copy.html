@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Add Items</title>
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="/add-item/addItem.css" rel="stylesheet" />
+<script src="/add-item/index.js" type="module"></script>
+</head>
+<body>
+	<div id="container">
+	<div id="header">
+		<div class="title">Add Items</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container" class="container">
+			<div id="add-item" class="content-page">
+				<div>
+					<form>
+				    	<div class="form-group row">
+				            <label for="store" class="col-sm-2 col-form-label">Store</label>
+				            <div class="input-group col-sm-2">
+					            <select id="item-store" class="form-control"><option select="selected" >-</option></select>
+					        </div>
+				            <label id="store-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+				    
+				        <div class="form-group row">
+				            <label for="itemNum" class="col-sm-2 col-form-label">Item Number</label>
+				            <div class="input-group col-sm-4">
+					            <input id="itemNum" type="text" class="form-control" placeholder="Item Number">
+					        </div>
+				            <label id="itemNum-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row" >
+				            <label for="sku" class="col-sm-2 col-form-label">Sku</label>
+				            <div class="input-group col-sm-4">
+				              <input id="sku" type="text" class="form-control" placeholder="Sku">
+				            </div>
+				            <label id="sku-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="itemTitle" class="col-sm-2 col-form-label">Item Title</label>
+				            <div class="input-group col-sm-4">
+				              <input id="itemTitle" type="text" class="form-control" placeholder="Item Title">
+				            </div>
+				            <label id="itemTitle-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="itemMultiple" class="col-sm-2 col-form-label">Item Multiple</label>
+				            <div class="input-group col-sm-4">
+				              <input id="itemMultiple" type="text" class="form-control" placeholder="Item Multiple">
+				            </div>
+				            <label id="itemMultiple-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="barcode" class="col-sm-2 col-form-label">Barcode</label>
+				            <div class="input-group col-sm-4">
+					            <input id="barcode" type="text" class="form-control" placeholder="Barcode">
+					        </div>
+				            <label id="barcode-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="itemPhoto" class="col-sm-2 col-form-label">Item Photo</label>
+				            <div class="input-group col-sm-4">
+				              <input id="itemPhoto" type="text" class="form-control" placeholder="Item Photo URL">
+				            </div>
+				            <label id="itemPhoto-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="itemPhoto" class="col-sm-2 col-form-label"></label>
+				            <div class="input-group col-sm-4">
+				              <input id="itemPhotoFile" type="file" class="form-control">
+				            </div>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="itemPhoto" class="col-sm-2 col-form-label"></label>
+				            <div class="input-group col-sm-4">
+				              <p>*Only fill in URL OR choose a file. If both found, the URL will be used.</p>
+				            </div>
+				        </div>
+
+					</form>
+
+			        <div id="content-action-btns" class="action-btns">
+						<button id="item-add" class="btn btn-primary">Add Item</button>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

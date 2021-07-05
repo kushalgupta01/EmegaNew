@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>eMega - Admin Panel</title>
+
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="../admin/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../admin/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../admin/css/ionicons.min.css">
+	<link rel="stylesheet" href="../admin/css/datepicker3.css">
+	<link rel="stylesheet" href="../admin/css/all.css">
+	<link rel="stylesheet" href="../admin/css/custom.css">
+	<link rel="stylesheet" href="../admin/css/select2.min.css">
+	<link rel="stylesheet" href="../admin/css/dataTables.bootstrap.css">
+	<link rel="stylesheet" href="../admin/css/jquery.fancybox.css">
+	<link rel="stylesheet" href="../admin/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="../admin/css/_all-skins.min.css">
+	<link rel="stylesheet" href="../admin/css/on-off-switch.css"/>
+	<link href="../common/buttons.css" rel="stylesheet" />
+	<link href="main.css" rel="stylesheet" />
+	<script src="js/index.js" type="module"></script>
+	<script src="js/config.js" type="module"></script>
+
+</head>
+
+<body class="hold-transition fixed skin-blue sidebar-mini">
+
+	<div class="wrapper">
+
+		<header class="main-header">
+
+			<a href="#" class="logo">
+				<span class="logo-lg">
+				<img src="/common/images/logo.svg" style="width:120px;" />
+				</span>
+			</a>
+
+			<nav class="navbar navbar-static-top">
+				
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+					<span class="sr-only">Toggle navigation</span>
+				</a>
+
+
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						 <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">                 
+                  <span class="profile-title">AS</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">                   
+                    <p>
+                      Asif Pathan
+                      <small>Supplier</small>
+                    </p>
+                  </li>
+                
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="#" onclick="appLogout()" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+					</ul>
+				</div>
+
+			</nav>
+		</header>
+
+  		
+
+  		<aside class="main-sidebar">
+    		<section class="sidebar">      
+      			<ul class="sidebar-menu">
+			        <li class="treeview">
+			          <a href="/home/index.html">
+			            <i class="fa fa-laptop"></i> <span>Dashboard</span>
+			          </a>
+			        </li>
+
+					<li class="treeview active">
+						<a href="#">
+							<i class="fa fa-file-text"></i>
+							<span>Orders</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=collect"><i class="fa fa-circle-o"></i> Collect Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=partialcollect"><i class="fa fa-circle-o"></i> Partial Collect Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=warehousecollect"><i class="fa fa-circle-o"></i> Warehouse Collect Orders</a></li>
+							<li class="active"><a href="/order-pack/index.html"><i class="fa fa-circle-o"></i> Pack Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=stock"><i class="fa fa-circle-o"></i> Out of Stock Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=ordered"><i class="fa fa-circle-o"></i> Ordered</a></li>
+							<li><a href="/order-collect/manage.html"><i class="fa fa-circle-o"></i> Manage Orders</a></li>
+							<li><a href="/order-download/index.html"><i class="fa fa-circle-o"></i> Download Orders</a></li>
+							<li><a href="/add-order/addOrder.html"><i class="fa fa-circle-o"></i> Add Orders</a></li>
+							<li><a href="/order-search/searchOrders.html"><i class="fa fa-circle-o"></i> Search Orders</a></li>
+							<li><a href="/order-create/createOrder.html"><i class="fa fa-circle-o"></i> Create Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=b2b"><i class="fa fa-circle-o"></i> Collected Orders</a></li>
+							<li><a href="/dashboard/index.html"><i class="fa fa-circle-o"></i> Orders Dashboard</a></li>
+							<li><a href="/order-collect/orders.html?p=newOrders"><i class="fa fa-circle-o"></i> B2B Orders</a></li>
+							
+						</ul>
+					</li>	
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-bars"></i>
+							<span>Management</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/user-management/index.html"><i class="fa fa-circle-o"></i> User Management</a></li>
+							<li><a href="/packer-management/packerDetail.html"><i class="fa fa-circle-o"></i>Packer Management</a></li>
+							<li><a href="/inventory/inventorymanagement.html"><i class="fa fa-circle-o"></i>Inventory Management</a></li>
+						
+						</ul>
+					</li>
+					
+
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-address-book"></i>
+							<span>Labels</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=labels"><i class="fa fa-circle-o"></i> Create Labels</a></li>
+							<li><a href="/order-collect/orders.html?p=morelabels"><i class="fa fa-circle-o"></i> More Labels</a></li>						
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Reports</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/generate-reports/index.html"><i class="fa fa-circle-o"></i> Reports</a></li>
+							<li><a href="/b2b-order/newOrder.html"><i class="fa fa-circle-o"></i> B2B New Orders Reports</a></li>
+							<li><a href="/b2b-order/packedOrder.html"><i class="fa fa-circle-o"></i> B2B Packed Orders Reports</a></li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Items</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/add-item/addItem.html"><i class="fa fa-circle-o"></i> Add Items</a></li>
+							<li><a href="/manage-item/manageItem.html"><i class="fa fa-circle-o"></i> Manage Items</a></li>							
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Others</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=refunds"><i class="fa fa-circle-o"></i>Refunds</a></li>
+							<li><a href="/order-collect/orders.html?p=rts"><i class="fa fa-circle-o"></i>RTS</a></li>
+							<li><a href="/invoice-management/index.html"><i class="fa fa-circle-o"></i>Invoice</a></li>
+							<li><a href="/label-template/index.html"><i class="fa fa-circle-o"></i>Label Templates</a></li>
+							<li><a href="/daily-order/dailyOrder.html"><i class="fa fa-circle-o"></i>DO VR Download</a></li>
+							<li><a href="/customers/customers.html"><i class="fa fa-circle-o"></i>Repeat Customers</a></li>
+							<li><a href="/manage-weight/manageweight.html"><i class="fa fa-circle-o"></i>Manage Weight</a></li>
+							<li><a href="/order-collect/orders.html?p=awaitinglist"><i class="fa fa-circle-o"></i>Awaiting List</a></li>
+							<li><a href="/order-collect/orders.html?p=deal"><i class="fa fa-circle-o"></i>Deal</a></li>
+						</ul>
+					</li>
+      			</ul>
+    		</section>
+  		</aside>
+
+  		<div class="content-wrapper">
+
+<section class="content-header">
+  <h1>Pack Orders</h1>
+</section>
+<!-- <div id="loading">
+  <img id="loading-image" src="/order-collect/img/5.gif" alt="Loading..." />
+</div> -->
+
+
+<section class="content">
+	<div class="row">
+					<div class="col-md-12">
+					 <div class="box box-info">
+					    	<div class="box-body">
+<div id="container">
+	<!-- <div id="header">
+		<h1>Packing Home</h1>
+		<button class="menu action-btn btn-green">Back to menu</button>
+	</div> -->
+	<div id="home" class="packing_home">
+		<div class="page-line">
+			<label class="action-label col-sm-2">Enter your name * </label>
+			<input type="text" id="page-username" placeholder="Enter your name"  class="action-label col-sm-5" value="" required>
+		</div>
+		<div id="packing-store" class='packing-buttons'>
+			<label class="action-label col-sm-2">Store: </label>
+			<select id="pack-store" class="action-label col-sm-5">
+				<option value='-'>Select a store</option>
+			</select>
+		</div>
+		<div id="packing-buttons" class='packing-buttons'>
+			<!-- <button onclick="window.location.href='packing-manage.html'">Packing Manage</button> -->
+		</div>
+		<div id="pack-scan" class='pack-scan'>
+			<button class="action-btn btn-grey button5">Pack Scan</button>
+		</div>
+		<div class="w-100">
+			<p class="fs-16">Orders Left:</p>
+			<table class="table table-striped pack-ordTbl" id="orderlefttable">
+				<thead></thead>
+				<tbody></tbody>
+			</table>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</div>
+</section>
+
+		</div>
+
+	</div>
+
+	<script src="../admin/js/jquery-2.2.4.min.js"></script>
+	<script src="../admin/js/bootstrap.min.js"></script>
+	<script src="../admin/js/jquery.dataTables.min.js"></script>
+	<script src="../admin/js/dataTables.bootstrap.min.js"></script>
+	<script src="../admin/js/select2.full.min.js"></script>
+	<script src="../admin/js/jquery.inputmask.js"></script>
+	<script src="../admin/js/jquery.inputmask.date.extensions.js"></script>
+	<script src="../admin/js/jquery.inputmask.extensions.js"></script>
+	<script src="../admin/js/moment.min.js"></script>
+	<script src="../admin/js/bootstrap-datepicker.js"></script>
+	<script src="../admin/js/icheck.min.js"></script>
+	<script src="../admin/js/fastclick.js"></script>
+	<script src="../admin/js/jquery.sparkline.min.js"></script>
+	<script src="../admin/js/jquery.slimscroll.min.js"></script>
+	<script src="../admin/js/jquery.fancybox.pack.js"></script>
+	<script src="../admin/js/app.min.js"></script>
+	<script src="../admin/js/jscolor.js"></script>
+	<script src="../admin/js/on-off-switch.js"></script>
+    <script src="../admin/js/on-off-switch-onload.js"></script>
+	<script src="../admin/ckeditor/ckeditor.js"></script>
+	<script src="../admin/js/demo.js"></script>
+    <script src="../admin/js/utility.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Create Orders</title>
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="/order-create/createOrder.css" rel="stylesheet" />
+
+<script src="/order-create/createOrder.js" type="module"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<div class="title">Create Orders</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container" class="container">
+			<div>
+				<input type="file" class="form-control" id="excelFile" />
+				<div class="input-group-append">
+					    <button class="btn btn-primary" id="update-excel">Update File</button>
+				</div><div class="hide" id="response"></div>
+				
+			</div>
+			<div>
+				<input type="text" id="content-buyer-searchbar" placeholder="search for names..."></input>
+			</div>
+			<div>
+				<select id="buyerList" size="3"></select>
+			</div>
+			<div id="delivery-address" class="content-page">
+				<div>
+					<form>					    
+				    	<div class="form-group row">
+				            <label for="refNo" class="col-sm-2 col-form-label">Reference No<span class="required">*</span></label>
+				            <input id="buyer-refNo" type="text" class="col-sm-4 form-control" placeholder="Reference No">
+				            <label id="refNo-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>	
+
+				        <div class="form-group row">
+				            <label for="poNo" class="col-sm-2 col-form-label">Customer PO No<span class="required">*</span></label>
+				            <input id="buyer-poNo" type="text" class="col-sm-4 form-control" placeholder="PO No">
+				            <label id="poNo-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				         <div class="form-group row">
+				            <label for="companyname" class="col-sm-2 col-form-label">Company Name<span class="required">*</span></label>
+				            <input id="companyname" type="text" class="col-sm-4 form-control" placeholder="Company Name">
+				            <label id="companyname-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>				        
+
+				        <div class="form-group row">
+				            <label for="firstname" class="col-sm-2 col-form-label">First Name<span class="required">*</span></label>
+				            <input id="buyer-firstname" type="text" class="col-sm-4 form-control" placeholder="First Name">
+				            <label id="firstname-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
+				            <input id="buyer-lastname" type="text" class="col-sm-4 form-control" placeholder="Last Name">
+				            <label id="lastname-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="addr1" class="col-sm-2 col-form-label">Address1<span class="required">*</span></label>
+				            <input id="buyer-address1" type="text" class="col-sm-4 form-control" placeholder="Address1">
+				            <label id="addr1-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="addr2" class="col-sm-2 col-form-label">Address2</label>
+				            <input id="buyer-address2" type="text" class="col-sm-4 form-control" placeholder="Address2">
+				            <!-- <label id="addr2-feedback" class="feedback col-sm-4 col-form-label hide"></label> -->
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="suburb" class="col-sm-2 col-form-label">Suburb<span class="required">*</span></label>
+				            <input id="buyer-suburb" type="text" class="col-sm-4 form-control" placeholder="Suburb">
+				            <label id="suburb-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="state" class="col-sm-2 col-form-label">State<span class="required">*</span></label>
+				            <select id="buyer-state" class="col-sm-4 form-control" >
+				            	<option select="selected">-</option>
+				            	<option value="New South Wales">New South Wales</option>
+				            	<option value="Queensland">Queensland</option>
+				            	<option value="Victoria">Victoria</option>
+				            	<option value="South Australia">South Australia</option>
+				            	<option value="Tasmania">Tasmania</option>
+				            	<option value="Western Australia">Western Australia</option>
+				            	<option value="Australian Capital Territory">Australian Capital Territory</option>
+				            	<option value="Northern Territory">Northern Territory</option>
+				            </select>
+				            <label id="state-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="postcode" class="col-sm-2 col-form-label">Postcode<span class="required">*</span></label>
+				            <input id="buyer-postcode" type="text" class="col-sm-4 form-control" placeholder="Postcode">
+				            <label id="postcode-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="country" class="col-sm-2 col-form-label">Country<span class="required">*</span></label>
+				            <!-- <input id="country" type="text" class="col-sm-4 form-control" placeholder="Country"> -->
+				            <select id="buyer-country" class="col-sm-4 form-control" >
+				            	<option select="selected">-</option>
+				            	<option value="AU">AU</option>
+				            	<option value="UK">UK</option>
+				            	<option value="New Zealand">New Zealand</option>
+				            </select>
+				            <label id="country-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				         <div class="form-group row">
+				            <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+				            <input id="buyer-phone" type="text" class="col-sm-4 form-control" placeholder="Phone">
+				            <label id="phone-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="email" class="col-sm-2 col-form-label">Email Address</label>
+				            <input id="buyer-email" type="text" class="col-sm-4 form-control" placeholder="Email Address">
+				            <label id="email-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>				       
+				       
+				        <div class="form-group row" >
+				            <label for="deliveryNote" class="col-sm-2 col-form-label">DeliveryNote</label>
+				            <input id="buyer-note" type="text" class="col-sm-4 form-control" placeholder="DeliveryNote">
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="store" class="col-sm-2 col-form-label">Supplier Name<span class="required">*</span></label>
+				            <select id="buyer-store" class="col-sm-4 form-control"><option select="selected" >-</option></select>
+				            <label id="store-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+
+				         <div class="form-group row">
+				            <label for="date" class="col-sm-2 col-form-label">Created Date<span class="required">*</span></label>
+				            <input id="buyer-date" type="date" class="col-sm-4 form-control" placeholder="Created Date">
+				            <label id="date-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+				        </div>
+					</form>
+				</div>
+				
+				<button id="content-save" class="action-btn btn-lightseagreen">Save</button>
+				<br>
+				
+
+				<div >					
+					<label id="item-feedback" class="col-sm-4 feedback hide">Items</label>
+					<label id="item-quan-feedback" class="col-sm-4 feedback hide">Items</label> 
+					<br/> 
+					<table id="order-items" class="content-table">
+						<thead>
+							<tr>
+								<th class="selected-all"><input type="checkbox" autocomplete="off"></input></th>
+								<th>Store</th>							
+								<th>Title</th>
+								<th>SKU</th>
+								<th>Item Barcode</th>														
+								<th>Quantity</th>							
+								<th>Image</th>
+							</tr>						
+						</thead>
+						<tbody id="order-items-body"></tbody> 
+					</table>
+					<div>
+						<div id="content-inventory-searchbar">
+							<input></input>
+							<button class="search action-btn nomargin">Search</button>
+						</div>
+						<div id="content-inventory-searchfield">
+									<label for="title">SearchBy:</label>
+									<input type="radio" name="searchfield" value="itembarcode" checked>
+									<label for="itembarcode">Item Barcode</label>
+									<input type="radio" name="searchfield" value="cartonbarcode">
+									<label for="cartonbarcode">Carton Barcode</label>
+									<input type="radio" name="searchfield" value="sku">
+									<label for="sku">SKU</label>
+									<input type="radio" name="searchfield" value="customsku">
+									<label for="customsku">Custom SKU</label>
+
+						</div>
+					</div>	
+					<div id="content-action-btns" class="action-btns">
+						<button id="content-orders-add-collection" class="action-btn btn-lightseagreen">Add orders for collection</button>
+						<button id="content-items-selected-remove" class="action-btn btn-warning">Remove Selected Items</button>
+					</div>	
+				</div>
+				<br>
+				<!-- <hr> -->
+				<br>								
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<div id="box-outer" class="">
+	<div id="box-container">
+		<div id="orderItems">
+			<table id="order-stock-items" class="content-table hide">
+				<thead>
+					<tr>
+						<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+						<th>Store</th>
+						<th>Item Name</th>
+						<th>SKU</th>
+						<th>Item Barcode</th>															
+						<th>Image</th>							
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table> 
+			<div class="box-actions">
+				<button id="orderItems-add" class="action-btn btn-KashmirBlue">Add Items</button>				
+			</div>
+		</div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

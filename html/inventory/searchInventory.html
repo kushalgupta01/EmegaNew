@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Search Inventory</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="./search.css" rel="stylesheet" />
+<link href="./main.css" rel="stylesheet" />
+<link href="/common/checkbox.css" rel="stylesheet" />
+<!-- <link href="/common/datatables.min.css" rel="stylesheet" /> -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link href="stock.css" rel="stylesheet" />
+
+<script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+<script src="/common/jquery-3.2.1.min.js"></script>
+<!-- <script src="/common/pdfkit.js"></script>
+<script src="/common/blob-stream.js"></script>
+<script src="/common/JsBarcode.code128.min.js"></script>
+<script src="/common/FileSaver.min.js"></script> -->
+<script src="./inventory.js" type="module"></script>
+<STYLE type="text/css">
+  th { text-align: center}
+</STYLE>
+</head>
+<body> 
+<div id="container">
+  <div id="header">
+    <div class="title">Search Inventory</div>
+    <button class="menu action-btn btn-green">Back to menu</button>
+    <button class="back-to-inv action-btn btn-cyan">Back to inventory</button> 
+  </div>
+  <div id="main">
+     <div id="inventory-search" class="searchFilter">
+        <div class="filter-input">
+           <input id="table_filter" onkeyup="searchInventory()" type="text" name="table_filter" class="" aria-label="Text input with segmented button dropdown" placeholder="Search for item by" />
+        </div>
+        <select name="category" id="category" class="btn btn-secondary ">
+            <option value="all">all</option>
+            <option value="itemNo">Item Number</option>
+            <option value="itemName">Name</option>
+            <option value="sku">SKU</option>
+            <option value="customsku">Custom SKU</option>
+            <option value="itemBarcode">Item Barcode</option>
+            <option value="cartonBarcode">Carton Barcode</option>
+            <option value="quantityPerCarton">Quantity per Carton</option>
+            <option value="itemWeight">Item weight</option>
+            <option value="stockInHand">Stock in Hand</option>
+            <option value="stockReceived">Stock Received</option>
+            <option value="stockSent">Stock Sent</option>
+            <option value="bay">Bay</option>
+            <option value="expiry">Expiry</option>
+            <option value="coreCloseout">coreCloseout</option>
+            <option value="clearance">Clearance</option>
+            <option value="supplier">Supplier</option>
+        </select>
+        <div id="content-action-btns" class="action-btns">
+            <button id="searchBtn" class=" searchBtn btn btn-primary">Search</button>
+        </div>
+        
+     </div>
+     <div id="table-container" class="scroll">
+      <table id="item-table" class="table table-striped table-bordered">
+        <thead>
+          <tr class="table-success">
+            <th>ItemNo</th>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>Custom SKU</th>
+            <th>Item Barcode</th>
+            <th>Carton Barcode</th>
+            <th>Quantity per Carton</th>
+            <th>Item Weight</th>
+            <th>Stock in Hand</th>
+            <th>Stock Received</th>
+            <th>Stock Sent</th>
+            <th>Bay</th>
+            <th>Expiry</th>
+            <th>Core/Closeout</th>
+            <th>Clearance</th>
+            <th>Supplier</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody id="item-table-body"></tbody>
+      </table>
+     </div>
+    </div>
+    <div id="notification" class="hide">
+        <div class="content"></div>
+        <div class="close"></div>
+    </div>
+</div>
+
+</body>
+</html>
+      
+ 

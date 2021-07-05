@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>New Orders</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="newOrder.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<script src="newOrder.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<div class="title">New Orders</div>
+			<button class="menu action-btn btn-green" >Back to menu</button>
+		</div>
+		<div id="main">
+			<div id="content-container">
+				<!-- Download New Orders -->
+				<div id = "content-download-new-orders" class="content-page">
+					<div id="new-orders-download-option" class="options">
+						<span>Choose stores:</span>
+						<form class="checkbox"></form>
+					</div>
+					<div id="content-orders-filter">
+						From: <input id="datefrom" type="date" name="from" />
+						To: <input id="dateto" type="date" name="to" />
+						<button id="download-new-orders-btn" class="action-btn">Download New Orders</button>
+						<button id="sorted-new-orders-btn" class="action-btn">Sort Collected SKUs</button>
+						<button id="download-collected-orders-btn" class="action-btn">Collected New Orders</button>
+					</div>
+					<div id="content-order-perpage" class="options hide">
+						<span>Per Page:</span>
+						<form class="checkbox" autocomplete="off"></form>
+					</div>
+					<table id="new-order-details" class="styled-table hide">
+						<thead>
+							<tr class="tr-header">	
+								<th id="action">Action</th>
+								<th id="notes">Notes</th>							
+								<th id="orderID">OrderID</th>
+								<th id="sku">SKU</th>
+								<th id="title">Title</th>
+								<th id="itemQty">Item Qty</th>
+								<th id="checkPartiallyFully">Partially/Fully</th>	
+								<!-- <th id="pickedQty">Picked Qty</th> -->
+							</tr>			
+						</thead>
+						<tbody></tbody>
+					</table>
+					<table id="sorted-new-orders" class="styled-table hide" style="line-height: 2;border-collapse: inherit;">
+						<thead>
+							<tr class="tr-header">
+							<th id="orderID">OrderID</th>
+								<th id="sku">SKU</th>
+								<th id="title">Title</th>
+								<th id="itemQty">Item Qty</th>
+								<th id="checkPartiallyFully">Fully Picked</th>
+								<th id="checkSorted">Unsorted/Sorted</th>
+							</tr>			
+						</thead>
+						<tbody></tbody>
+					</table>
+					<table id="collected-new-orders" class="styled-table hide" style="line-height: 2;border-collapse: inherit;border-color: coral;">
+						<thead>
+							<tr class="tr-header">		
+								<!-- <th id="action">DB ID</th> -->
+								<th id="notes">Order Ref</th>							
+								<th id="orderID">Total Qty SKUs</th>
+								<th id="sku" style="display: none">Collected SKUs</th>
+								<th id="sku">Sorted SKUs</th>
+							</tr>			
+						</thead>
+						<tbody></tbody>
+					</table>
+					<div id="pages"></div>				
+				</div>		
+			</div>
+		</div>
+		<div id="notification" class="hide">
+			<div class="content"></div>
+			<div class="close"></div>
+		</div>
+	</div>
+	<div id="box-outer" class="">
+		<div id="box-container" style="width:25%">
+
+		<div id="item-Details" class='hide'>
+		    <table id="item-Details-table" class="content-table">
+				<thead>
+					<tr>
+						<th colspan="2">Item Details</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td>SKU:</td><td class="itemSku"></td></tr>
+					<tr><td>Barcode:</td><td class="itemBarcode" contenteditable="true"></td></tr>
+					<tr><td>Image:</td><td class="itemImage"></td></tr>
+				</tbody>
+			</table>
+			<div id="save-buttons">
+				<button id="barcode-save" class="action-btn">Update Barcode</button>
+				<button id="bypass" class="order-scan-bypass order-action action-btn btn-lgreen">Bypass scan</button>
+			</div>
+		</div>
+		
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

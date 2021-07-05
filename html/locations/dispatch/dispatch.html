@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pallets Log</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="dispatch.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<script src="/common/xlsx.full.min.js"></script>
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="dispatch.js" type="module"></script>
+</head>
+<body>
+<div id="container" data-page-type="home">
+	<div class="wrapper">
+		<div id="header">
+			<div class="title">Pallets Log</div>
+			<button class="menu action-btn btn-green" >Back to menu</button>
+		</div>
+		<div id="locat-det" style="margin-left: 13%">Location Details: <span>-</span></div>
+		<div id="layout-admin" class="collapse-sidebar">
+			<div id="location-management">
+				<div class="left">
+					<div id="location-table-container">
+						<table id="location-table" class="scroll table table-bordered">					
+							<thead class="table-head">
+								<tr class="table-success">
+									<th>Pallets</th>								
+								</tr>	
+							<!-- <tr class="table-searchbar" colspan = '2'>
+								<input type="text" id="content-bay-searchbar" placeholder="search for bay...">												
+							</tr>	 -->					
+							</thead>													
+							<tbody id="location-table-body">										
+							</tbody>
+						</table>
+					</div>
+				</div>	
+				<div class="right">
+					<div id="item-table-container">
+						<table id="item-table" class="scroll table table-bordered">				
+							<thead class="table-head">
+							<tr colspan ='11'><div>Items added: </div></tr>
+								<tr class="table-success">
+									<th>Store</th>								
+									<th>Name</th>
+									<th>SKU</th>														
+									<th>Total Qty Added</th>
+							
+									<th>Last Activity Time</th>
+								</tr>
+							</thead>
+							<tbody id="item-table-body"></tbody>
+						</table>
+					</div>
+				</div>
+				<div class="right">
+					<div id="item-table-container">
+						<table id="item-table" class="scroll table table-bordered">				
+							<thead class="table-head">
+								<tr colspan ='11'><div>Items removed: </div></tr>
+							<!-- <tr colspan ='11'><div id="bay">Location Details: <span>-</span></div></tr> -->
+								<tr class="table-success">
+									<th>Store</th>								
+									<th>Name</th>
+									<th>SKU</th>														
+									<th>Total Qty Removed</th>
+							
+									<th>Last Activity Time</th>
+								</tr>
+							</thead>
+							<tbody id="item-table-body2"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div id="box-outer">
+				<div id="box-container">
+					<div id="transactionLogs" class="hide">
+						<div>
+							<p>
+								<span class="item-name-title">Item name: </span>
+								<strong><span class="item-name"></span></strong>
+							</p>
+							<p>
+								<span class="item-sku-title">SKU: </span>
+								<strong><span class="item-sku"></span></strong>
+							</p>
+						</div>
+						<table id="skuBayLog" class="scroll table table-bordered">
+							<thead class="table-head">
+								<tr class="table-success">
+									<th style="text-align: center">+/-</th>
+									<th>Old Location</th>
+									<th>Old<br/>Qty</th>
+									<!--<th>Old<br/>Type</th>-->
+									<th class="arrowi">=></th>
+									<th>New Location</th>
+									<th>New<br/>Qty</th>
+									<!--<th>New<br/>Type</th>-->
+									<th>User</th>
+									<th>Time & Date</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody id="fullbody">
+							</tbody>
+						</table>
+					</div>
+					<div class="close"></div>
+				</div>
+			</div>
+			
+		</div>
+
+	</div>
+	<div id="notification" class="hide">
+				<div class="content"></div>
+				<div class="close"></div>
+			</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,456 @@
+
+#container {
+	display: unset;
+	flex-direction: initial;
+}
+#home {
+	margin: 0;
+	padding-top: 20px;
+	height: auto;
+	overflow-y: auto;
+}
+#home-content.manage {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center;*/
+	width: 1000px;
+}
+#home-content.manage .page-line, #record-details, #record-details-summary {
+	margin-bottom: 20px !important;
+}
+#home-content.manage .page-line input, #home-content.manage label, #home-content.manage label select, #record-details, #record-details-summary {
+	font-size: 18px;
+}
+#home-content.manage .page-line input {
+	margin: 0;
+	margin-right: 10px;
+	width: 260px;
+}
+
+#record-details, #record-details-summary {
+	font-family: "Arial", sans-serif;
+	text-align: left;
+}
+#record-store-input, #record-details > * {
+	margin-bottom: 10px;
+}
+#record-store {
+	margin-left: 10px;
+}
+#home-content.manage label, #home-content.manage textarea {
+	display: block;
+}
+#home-content.manage label select {
+	padding: 0 8px;
+	margin-left: 10px;
+	height: 40px;
+}
+
+/*#record-details .line {
+	margin-bottom: 5px;
+}*/
+#record-details .line span {
+	margin-left: 10px;
+}
+#record-details .line .bold {
+	font-weight: bold;
+}
+
+#record-combined-list {
+	display: block !important;
+	border: 1px solid #555;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+	width: 850px;
+}
+#record-combined-list div {
+	display: inline-block;
+	background: #ddefff;
+	border-right: 1px solid #aaa;
+	padding: 0px 8px;
+	line-height: 40px;
+	height: 40px;
+	cursor: pointer;
+}
+#record-combined-list div:hover, #record-combined-list div.selected {
+	background: #c1e2ff;
+}
+
+.action-btn {
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.content-table {
+	border-collapse: collapse;
+	border-top: 1px solid #555;
+	padding-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px !important;
+	width: 600px;
+}
+.content-table thead tr {
+	background: #d9fdd5;
+	border-bottom: 1px solid #555;
+}
+.content-table tr, .content-table th, .content-table td {
+    font-size: 17px;
+	font-weight: normal;
+	padding: 0;
+	margin: 0;
+}
+
+.content-table thead tr, .content-table tbody tr {
+	border-left: 1px solid #555;
+	border-bottom: 1px solid #555;
+}
+.content-table tbody tr {
+	border-bottom: 1px solid #aaa;
+}
+.content-table th, .content-table td {
+	border-right: 1px solid #555;
+	padding: 1px 10px;
+	height: 35px;
+}
+.content-table th {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+.content-table td:first-child {
+	width: 130px;
+}
+/*.content-table td:last-child {
+	width: 420px;
+}*/
+.content-table td:not(:last-child) {
+	border-right: 1px solid #aaa;
+}
+
+/*textarea.wide {
+	font-size: 16px;
+	padding: 5px;
+	height: 80.5px;
+	width: 95%;
+	margin-left: 10px;
+}*/
+
+
+#record-tracking {
+	font-size: 16px;
+	padding: 5px;
+	height: 75px;
+	width: 76%;
+	margin-left: 10px;
+}
+
+#record-pre-packed-time {
+	font-size: 16px;
+	padding: 5px;
+	height: 55px;
+	width: 95%;
+	margin-left: 10px;
+}
+
+#record-notes {
+	font-size: 16px;
+	padding: 5px;
+	height: 120px;
+	width: 69.5%;
+	margin-left: -2px;
+}
+
+#record-group {
+	text-align: left !important;
+	margin-left: 10px !important;
+	overflow: visible !important;
+	width: 250px !important;
+}
+
+#record-show-abn + label {
+	display: inline-block !important;
+	margin-left: 10px;
+}
+#record-show-abn + label::after {
+	top: 18px !important;
+}
+
+.checkbox {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.centre {
+	text-align: center;
+}
+.hide {
+	display: none;
+}
+.mb30 {
+	margin-bottom: 29px !important;
+	font-weight: bold;
+}
+
+#record-buyer-details {
+	float: left;
+	margin-left: -190px;
+	width: 500px;
+	height: 516px;
+}
+
+/*#record-buyer-details tr, #record-order-details tr, #record-collect-pack-details tr{
+	border: solid 1px;
+    border: none;
+}*/
+
+#record-order-details {
+	float: left;
+	margin-left: 3px;
+	width: 500px;
+	height: 498px;
+}
+
+#record-collect-pack-details {
+	float: right;
+	width: 500px;
+	height: 322px;
+	margin-right: -315px;
+}
+
+/*#box-table {
+	width: 500px;
+	float: left;
+	margin-left: 945px;
+	margin-top: -220px;
+}*/
+
+/*hr {
+	width: 150.5%;
+	text-align:left;
+	margin-left: -190px;
+}*/
+/*#82c2fa, 7CBCD2 , A8DABB;*/
+#record-buyer-details th, #record-order-details th, #record-collect-pack-details th, #box-table th, #items-details{
+	background-color: #007DBD;
+	height: 45px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+#record-buyer-save {
+	margin-left: 130px;
+}
+
+#manage-save-invoice, #manage-send-invoice {
+	margin-left: 60px;
+}
+
+#itemTable, #leg {
+	/*float: left;*/
+	margin-left: -185px;
+	width: 70%;
+}
+
+#alterItemTable {
+	float: right;
+	margin-right: -180px;
+	width: 66%;
+}
+
+#replaceItemTable {
+	float: right;
+	margin-right: -180px;
+	width: 66%;
+}
+/*#daeff1*/
+#itemTable th{
+	background-color: #daeff1;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#alterItemTable th, #replaceItemTable th {
+	background-color: #A8DABB;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+ #alter-items-details, #replace-items-details {
+	background-color: #00C59F;
+	text-align: center;
+	font-size: 30px;
+	height: 45px;
+	font-weight: bold;
+	/*color: #FFFFFF;*/
+}
+
+#items-details {
+	margin-left: 50px;
+	/*background-color: #327a81;*/
+	text-align: center;
+	font-size: 30px;
+}
+
+#rec-details {
+	margin-top: 500px;
+	margin-left: -18.3%;
+	font-size: 20px;	
+	font-weight: bold;
+	width: 100%;
+}
+
+.replaceStockBtn, .alternativeStockBtn {
+	font-size: 20px;
+	width: 142px;
+	text-align: center;
+}
+
+#item-table th {
+	background-color: #A8DABB;
+}
+
+#alternative-items-add-items, #alternative-items-select-item, #replace-items-add-items {
+	background-color: #008B8B;
+	font-size: 18px;
+	font-weight: bold;
+	background-color: #97c6e9;
+	color: #000000;
+}
+
+#alternative-items-search th, #alternative-items-selected th{
+	background-color: #007DBD;
+	font-size: 18px;
+	color: #FFFFFF;
+ }
+
+#alternative-items-add-items, #alternative-items-select-item, #alternative-items-close, #replace-items-add-items, #replace-items-close {
+ 	width: 115px;
+	height: 30px;
+	border-radius: 5px;
+ }
+
+ #alternative-items-remove-items {
+ 	/*color: #000000;*/
+ 	font-weight: bold;
+ 	height: 30px;
+ 	border-radius: 5px;
+ }
+
+#item-replace-table th, #item-alternative-table th{
+ 	background-color: #00C59F;
+ 	font-size: 18px;
+ }
+
+#box-table {
+	display: block;
+	overflow-y: auto;
+	height: 100%;
+    width: 100%;
+	text-align: center;
+}
+
+#box-table-container {
+	float: left;
+ 	width: 50%;
+ 	height: 10.54em;
+ 	overflow-y: auto;
+ 	margin-top: -210px;
+    margin-left: 81.5%;
+    border: 1px solid #aaa;
+}
+
+#box-table-body {
+ 	/*display: table;*/
+ 	width: 100%;
+}
+
+#box-table td{
+ 	border: 1px solid black;
+ 	width: 200px;
+}
+
+#box-table th {
+	width: 200px;
+    padding: 0.3em;
+    text-align: center;
+    font-size: 20px;
+}
+
+#order-table-summary {
+	text-align: center;
+    font-size: 16px;
+    width: 100%;
+}
+
+/*daa8a8*/
+#order-table-summary th {
+	background-color: #00C59F;
+	height: 45px;
+	font-size: 20px;
+	font-weight: bold;
+	/*color: #FFFFFF;*/
+}
+
+#order-table-summary td, #order-transLogs-table td, #order-collectLogs-table td {
+	font-size: 18px;
+}
+
+#record-load-logs {
+	margin-right: -100px;
+}
+
+#order-transLogs span, #order-transLogs input, #content-orders-filter, #collect-transLogs span, #collect-transLogs input {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#order-transLogs-table, #order-collectLogs-table {
+	text-align: center;
+	font-size: 20px;
+	width: 900px;
+}
+
+#order-transLogs-table th, #order-collectLogs-table th {
+	background-color: #daeff1;
+    height: 45px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#order-tracking-status-box,#send-invoice-box,#item-replace-box,#mark-invoiced-box,#item-alternative-box,#order-transLogs{
+	border: 1px solid rgba(0,0,0,.2);
+	padding: 15px;
+}
+#order-tracking-status-box > div > .col-sm-2.col-form-label {
+	text-align: center;
+	width: 100%;
+}
+#order-tracking-status-box > div > .col-sm-2.col-form-label h3 {
+	font-size: 30px;
+	margin: 3px 0;
+}
+#trackingNumbers{
+	margin-bottom: 10px;
+}
+#order-tracking-status-table{
+	width: 100%;
+	border-collapse: collapse;
+}
+#order-tracking-status-table > tr:first-child{
+	background-color: rgb(0, 125, 189);
+	color: #fff;
+	font-weight: bold;
+}
+#order-tracking-status-table > tr:first-child td{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+#box-outer #box-container > .close{
+	top: 17px;
+	right: 17px;
+}

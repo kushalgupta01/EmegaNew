@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>Packing Home</title>
+<link href="/client/css/header.css" rel="stylesheet" />
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/common/checkbox.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script src="js/index.js" type="module"></script>
+<script src="js/config.js" type="module"></script>
+</head>
+
+<body>
+
+<div id="container" data-page-type="pack">
+	<div class="wrapper">
+	    <!-- Sidebar  -->
+		<nav id="sidebar">
+            <div class="sidebar-header">
+                <a href="/client/index.html"><img src="/common/images/logo.svg" alt="logo"></a>
+                <button type="button" id="sidebarCollapse-mobile" class="show-sidebar">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            <ul class="list-unstyled nav-links">
+                <li class="active">
+                    <a href="/client/index.html">
+						<i class="fa fa-home" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Home</span>
+					</a>
+                </li>
+                 <li id="li-pendingorders" class="habitania hide">
+                    <a href="javascript:void(0)" class="has-sub open-dropdown">
+						<i class="fas fa-box-open" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Pending Orders</span>
+					</a>
+					<ul class="sub-nav" style="display: none;">
+						<li id="li-collectorders"style="margin-top: 0px;margin-bottom: 0px;">
+							<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/orders.html?p=collect"><span class="fas fa-crosshairs"></span> Collect orders</a>
+						</li>							
+						<!-- <li id="li-awaitinglist" style="margin-top: 0px;margin-bottom: 0px;">
+							<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/orders.html?p=awaitinglist"><span class="fas fa-pause-circle"></span> Awaiting List</a>
+						</li> -->
+					</ul>
+                </li>
+               <li>
+                	<a href="javascript:void(0)" class="has-sub2 open-dropdown">
+                    	<i class="fa fa-tasks" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Manage Orders</span>
+					</a>
+					<ul class="sub-nav2" style="display: none;">
+						<li id="li-addneworder" style="margin-top: 0px;margin-bottom: 0px;">
+							<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/manage.html"><span class="fas fa-eye"></span> View Order</a>
+						</li>					
+					</ul>
+                </li> 
+               <li class="active">
+                    <a href="/client/order-pack/index.html">
+						<i class="fa fa-table" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Pack Orders</span>
+					</a>
+                </li>
+				<li id="li-orderdownload" >
+                    <a href="/client/order-download/index.html">
+						<i class="fa fa-download" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Download Orders</span>
+					</a>
+                </li>
+                <li id="addOrders">
+                	<a href="/client/add-order/addOrder.html">
+          				<i class="fas fa-folder-plus"></i>
+          				<span class="sidebar-menu-text">Add Orders</span> 
+          			</a>
+          		</li>
+            </ul>
+        </nav>
+	    <!-- Page Content  -->
+	    <div id="layout-admin" class="collapse-sidebar">
+
+			<div id="container">
+				<!-- <div id="header">
+					<h1>Packing Home</h1>
+					<button class="menu action-btn btn-navy">Back to menu</button>
+				</div> -->
+				<div id="header" class="header titleonly">
+	                <div class="header-left">
+	                    <button type="button" id="sidebarCollapse" class="show-sidebar">
+	                        <i class="fa fa-bars"></i>
+	                    </button>
+	                    <div class="logo">
+	                        <div class="title"><span>Packing Home</span></div>
+	                    </div>
+	                </div>
+	                <div class="header-right">
+	                    <!-- <div class="setting">
+			                    <a href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
+			                </div> -->
+	                    <!-- <div class="login">
+	                        <a href="javascript:void(0)" id="logout_link"><span id="username"></span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+	                    </div> -->
+	                    <button class="menu action-btn btn-navy">Back to menu</button>
+	                </div>
+	            </div>
+				<div id="home">
+					<!-- <br><br><br><br><br><br><br><br><br><br><br> -->
+					<div class="page-line">
+
+						<input type="text" id="page-username" placeholder="Enter your name" value="" required>
+					</div>
+					<div id="packing-store" class='packing-buttons'>
+						<label class="action-label">Store: </label>
+						<select id="pack-store" class="action-label">
+							<option value='-'>-</option>
+						</select>
+					</div>
+					<div id="packing-buttons" class='packing-buttons'>
+						<!-- <button onclick="window.location.href='packing-manage.html'">Packing Manage</button> -->
+					</div>
+					<div id="pack-scan" class='pack-scan'>
+						<button class="action-btn btn-dgrey">Pack Scan</button>
+					</div>
+					<div>
+						<p>Orders Left:</p>
+						<table id="orderlefttable">
+							<thead></thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+				<div id="notification" class="hide">
+					<div class="content"></div>
+					<div class="close"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	    "use strict"; // Start of use strict
+
+	    //Sidebar menu
+	    $('.show-sidebar').on('click', function() {
+	        $('#sidebar').toggleClass('collapse-sidebar');
+	        $('#layout-admin').toggleClass('collapse-sidebar');
+	    });
+	    $('.has-sub').on('click', function() {
+	    	$('.has-sub').toggleClass('open-dropdown');
+	        $('.sub-nav').slideToggle("slow");
+	    });
+	    $('.has-sub2').on('click', function() {
+	    	$('.has-sub2').toggleClass('open-dropdown');
+	        $('.sub-nav2').slideToggle("slow");
+	    });
+	    $('.has-sub3').on('click', function() {
+	    	$('.has-sub3').toggleClass('open-dropdown');
+	        $('.sub-nav3').slideToggle("slow");
+	    });
+	});
+</script>
+
+</body>
+</html>

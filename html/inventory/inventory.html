@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Inventory</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script src="/common/pdfkit.js"></script>
+<script src="/common/blob-stream.js"></script>
+<script src="/common/JsBarcode.code128.min.js"></script>
+<script src="/common/FileSaver.min.js"></script>
+<script src="./inventory.js" type="module"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+<div id="loading">
+  <img id="loading-image" src="/order-collect/img/5.gif" alt="Loading..." />
+</div>
+<div id="container" data-page-type="home">
+	<div id="header" class="titleonly">
+		<div class="title">Inventory</div>
+		<button class="menu action-btn btn-green nomargin">Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-inventory-searchbar">
+			<input></input>
+		</div>
+		<div id="main-buttons">
+			<button class="search action-btn nomargin">Search</button>
+			<button class="add-product action-btn nomargin">Add Product</button>
+			<button class="stock-received action-btn nomargin">Stock Received</button>
+		</div>
+		<div id="content-inventory-searchfield">
+					<label for="title">SearchBy:</label>
+					<input type="radio" name="searchfield" value="itemno" checked>
+					<label for="itemno">Item No</label>
+					<input type="radio" name="searchfield" value="itemname">
+					<label for="itemname">Item Name</label>
+					<input type="radio" name="searchfield" value="sku">
+					<label for="sku">SKU</label>
+					<input type="radio" name="searchfield" value="customsku">
+					<label for="customsku">Custom SKU</label>
+					<input type="radio" name="searchfield" value="itembarcode">
+					<label for="itembarcode">Item Barcode</label>
+					<input type="radio" name="searchfield" value="cartonbarcode">
+					<label for="cartonbarcode">Carton Barcode</label>
+					<input type="radio" name="searchfield" value="brand">
+					<label for="brand">Brand</label>
+					<input type="radio" name="searchfield" value="category">
+					<label for="category">Category</label>
+
+		</div>
+		<div id = "content-container">
+				<div id="content-item-stores" class="options">
+					<span>Store:</span>
+					<form class="checkbox" autocomplete="off">
+					<!-- <input type="radio" name="store" id="store-1" value="1" checked="checked"><label for="store-1"><span>OzPlaza</span></label><input type="radio" name="store" id="store-2" value="2"><label for="store-2"><span>SOSHydration</span></label><input type="radio" name="store" id="store-4" value="4"><label for="store-4"><span>Idirect</span></label><input type="radio" name="store" id="store-7" value="7"><label for="store-7"><span>Kobayashi</span></label><input type="radio" name="store" id="store-8" value="8"><label for="store-8"><span>Hobbyco</span></label><input type="radio" name="store" id="store-9" value="9"><label for="store-9"><span>Habitania eBay</span></label><input type="radio" name="store" id="store-15" value="15"><label for="store-15"><span>Catwalk</span></label><input type="radio" name="store" id="store-31" value="31"><label for="store-31"><span>Kitncaboodle</span></label><input type="radio" name="store" id="store-32" value="32"><label for="store-32"><span>Packing Sorted</span></label><input type="radio" name="store" id="store-33" value="33"><label for="store-33"><span>RoofStuff</span></label><input type="radio" name="store" id="store-35" value="35"><label for="store-35"><span>CleanHQ</span></label><input type="radio" name="store" id="store-36" value="36"><label for="store-36"><span>Evo Build</span></label><input type="radio" name="store" id="store-37" value="37"><label for="store-37"><span>BH&amp;G</span></label><input type="radio" name="store" id="store-41" value="41"><label for="store-41"><span>Amazon</span></label><input type="radio" name="store" id="store-51" value="51"><label for="store-51"><span>Emega-Magento</span></label><input type="radio" name="store" id="store-61" value="61"><label for="store-61"><span>CharliChair</span></label><input type="radio" name="store" id="store-62" value="62"><label for="store-62"><span>Waterwipes</span></label><input type="radio" name="store" id="store-63" value="63"><label for="store-63"><span>Habitania</span></label><input type="radio" name="store" id="store-71" value="71"><label for="store-71"><span>Hobbyco Website</span></label><input type="radio" name="store" id="store-74" value="74"><label for="store-74"><span>Hobbyco Kogan</span></label><input type="radio" name="store" id="store-81" value="81"><label for="store-81"><span>B2B-Wholesale</span></label><input type="radio" name="store" id="store-82" value="82"><label for="store-82"><span>B2B-Transfer</span></label><input type="radio" name="store" id="store-91" value="91"><label for="store-91"><span>Hobbyco Catch</span></label> --></form>
+				</div>
+				<div id="content-item-perpage" class="options">
+					<span>Per Page:</span>
+					<form class="checkbox" autocomplete="off">
+					<!-- <input type="radio" name="perpage" id="perpage-20" value="20" checked="checked"><label for="perpage-20"><span>20</span></label><input type="radio" name="perpage" id="perpage-50" value="50"><label for="perpage-50"><span>50</span></label><input type="radio" name="perpage" id="perpage-100" value="100"><label for="perpage-100"><span>100</span></label> --></form>
+				</div>
+		
+		</div>
+		<div id="table-container" >
+			<table id="item-table" class="scroll table table-bordered">
+				<!-- <thead class="fixedHeader"> -->
+				<thead class="table-head">
+					<tr class="table-success">
+						<th>+</th>
+						<th>Store</th>
+						<th>ItemNo</th>
+						<th>Name</th>
+						<th>SKU</th>
+						<th>Custom SKU</th>
+						<th>Item Barcode</th>
+						<th>Carton Barcode</th>
+						<th>Total Qty</th>
+						<th>Stock on Hand</th>
+						<th>Loose Quantity</th>
+						<th>Carton Quantity</th>
+						<th>B2C Total Qty</th>
+						<th>B2C Loose Qty</th>
+						<th>B2C Carton Qty</th>
+						<th>QVB Qty</th>
+						<th>Pick Loc</th>
+						<th>Pick Qty</th>
+						<th>Bulk Loc</th>
+						<th>Bulk Qty</th>
+						<th>Quantity per Carton</th>
+						<th>Reserved Quantity</th>
+						<th>Damaged Quantity</th>
+						<!-- <th>Stock Received</th>
+						<th>Stock Sent</th> -->
+						<th>Item Weight</th>
+						<th>Bay</th>
+						<th>Expiry</th>
+						<!-- <th>Core/ Closeout</th>
+						<th>Clearance</th> -->
+						<th>Supplier</th>
+						<th>Image</th>
+						<th>Notes</th>
+						<th>Brand</th>
+						<th>Category</th>
+					</tr>
+				</thead>
+				<tbody id="item-table-body"></tbody>
+			</table>
+			<div id="notice">
+				<ul>
+					<li>Red rows indicate low quantity.</li>
+				</ul>
+			</div>
+			<div id="pages"></div>
+			<!-- <div id="page-input">
+				<input id="page-number-input"/>
+				<button id="page-change-button">go</button>
+			</div> -->
+			</div>
+		</div>
+	</div>
+
+	<div id="box-outer">
+		<div id="box-container">
+			<div id="location" class="hide">
+				<div class="title">Location details</div><br>
+				<div id="itemname" class="line padded-s">Item Name: <span>-</span></div>
+				<div id="sku" class="line padded-s">SKU: <span>-</span></div>
+
+				<table id="locationtable" class="table">
+					<thead>					
+						<tr>													
+							<th>Actions</th>
+							<th>Type</th>
+							<th>Location</th>
+							<th>Loose Qty</th>
+							<!-- <th>Carton Qty</th>	 -->		
+							
+						</tr>
+					</thead>
+					<tbody id="bay-table-body"></tbody>
+				
+					<tfoot>											
+						<tr>																					
+							<td >B2B: <span id="b2bTotal"></span></td>
+							<td>B2C: <span id="b2cTotal"></span></td>								
+							<td colspan="3">Total Qty:  <span id="totalQty"></span></td>	
+						</tr>
+									
+					</tfoot>
+				</table>
+
+				<div class="box-actions">
+					<button id="bay-add" class="action-btn btn-lightseagreen">Add</button>
+					<button id="bay-save" class="action-btn btn-KashmirBlue">Save</button>				
+				</div>
+
+				<!-- <div class="close"></div> -->
+			</div>
+			<div id="transactionLogs" class="hide">
+				<div>
+					<p>
+						<span class="item-name-title">Item name: </span>
+						<strong><span class="item-name"></span></strong>
+					</p>
+					<p>
+						<span class="item-sku-title">SKU: </span>
+						<strong><span class="item-sku"></span></strong>
+					</p>
+				</div>
+				<table class="scroll table table-bordered">
+					<thead class="table-head">
+						<tr class="table-success">
+							<th style="text-align: center">+/-</th>
+							<th>Old Location</th>
+							<th>Old<br/>Qty</th>
+							<!-- <th>Old<br/>Type</th> -->
+							<th class="arrowi">=></th>
+							<th>New Location</th>
+							<th>New<br/>Qty</th>
+							<!-- <th>New<br/>Type</th> -->
+							<th>User</th>
+							<th>Time &amp; Date</th>
+							<th>Action</th>
+							<th>Reason</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="close"></div>
+		</div>
+	</div>
+	
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+
+	<div class="hover_bkgr_fricc">
+	    <span class="helper"></span>
+	    <div>
+	        <div class="popupCloseButton">&times;</div>
+	        <p>Reason to change quantity to <span id="numQty"></span><br><input id="reason"></input>
+	        <div class="">
+					<button id="reason-save" class="action-btn btn-KashmirBlue">Save</button>				
+			</div>
+	    </div>
+	</div>
+
+	<div class="reason_to_delete_box">
+	    <span class="helper"></span>
+	    <div>
+	        <div class="reason_to_delete_close">&times;</div>
+	        <p>Reason to delete. <br><input id="reason_to_delete_input"></input>
+	        <div class="">
+					<input id="delete_password" type="password" placeholder="password"></input>
+					<br>
+					<button id="reason-to-delete-save" class="action-btn btn-KashmirBlue" style="margin-top: 5px;">Save</button>				
+			</div> 
+	    </div>
+	</div>
+</div>
+</body>
+</html>

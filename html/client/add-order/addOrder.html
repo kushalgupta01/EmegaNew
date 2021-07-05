@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Add Orders</title>
+<meta name ="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<link rel   ="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href ="/common/buttons.css" rel="stylesheet" />
+<link href ="/order-download/css/main.css" rel="stylesheet" />
+<link href ="/client/css/home.css" rel="stylesheet" />
+<link href ="/client/css/header.css" rel="stylesheet" />
+<link rel  ="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href ="/client/add-order/addOrder.css" rel="stylesheet" />
+<link rel  ="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src ="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src ="/client/add-order/index.js" type="module"></script>
+<!-- load jQuery 3.2.1 -->
+<script type ="text/javascript" src="/common/jquery-3.2.1.min.js"></script>
+<script type ="text/javascript">
+var jQuery_3_2_1 = $.noConflict(true);
+</script>
+
+</head>
+<body>
+<div id="container">
+	<div class="wrapper">
+	<!-- Sidebar  -->
+	        <nav id="sidebar">
+	            <div class="sidebar-header">
+	                <a href="/client/index.html"><img src="/common/images/logo.svg" alt="logo"></a>
+	                <button type="button" id="sidebarCollapse-mobile" class="show-sidebar">
+                        <i class="fa fa-bars"></i>
+                    </button>
+	            </div>
+	            <ul class="list-unstyled nav-links">
+	                <li class="active">
+	                    <a href="/client/index.html">
+							<i class="fa fa-home" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Home</span>
+						</a>
+	                </li>
+	              	<li id="li-pendingorders" class="habitania catwalk pacojaanson hide">
+	                    <a href="javascript:void(0)" class="has-sub">
+							<i class="fas fa-box-open" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Pending Orders</span>
+						</a>
+						<ul class="sub-nav" style="display: none;">						
+							<li id="li-collectorders">
+								<a id="li-a" href="/client/order-collect/orders.html?p=collect"><span class="fas fa-crosshairs"></span> Collect orders</a>
+							</li>
+							<!-- <li id="li-addneworder">
+								<a id="li-a" href="/client/order-collect/addnew.html"><span class="fas fa-box-open"></span> New orders</a>
+							</li> -->
+							<li id="li-outofstock">
+								<a id="li-a" href="/client/order-collect/orders.html?p=stock"><span class="fas fa-surprise"></span> Out of Stock</a>
+							</li>
+							<li id="li-ordered">
+								<a id="li-a" href="/client/order-collect/orders.html?p=ordered"><span class="fas fa-thumbtack "></span> Ordered</a>
+							</li>
+						</ul>
+	                </li>
+					<li id="li-manageorders">
+	                	<a href="javascript:void(0)" class="has-sub">
+	                    	<i class="fa fa-tasks" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Manage Orders</span>
+						</a>
+						<ul class="sub-nav" style="display: none;">
+							<li id="li-addneworder">
+								<a id="li-a" href="/client/order-collect/manage.html"><span class="fas fa-eye"></span> View Order</a>
+							</li>
+						</ul>
+	                </li>  
+	                <li id="li-manageinventory" class="combinedgroup hide">
+	                    <a href="/client/inventory/inventory.html">
+							<i class="fa fa-table" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Manage Inventory</span>
+						</a>
+	                </li>
+	               	<li id="li-packorders" class="habitania catwalk hide">
+	                    <a href="/client/order-pack/index.html">
+							<i class="fa fa-table" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Pack Orders</span>
+						</a>
+	                </li>	               
+					<li id="li-orderdownload" >
+	                    <a href="/client/order-download/index.html">
+							<i class="fa fa-download" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Download Orders</span>
+						</a>
+	                </li>
+	                <li id="refunds">
+	                	<a href="/client/order-collect/orders.html?p=refunds">
+	          				<i class="fas fa-money-bill-wave"></i>
+	          				<span class='sidebar-menu-text'>Refunds</span>
+	          			</a>
+	          		</li>
+	          		<li id="addOrders" class="active">
+	                	<a href="/client/add-order/addOrder.html">
+	          				<i class="fas fa-folder-plus"></i>
+	          				<span class="sidebar-menu-text">Add Orders</span> 
+	          			</a>
+	          		</li>
+	            </ul>
+	        </nav>
+<!--------------------- Page Content  ---------------------------->
+		<div id="layout-admin" class="collapse-sidebar">
+			<div id="header" class="header titleonly">
+				<div class="header-left">
+                    <button type="button" id="sidebarCollapse" class="show-sidebar">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <div class="logo">
+                        <div class="title"><span>Add Orders</span></div>
+                    </div>
+                </div>
+				<div style="display:none;" class="title">Add Orders</div>
+				<div class="header-right">
+					<div id="record-logout"><a style="vertical-align: middle;"><span class="fas fa-sign-out-alt"></span></a></div>
+                </div>
+			</div>
+			<div id="main">
+				<div id="content-container" class="container">
+					<div id="add-order" class="content-page">
+						<div>
+							<form>
+							    
+							    	<div class="form-group row">
+							            <label for="store" class="col-sm-2 col-form-label">Store</label>
+							            <select id="order-store" class="col-sm-2 form-control"><option select="selected" >-</option></select>
+							            <label id="store-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+							    
+							        <div class="form-group row">
+							            <label for="salesRecordID" class="col-sm-2 col-form-label">SalesRecordID</label>
+							            <input id="salesRecordID" type="text" class="col-sm-4 form-control" placeholder="SalesRecordID">
+							            <label id="salesRecordID-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="orderID" class="col-sm-2 col-form-label">OrderID</label>
+							            <input id="orderID" type="text" class="col-sm-4 form-control" placeholder="OrderID">
+							            <label id="orderID-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row" >
+							            <label for="deliveryNote" class="col-sm-2 col-form-label">DeliveryNote</label>
+							            <input id="deliveryNote" type="text" class="col-sm-4 form-control" placeholder="DeliveryNote">
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="buyerID" class="col-sm-2 col-form-label">Buyer's ID</label>
+							            <input id="buyerID" type="text" class="col-sm-4 form-control" placeholder="Buyer's ID">
+							            <label id="buyerID-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="firstname" class="col-sm-2 col-form-label">First Name</label>
+							            <input id="firstname" type="text" class="col-sm-4 form-control" placeholder="First Name">
+							            <label id="firstname-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
+							            <input id="lastname" type="text" class="col-sm-4 form-control" placeholder="Last Name">
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="addr1" class="col-sm-2 col-form-label">Address1</label>
+							            <input id="addr1" type="text" class="col-sm-4 form-control" placeholder="Address1">
+							            <label id="addr1-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="addr2" class="col-sm-2 col-form-label">Address2</label>
+							            <input id="addr2" type="text" class="col-sm-4 form-control" placeholder="Address2">
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="city" class="col-sm-2 col-form-label">City</label>
+							            <input id="city" type="text" class="col-sm-4 form-control" placeholder="City">
+							            <label id="city-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="state" class="col-sm-2 col-form-label">State</label>
+							            <select id="state" class="col-sm-4 form-control" >
+							            	<option select="selected">-</option>
+							            	<option value="New South Wales">New South Wales</option>
+							            	<option value="Queensland">Queensland</option>
+							            	<option value="Victoria">Victoria</option>
+							            	<option value="South Australia">South Australia</option>
+							            	<option value="Tasmania">Tasmania</option>
+							            	<option value="Western Australia">Western Australia</option>
+							            	<option value="Australian Capital Territory">Australian Capital Territory</option>
+							            	<option value="Northern Territory">Northern Territory</option>
+							            </select>
+							            <label id="state-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="postcode" class="col-sm-2 col-form-label">Postcode</label>
+							            <input id="postcode" type="text" class="col-sm-4 form-control" placeholder="Postcode">
+							            <label id="postcode-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="country" class="col-sm-2 col-form-label">Country</label>
+							            <!-- <input id="country" type="text" class="col-sm-4 form-control" placeholder="Country"> -->
+							            <select id="country" class="col-sm-4 form-control" >
+							            	<option select="selected">-</option>
+							            	<option value="AU">AU</option>
+							            </select>
+							            <label id="country-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="email" class="col-sm-2 col-form-label">Email Address</label>
+							            <input id="email" type="email" class="col-sm-4 form-control" placeholder="Email Address">
+							            <label id="email-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+							            <input id="phone" type="number" class="col-sm-4 form-control" placeholder="Phone">
+							            <label id="phone-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							        <div class="form-group row">
+							            <label for="date" class="col-sm-2 col-form-label">Purchase Date</label>
+							            <input id="date" type="date" class="col-sm-4 form-control" placeholder="Purchase Date">
+							            <label id="date-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+							        </div>
+
+							</form>
+						</div>
+						<br>
+						<hr>
+						<br>
+						<div >
+							<label class="col-sm-2 col-form-label">Items</label>
+							<label id="item-feedback" class="col-sm-4 feedback hide">Items</label>
+							<label id="item-quan-feedback" class="col-sm-4 feedback hide">Items</label>  
+							<br/>
+							<table id="item-table" class="table">
+								<thead>
+									<tr>
+										<th class="selected-all" scope="col"><input type="checkbox" autocomplete="off"></th>
+										<th scope="col">Id</th>
+										<th scope="col">Store</th>
+										<th scope="col">Item Title</th>
+										<th scope="col">Sku</th>
+										<th scope="col">Item#</th>
+										<th scope="col">Price</th>
+										<th scope="col">Quantity</th>
+									</tr>
+								</thead>
+								<tbody id="item-table-body"></tbody>
+							</table>
+							<div id="content-action-btns" class="action-btns">
+								<button id="content-items-add" class="btn btn-primary">Add Items</button>
+								<button id="content-items-selected-remove" class="btn btn-warning">Remove Selected Items</button>
+							</div>	
+						</div>
+
+						<br>
+						<hr>
+						<br>
+						
+						<div>
+				            <div id="content-action-btns" class="action-btns">
+								<button id="content-orders-add" class="btn btn-success">Add Orders</button>
+							</div>
+				        </div>
+
+						
+					</div>
+
+				</div>
+			</div>
+			<div id="notification" class="hide">
+				<div class="content"></div>
+				<div class="close"></div>
+			</div>
+		</div>
+		<div id="box-outer" class="">
+			<div id="box-container">
+				<div id="item-add-box" class="hide">
+					<div class="title">Add Items</div>
+					<div id="item-search" class="">
+						<div class="form-inline">
+							<label class="form-label col-1">Store</label> 
+							<select id="search-store" class="form-control col-4"><option select="selected">-</option></select>
+							<label class="form-label col-1">Id</label>
+							<input type="text" class="form-control col-4" id="search-id">
+						</div>
+						<div class="form-inline">
+							<label class="form-label col-1">SKU</label>
+							<input type="text" id="search-sku" class="col-4 form-control">
+							<label class="form-label col-1">Item#</label>
+							<input type="num" id="search-itemNum" class="col-4 form-control">	
+						</div>
+						<div class="form-inline">
+							<label class="col-sm-1 col-form-label">Name</label>
+							<input type="text" id="search-name" class="col-9 form-control">
+							<button id="search-item" class="btn btn-primary" >Search Item</button>
+						</div>
+					</div>
+
+					<br>
+
+					<table id="search-table" class="table">
+						<thead>
+							<tr>
+								<!-- <th class="selected-all"><input type="checkbox" autocomplete="off"></th> -->
+								<th>  </th>
+								<th>Id</th>
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>Item#</th>
+							</tr>
+						</thead>
+						<tbody id="search-table-body"></tbody>
+					</table>
+					<div class="box-actions">
+						<button id="add-item" class="btn btn-primary">Add Items</button>
+						<button id="add-item-cancel" class="btn btn-secondary">Close</button>
+					</div>
+				</div>
+				<!-- <div class="close"></div> -->
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$("#record-logout a").click(function(event){
+	localStorage.removeItem('username');
+	localStorage.removeItem('usertoken');
+	window.location.href = '/';
+});
+jQuery_3_2_1(document).ready(function() {
+        "use strict"; // Start of use strict
+  
+        jQuery_3_2_1('.show-sidebar').on('click', function() {
+          jQuery_3_2_1('#sidebar').toggleClass('collapse-sidebar');
+          jQuery_3_2_1('#layout-admin').toggleClass('collapse-sidebar');
+        });
+        jQuery_3_2_1('li a.has-sub').on('click', function() {
+          // For toggle its own li
+          jQuery_3_2_1(this).toggleClass('open-dropdown');
+          jQuery_3_2_1(this).parent().find('.sub-nav').slideToggle("slow");
+
+          // For other li
+          jQuery_3_2_1(this).parent().siblings().children('a.has-sub').removeClass('open-dropdown');
+          jQuery_3_2_1(this).parent().siblings().children('ul.sub-nav').slideUp("slow");
+        });
+  });  	
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Packer Managememt</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="packerDetail.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+
+<script src="/packer-management/packerDetail.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+</head>
+<body>
+	<div id="container">
+	<div id="header">
+		<div class="title">Packer Managememt</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container">
+			<div id="content-packer-summary" class="content-page">
+				<div id="content-packer-searchbar">
+					<input></input>
+					<button id="content-packer-search" class="action-btn">Search</button>
+				</div>
+				<div id="content-packer-searchfield">
+					<label for="title">SearchBy: </label>
+					<input type="radio" name="searchfield" value="name" checked>
+					<label for="name">Name</label>
+				</div>
+				<div id="content-packer-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div>
+				<div class="line">Number of parcel packed: <span id = "totalParcelPacked"></span></div><br>
+				<!-- <div class="line">Average time of parcel: <span id="avgTimeParcel"></span></div> -->
+				
+				<table class="content-table">
+					<thead>
+						<tr>
+							<!-- <th></th> -->
+							<th>Store</th>
+							<th>Packer</th>
+							<th>Title</th>
+							<th>Tracking</th>
+							<th>Post Service</th>
+							<th>Status</th>
+							<th>Packed Time</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+    </div>
+</body>
+</html>

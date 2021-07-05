@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Inventory Management</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="./inventoryManagement.css" rel="stylesheet" />
+
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script src="/common/pdfkit.js"></script>
+<script src="/common/blob-stream.js"></script>
+<script src="/common/JsBarcode.code128.min.js"></script>
+<script src="/common/FileSaver.min.js"></script>
+<script src="./inventoryManagement.js" type="module"></script>
+</head>
+
+<body>
+<div id="container" data-page-type="home">
+	<div id="header" class="titleonly">
+		<div class="title">Inventory Management</div>
+		<button class="menu action-btn btn-green nomargin">Back to menu</button>
+	</div>
+	<div id="main">
+		
+		<button id="page-inventory" class="action-btn big btn-KashmirBlue">Adjust stock</button>
+		<button id="page-inventory-scan" class="action-btn big btn-darkcyan">Check Stock</button>
+		<button id="page-pickstock" class="action-btn big btn-olive">Receive Stock</button>
+		<button id="page-locations" class="action-btn big btn-trendypink">Internal Transfer</button>
+		<button id="page-purchase-order" class="action-btn big btn-sunsetOrange">Purchase Order</button>
+		<!-- <button id="page-files" class="action-btn big btn-blue">Import / Export</button> -->
+		<button id="page-add-items" class="action-btn big btn-red">Add Stock</button>
+		<button id="page-dispatched" class="action-btn big btn-purple">Dispatch Report</button>
+		<!-- <button id="page-transferstock" class="action-btn big btn-grey">Transfer Stock</button> -->
+		<button id="page-stockreceived" class="action-btn big btn-purple">Stock Received By Day</button>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

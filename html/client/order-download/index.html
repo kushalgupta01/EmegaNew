@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Download Orders 📲</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="css/main.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<link href="../css/header.css" rel="stylesheet" />
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script src="js/main.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+<script src="/common/papaparse.min.js"></script>
+<script src ="/common/jquery-3.2.1.min.js"></script>
+<script src ="/common/dropdown.js"></script>
+</head>
+<body>
+<div id="container">
+	<div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <a href="/client/index.html"><img src="/common/images/logo.svg" alt="logo"></a>
+                <button type="button" id="sidebarCollapse-mobile" class="show-sidebar">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            <ul class="list-unstyled nav-links">
+                <li>
+                    <a href="/client/index.html">
+						<i class="fa fa-home" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Home</span>
+					</a>
+                </li>
+              	<li id="li-pendingorders" class="habitania catwalk atpack pacojaanson hide">
+                    <a href="javascript:void(0)" class="has-sub">
+						<i class="fas fa-box-open" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Pending Orders</span>
+					</a>
+					<ul class="sub-nav" style="display: none;">						
+						<li id="li-collectorders">
+							<a id="li-a" href="/client/order-collect/orders.html?p=collect"><span class="fas fa-crosshairs"></span> Collect orders</a>
+						</li>
+						<li id="li-outofstock">
+							<a id="li-a" href="/client/order-collect/orders.html?p=stock"><span class="fas fa-surprise"></span> Out of Stock</a>
+						</li>
+						<li id="li-ordered">
+							<a id="li-a" href="/client/order-collect/orders.html?p=ordered"><span class="fas fa-thumbtack "></span> Ordered</a>
+						</li>
+					</ul>
+                </li>
+				<li id="li-manageorders">
+                	<a href="javascript:void(0)" class="has-sub">
+                    	<i class="fa fa-tasks" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Manage Orders</span>
+					</a>
+					<ul class="sub-nav" style="display: none;">
+						<li id="li-addneworder">
+							<a id="li-a" href="/client/order-collect/manage.html"><span class="fas fa-eye"></span> View Order</a>
+						</li>
+					</ul>
+                </li>  
+                <li id="li-manageinventory" class="combinedgroup hide">
+                    <a href="/client/inventory/inventory.html">
+						<i class="fa fa-table" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Manage Inventory</span>
+					</a>
+                </li>
+               	<li id="li-packorders" class="habitania catwalk hide">
+                    <a href="/client/order-pack/index.html">
+						<i class="fa fa-table" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Pack Orders</span>
+					</a>
+                </li>	
+                <li class="active">
+                    <a href="/client/order-download/index.html">
+						<i class="fa fa-download" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Download Orders</span>
+					</a>
+					<nav id="menu-list">
+	                    <ul class="sub-nav" style="display: block;">
+	                        <li class="li-data-panel habitania catwalk rrv atpack pacojaanson hide" data-panel="content-download" data-service="1">eBay orders</li>
+							<li class="li-data-panel hide" data-panel="content-download-amazon" data-service="2">Amazon orders</li>
+							<li class="li-data-panel hide" data-panel="content-download" data-service="3">WooCommerce orders</li>
+							<li class="li-data-panel combinedgroup hide" data-panel="content-download" data-service="8">BigCommerce orders</li>
+							<li class="li-data-panel habitania hide" data-panel="content-download" data-service="9">Shopify orders</li>
+							<li class="li-data-panel hide" data-panel="content-download" data-service="10">Magento orders</li>
+							<li class="li-data-panel hide" data-panel="content-download" data-service="11">Neto orders</li>
+							<li class="li-data-panel hide" data-panel="content-download" data-service="13">Catch orders</li>
+							<li class="li-data-panel" data-panel="content-show-orders">New orders</li>
+							<li class="li-data-panel hide" data-panel="content-collected-orders">Collected orders</li>
+							<li class="li-data-panel hide" data-panel="content-orders-mark-sent">Mark orders as sent</li>
+							<li class="li-data-panel hide" data-panel="content-tracking">Upload tracking details</li>
+							<li class="li-data-panel hide" data-panel="products-download-container">Download products</li>
+							<li class="li-data-panel combinedgroup hide" data-panel="content-download-tracking">Download trackings</li>
+							<li class="li-data-panel hide" data-panel="content-download-inventory">Download inventory</li>
+							<li class="li-data-panel hide" data-panel="content-download-receivedstock">Download Received stock</li>
+							<li class="li-data-panel hide" data-panel="content-download-dispatched">Download Dispatched</li>
+							<li class="li-data-panel hide" data-panel="content-download-qvbstocksent">Download QVB Stock Sent</li>		
+	                    </ul>
+	                </nav>                   					
+                </li>
+				<li id="refunds">
+                	<a href="/client/order-collect/orders.html?p=refunds">
+          				<i class="fas fa-money-bill-wave"></i>
+          				<span class='sidebar-menu-text'>Refunds</span>
+          			</a>
+          		</li>
+          		<li id="addOrders" class="combinedgroup hide">
+                	<a href="/client/add-order/addOrder.html">
+          				<i class="fas fa-folder-plus"></i>
+          				<span class="sidebar-menu-text">Add Orders</span> 
+          			</a>
+          		</li>
+            </ul>
+        </nav>
+        <!-- Page Content  -->
+        <div id="layout-admin" class="collapse-sidebar">
+            <div id="header" class="header titleonly">
+                <div class="header-left">
+                    <button type="button" id="sidebarCollapse" class="show-sidebar">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <div class="logo">
+                        <div class="title"><span>Download Orders 📲</span></div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <!-- <div class="setting">
+		                    <a href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
+		                </div> -->
+                   <!--  <div class="login">
+                        <a href="javascript:void(0)" id="logout_link"><span id="username"></span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    </div> -->
+                    <div id="record-nav-buttons">							
+						<button id="record-logout" class="action-btn btn-navy nomargin top right-left" autocomplete="off"><a id="username"></a> - <span class="fas fa-sign-out-alt"></span></button>
+					</div>
+                </div>
+            </div>
+            <div id="content-admin" class="content-admin">
+	            <div id="main">
+					<!-- <nav id="menu-list" style="display: none;">
+						<ul>
+							<li data-panel="content-download" data-service="1">eBay orders</li>
+							<li data-panel="content-download-amazon" data-service="2">Amazon orders</li>
+							<li data-panel="content-download" data-service="3">WooCommerce orders</li>
+							<li data-panel="content-download" data-service="8">BigCommerce orders</li>
+							<li data-panel="content-download" data-service="9">Shopify orders</li>
+							<li data-panel="content-download" data-service="10">Magento orders</li>
+							<li data-panel="content-download" data-service="11">Neto orders</li>
+							<li data-panel="content-download" data-service="13">Catch orders</li>
+							<li data-panel="content-show-orders">New orders</li>
+							<li data-panel="content-collected-orders">Collected orders</li>
+							<li data-panel="content-orders-mark-sent">Mark orders as sent</li>
+							<li data-panel="content-tracking">Upload tracking details</li>
+							<li data-panel="products-download-container">Download products</li>
+							<li data-panel="content-download-tracking">Download trackings</li>
+							<li data-panel="content-download-inventory">Download inventory</li>
+							<li data-panel="content-download-receivedstock">Download Received stock</li>
+							<li data-panel="content-download-dispatched">Download Dispatched</li>
+							<li data-panel="content-download-qvbstocksent">Download QVB Stock Sent</li>	   
+						</ul>
+					</nav> -->
+					<div id="content-container">
+						<!-- Download -->
+						<div id="content-download" class="content-page hide">
+							<div id="content-download-stores" class="options">
+								<span>Choose stores:</span>
+								<form class="checkbox"></form>
+							</div>
+							<div class="content-action-btns">
+								<button id="content-download-btn" class="action-btn btn-darkcyan">Download orders</button>
+							</div>
+						</div>
+						<!-- New orders -->
+						<div id="content-show-orders" class="content-page hide">
+							<div id="content-orders-filters" class="options">
+								<span>New Orders </span>
+								<span>Filter:</span>
+								<form class="checkbox" autocomplete="off">
+									<input type="radio" data-filter="neworder" name="cof" id="cof-all" value="all" checked>
+									<label for="cof-all"><span>All</span></label>
+									<input type="radio" data-filter="neworder" name="cof" id="cof-messages" value="messages">
+									<label for="cof-messages"><span>Messages</span></label>
+									<input type="radio" data-filter="neworder" name="cof" id="cof-paid" value="paid">
+									<label for="cof-paid"><span>Paid orders</span></label>
+									<input type="radio" data-filter="neworder" name="cof" id="cof-notpaid" value="notpaid">
+									<label for="cof-notpaid"><span>Not paid</span></label>
+									<input type="radio" data-filter="neworder" name="cof" id="cof-express" value="express">
+									<label for="cof-express"><span>Express</span></label>
+									<input type="radio" data-filter="neworder" name="cof" id="cof-international" value="international">
+									<label for="cof-international"><span>International</span></label>
+								</form>
+								<button id="content-orders-refresh" class="refresh-btn action-btn btn-dblue">Refresh</button>
+								<!-- <select id="buyer-store"></select>
+                    			<button id="content-store-select" class="action-btn">Select orders</button>	 -->			
+							</div>
+							<table class="content-table">
+								<thead>
+									<tr>
+										<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+										<th>Store</th>
+										<th>Record ID</th>
+										<th>Buyer ID</th>
+										<th>Price</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Name for Delivery</th>
+										<th>Address 1</th>
+										<th>Address 2</th>
+										<th>City</th>
+										<th>State</th>
+										<th>Postcode</th>
+										<th>Country</th>
+										<th>Phone</th>
+										<th>Delivery Note</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+							<ul class="notice">
+								<li>For orders with messages that contain delivery instructions, save the instructions into the "Delivery Note" field.</li>
+								<li>Orange rows indicate that the payments for those orders may be pending (e.g. bank transfers) - check that the payments have been cleared through eBay/PayPal/bank <strong>before adding them for collection</strong>.</li>
+								<li>Red rows indicate orders that had not been paid for at the time of the download - check that these have been paid for on eBay/PayPal/bank <strong>before adding them for collection</strong>.</li>
+								<li>Save any changes you have made before adding the orders for collection.</li>
+							</ul>
+							<div class="content-action-btns">
+								<button id="content-orders-save" class="action-btn btn-darkcyan">Save changes</button>
+								<button id="content-orders-reset" class="action-btn btn-darkcyan">Reset</button>
+								<button id="content-orders-add-collect" class="action-btn btn-darkcyan">Add orders for collection</button>
+								<button id="content-orders-remove" class="action-btn btn-red">Remove selected orders</button>
+								<!--<button id="content-orders-delete" class="action-btn btn-red">Delete selected orders</button>-->
+							</div>
+						</div>
+						<!-- Collected orders -->
+						<div id="content-collected-orders" class="content-page hide">
+							<div class="options">
+								<div>
+									<span>Choose store:</span>
+									<form id="content-orders-collected-store" data-multi="true" class="checkbox" autocomplete="off"></form>
+								</div>
+							</div>
+							<table class="content-table">
+								<thead>
+									<tr>
+										<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+										<th>Store</th>
+										<th>Record ID</th>
+										<th>Buyer ID</th>
+										<th>Price</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Name for Delivery</th>
+										<th>Address 1</th>
+										<th>Address 2</th>
+										<th>City</th>
+										<th>State</th>
+										<th>Postcode</th>
+										<th>Country</th>
+										<th>Phone</th>
+										<th>Delivery Note</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+							<div class="content-action-btns">
+								<button id="content-orders-add-print" class="action-btn btn-darkcyan">Add orders for printing</button>
+							</div>
+						</div>
+						<!-- Mark orders as sent -->
+						<div id="content-orders-mark-sent" class="content-page hide">
+							<div class="options">
+								<div>
+									<span>Choose store:</span>
+									<form id="content-orders-mark-sent-store" data-multi="true" class="checkbox" autocomplete="off"></form>
+								</div>
+								<div>
+									<span>Filter orders:</span>
+									<form id="content-orders-mark-sent-status" data-multi="true" class="checkbox" autocomplete="off">
+										<input type="radio" data-filter="status" name="cmss" id="cmss-all" value="all" checked>
+										<label for="cmss-all"><span>All</span></label>
+										<input type="radio" data-filter="status" name="cmss" id="cmss-collected" value="1">
+										<label for="cmss-collected"><span>Collected</span></label>
+										<input type="radio" data-filter="status" name="cmss" id="cmss-readytopack" value="10">
+										<label for="cmss-readytopack"><span>Ready to pack</span></label>
+										<input type="radio" data-filter="status" name="cmss" id="cmss-packed" value="3">
+										<label for="cmss-packed"><span>Packed</span></label>
+										<input type="radio" data-filter="status" name="cmss" id="cmss-override" value="8">
+										<label for="cmss-override"><span>Overridden</span></label>
+									</form>
+									<button id="content-orders-mark-sent-refresh" class="refresh-btn action-btn btn-dblue">Refresh</button>
+								</div>
+							</div>
+							<table class="content-table">
+								<thead>
+									<tr>
+										<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+										<th>ID</th>
+										<th>Store</th>
+										<th>Record ID</th>
+										<th>Name for Delivery</th>
+										<th>Address 1</th>
+										<th>Address 2</th>
+										<th>City</th>
+										<th>State</th>
+										<th>Postcode</th>
+										<th>Country</th>
+										<th>Tracking number</th>
+										<th>Delivery Note</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+							<ul class="notice">
+								<li>Orange rows indicate that the payments for those orders may be pending (e.g. bank transfers) - check that the payments have been cleared through eBay/PayPal/bank <strong>before marking these orders as sent</strong>.</li>
+								<li>Red rows indicate orders that had not been paid for at the time of the download - check that these have been paid for on eBay/PayPal/bank <strong>before marking these orders as sent</strong>.</li>
+							</ul>
+							<div class="content-action-btns">
+								<button id="content-orders-mark-sent-btn" class="action-btn btn-darkcyan">Mark orders as sent</button>
+							</div>
+						</div>
+						<!-- Tracking -->
+						<div id="content-tracking" class="content-page hide">
+							<div class="options">
+								<div>
+									<span>Choose store:</span>
+									<form id="content-tracking-store" class="checkbox" autocomplete="off"></form>
+								</div>
+								<div>
+									<span>Filter:</span>
+									<form id="content-tracking-type" class="checkbox" autocomplete="off"></form>
+									<button id="content-tracking-refresh" class="refresh-btn action-btn btn-dblue">Show</button>
+								</div>
+							</div>
+							<div id="content-orders-filter">
+								OrderedTime -
+								From: <input id="orderdatefrom" type="date" name="orderfrom" />
+								To: <input id="orderdateto" type="date" name="orderto" />
+							</div>
+							<div id="content-orders-filter">
+								PackedTime -
+								From: <input id="packdatefrom" type="date" name="packfrom" />
+								To: <input id="packdateto" type="date" name="packto" />
+							</div>
+							<table class="content-table">
+								<thead>
+									<tr>
+										<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+										<th>ID</th>
+										<th>Record ID</th>
+										<th>Buyer ID</th>
+										<th>Name for Delivery</th>
+										<th>Address 1</th>
+										<th>Address 2</th>
+										<th>City</th>
+										<th>State</th>
+										<th>Postcode</th>
+										<th>Country</th>
+										<th>Tracking number</th>
+										<th>Ordered Time</th>
+										<th>Packed Time</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+							<ul class="notice">
+								<li>Save any changes you have made before uploading the tracking numbers.</li>
+								<li>Periodically clear entries that have been sent and don't have tracking numbers (mark as uploaded).</li>
+								<li>eBay orders will also be marked as sent when the tracking numbers are uploaded (if not already).</li>
+								<li>Red rows indicate orders that are out of stock.</li>
+							</ul>
+							<div class="content-action-btns">
+								<button id="content-tracking-save" class="action-btn btn-darkcyan">Save changes</button>
+								<button id="content-tracking-select-tracking" class="action-btn btn-darkcyan">Select all orders with tracking</button>
+								<button id="content-tracking-upload" class="action-btn btn-darkcyan">Upload tracking for selected orders</button>
+								<button id="content-tracking-bigcommerce" class="action-btn btn-darkcyan">Download BigCom Tracking CSV for selected orders</button>
+								<button id="content-tracking-bigcommerce-2" class="action-btn btn-darkcyan">Download BigCom</button>
+								<button id="content-tracking-mark-uploaded" class="action-btn btn-red">Mark tracking as uploaded</button>
+								<button id="content-tracking-reset" class="action-btn btn-darkcyan">Reset</button>
+							</div>
+						</div>
+						<!-- Download Products -->
+						<div id="products-download-container" class="content-page hide">
+							<div id="products-download-option" class="options">
+								<span>Choose stores:</span>
+								<form class="checkbox"></form>
+							</div>
+							<div class="products-action-btns">
+								<button id="products-download-btn" class="action-btn btn-darkcyan">Download Products</button>
+							</div>
+							<br/>
+							<div id="amazon-label"><span>Amazon:</span></div>
+							<br/>
+							<div class="products-action-btns">
+								<button id="products-request-amazon-btn" class="action-btn btn-darkcyan">Request Report</button>
+								<button id="products-download-amazon-btn" class="action-btn btn-darkcyan" disabled>Download Products</button>
+								<button id="products-images-download-amazon-btn" class="action-btn btn-darkcyan">Download Products Images</button>
+							</div>
+						</div>
+						<!-- Download Orders Groupon -->
+						<div id="content-download-groupon" class="content-page hide">
+							<div class="groupon-order-import">
+								<input id="grouponFile" type="file" />
+								<button id="groupon-order-import-btn" class="action-btn btn-darkcyan">Import Groupon</button>
+								<button id="groupon-tracking-export-btn" class="action-btn btn-darkcyan">Get Groupon Tracking</button>
+							</div>
+
+						</div>
+						<!-- Download Orders Groupon -->
+						<div id="content-download-mydeal" class="content-page hide">
+							<div class="mydeal-order-import">
+								<input id="mydealFile" type="file" />
+								<button id="mydeal-order-import-btn" class="action-btn btn-darkcyan">Import Mydeal</button>
+								<button id="mydeal-tracking-export-btn" class="action-btn btn-darkcyan">Get Mydeal Tracking</button>
+							</div>
+						</div>
+						<!-- Download Orders Amazon -->
+						<div id="content-download-amazon" class="content-page hide">
+							<div class="amazon-order-download">
+								<button id="request-report-amazon-btn" class="action-btn btn-darkcyan">Request Report</button>
+								<button id="download-order-amazon-btn" class="action-btn btn-darkcyan" disabled>Download Orders</button>
+							</div>
+						</div>
+						<!-- Download Tracking -->
+						<div id="content-download-tracking" class="content-page hide">
+							<div id="tracking-download-option" class="options">
+								<span>Choose stores:</span>
+								<form class="checkbox"></form>
+							</div>
+							<div id="tracking-download-substore-option" class="options hide">
+								<span>Choose substores:</span>
+								<form class="checkbox"></form>
+							</div>
+							<div id="content-orders-filter">
+								From: <input id="datefrom" type="date" name="from" />
+								To: <input id="dateto" type="date" name="to" />
+							</div>
+							<div class="tracking-download-btns">
+								<button id="download-tracking-btn" class="action-btn btn-darkcyan">Download Trackings</button>
+							</div>
+						</div>
+						<!-- Download Inventory -->
+						<div id="content-download-inventory" class="content-page hide">
+							<div id="inventory-download-option" class="options">
+								<span>Choose: </span>
+								<form class="checkbox"></form>
+							</div>
+							<!-- <div id="tracking-download-substore-option" class="options hide">
+								<span>Choose substores:</span>
+								<form class="checkbox"></form>
+							</div>
+							<div id="content-orders-filter">
+								From: <input id="datefrom" type="date" name="from" />
+								To: <input id="dateto" type="date" name="to" />
+							</div> -->
+							<div class="inventory-download-btns">
+								<button id="download-inventory-btn" class="action-btn btn-darkcyan">Download Inventory</button>
+							</div>
+						</div>
+						<!-- Received stock -->
+						<div id="content-download-receivedstock" class="content-page hide">
+							<div id="receivedstock-download-option" class="options">
+								<span>Choose stores:</span>
+								<form class="checkbox"></form>
+							</div>
+							<div class="receivedstock-download-btns">
+								<button id="download-receivedstock-btn" class="action-btn btn-darkcyan">Download Received Stock</button>
+							</div>
+						</div>
+						<!-- Download Dispatched -->
+						<div id="content-download-dispatched" class="content-page hide">
+							<div id="dispatched-download-option" class="options">
+								<span>Choose stores:</span>
+								<form class="checkbox"></form>
+							</div>
+							<div id="dispatched-download-substore-option" class="options hide">
+								<span>Choose substores:</span>
+								<form class="checkbox"></form>
+							</div>
+							<div id="content-orders-filter">
+								From: <input id="datefrom" type="date" name="from" />
+								To: <input id="dateto" type="date" name="to" />
+							</div>
+							<div class="dispatched-download-btns">
+								<button id="download-dispatched-btn" class="action-btn btn-darkcyan">Download Dispatched</button>
+							</div>
+						</div>
+						<!-- Download QVBstocksent -->
+						<div id="content-download-qvbstocksent" class="content-page hide">
+							<div id="content-orders-filter">
+								From: <input id="datefrom" type="date" name="from" />
+								To: <input id="dateto" type="date" name="to" />
+							</div>
+							<div class="qvbstocksent-download-btns">
+								<button id="download-qvbstocksent-btn" class="action-btn btn-darkcyan">Download QVB Stock Sent</button>
+								<button id="download-qvbstocksent-order-btn" class="action-btn  btn-darkcyan hide">Download QVB Stock Sent Orders</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="notification" class="hide">
+					<div class="content"></div>
+					<div class="close"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="box-outer">
+	<div id="box-container">
+		<!-- Add order for collection -->
+		<div id="box-orders-collect" class="hide">
+			<div class="title"></div>
+			<div class="line padded centre">Are you sure you want to add the selected orders for collection?</div>
+			<div class="box-actions">
+				<button id="box-orders-collect-confirm" class="action-btn">Add for collection</button>
+				<button id="box-orders-collect-cancel" class="action-btn">Cancel</button>
+			</div>
+		</div>
+		<div id="box-orders-remove" class="hide">
+			<div class="title"></div>
+			<div class="line padded centre">Are you sure you want to remove the selected orders?</div>
+			<div class="box-actions">
+				<button id="box-orders-remove-confirm" class="action-btn btn-red">Remove selected orders</button>
+				<button id="box-orders-remove-cancel" class="action-btn">Cancel</button>
+			</div>
+		</div>
+		<!-- Add order for printing -->
+		<div id="box-orders-print" class="hide">
+			<div class="title"></div>
+			<div class="line padded centre">Are you sure you want to add the selected orders for printing?</div>
+			<div class="box-actions">
+				<button id="box-orders-print-confirm" class="action-btn">Add for printing</button>
+				<button id="box-orders-print-cancel" class="action-btn">Cancel</button>
+			</div>
+		</div>
+		<!-- Mark sent -->
+		<div id="box-mark-sent" class="hide">
+			<div class="title"></div>
+			<div class="line padded centre">Are you sure you want to mark the selected orders as sent?</div>
+			<div class="box-actions">
+				<button id="box-mark-sent-confirm" class="action-btn">Mark selected orders as sent</button>
+				<button id="box-mark-sent-cancel" class="action-btn">Cancel</button>
+			</div>
+		</div>
+		<!-- Upload tracking -->
+		<div id="box-tracking-upload" class="hide">
+				<div class="title"></div>
+				<div class="line padded centre">Are you sure you want to upload tracking numbers for the selected orders?</div>
+				<div class="box-actions">
+					<button id="box-tracking-upload-confirm" class="action-btn">Upload tracking numbers</button>
+					<button id="box-tracking-upload-cancel" class="action-btn">Cancel</button>
+				</div>
+			</div>
+		<div id="box-tracking-remove" class="hide">
+			<div class="title"></div>
+			<div class="line padded centre">Are you sure you want to mark the selected orders as having tracking numbers uploaded?</div>
+			<div class="box-actions">
+				<button id="box-tracking-remove-confirm" class="action-btn btn-red">Mark as uploaded</button>
+				<button id="box-tracking-remove-cancel" class="action-btn">Cancel</button>
+			</div>
+		</div>
+		<!--<div id="box-orders-delete" class="hide">
+			<div class="title"></div>
+			<div class="line padded centre">Are you sure you want to delete the selected orders?</div>
+			<div class="box-actions">
+				<button id="box-orders-delete-confirm" class="action-btn btn-red">Delete selected orders</button>
+				<button id="box-orders-delete-cancel" class="action-btn">Cancel</button>
+			</div>
+		</div>-->
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

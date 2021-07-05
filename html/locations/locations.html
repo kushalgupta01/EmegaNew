@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Location Management</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="locations.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link rel   ="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="/locations/locations.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+<div id="loading">
+  <img id="loading-image" src="/order-collect/img/5.gif" alt="Loading..." />
+</div>
+	<div id="container">
+		<div id="header">
+			<div class="title">Location Management</div>
+			<button class="menu action-btn btn-green" >Back to menu</button>
+		</div>
+		<div id="location-management">
+			<div class="center">
+				<div id="loadBaySearch" style="margin-left: 1%; margin-top: 8px;">
+					  <input type="text" placeholder="Load location.." id="location-input-search" autofocus>
+					  <button id="load-bay" type="submit"></button>
+				</div>
+				<div id="content-inventory-searchfield">
+					<form >
+						<span>Load:</span>
+						<input type="radio" name="searchfield" id="emg-location" value="location" checked><label for="emg-location">Emega Warehouse</label>
+						<input type="radio" name="searchfield" id="itemno" value="location"><label for="itemno">Location</label>
+						<input type="radio" name="searchfield" id="itemsku" value="item"><label for="itemsku">Item Barcode</label>
+						<input type="radio" name="searchfield" id="itembarcode" value="item"><label for="itembarcode">Item SKU</label>
+					</form>
+				</div>
+				<div id="type-select" class="options">
+					<span>Choose types:</span>
+					<form class="checkbox">
+						<input type="radio" name="sts" id="sts-newWarehouse" value="warehouse" checked><label for="sts-newWarehouse"><span>Emega Warehouse</span></label>
+						<input type="radio" name="sts" id="sts-b2c" value="B2C"><label for="sts-b2c"><span>All Locations</span></label>
+						<input type="radio" name="sts" id="sts-b2b" value="B2B"><label for="sts-b2b"><span>Stage</span></label>
+						<input type="radio" name="sts" id="bulk-locations" value="bulkLoc"><label style="display: none" for="bulk-locations"><span>Bulk Loc</span></label>
+						<input type="radio" name="sts" id="pick-locations" value="pickLoc"><label style="display: none" for="pick-locations"><span>Pick Loc</span></label>
+						<input type="radio" name="sts" id="dispatch-locations" value="dispatchLoc"><label for="dispatch-locations"><span>Dispatch Loc</span></label>
+						<input type="radio" name="sts" id="sts-brands" value="brands"><label for="sts-brands"><span>By Brands</span></label>
+						<input type="radio" name="sts" id="sts-delete" value="delete"><label for="sts-delete"><span>Delete Location</span></label>
+					</form>
+				</div>
+				<div id="location-table-container" >
+					<table id="location-table" class="scroll table table-bordered">					
+						<thead class="table-head">
+							<tr class="table-success">
+								<th>Locations</th>								
+								
+							</tr>	
+							<!-- <tr class="table-searchbar" colspan = '2'>
+								<input type="text" id="content-bay-searchbar" placeholder="search for bay...">												
+							</tr>	 -->					
+						</thead>													
+						<tbody id="location-table-body">										
+						</tbody>
+						<tbody id="location-table-body-stage" style="display: none">
+						<tr><td>teste</td><td>teste</td></tr>										
+						</tbody>
+					</table>												
+
+				</div>
+			</div>	
+			<div class="right" style="display: none">
+				<div id="bay">Location Details: <span>-</span></div>
+				<div id="item-table-container">
+					<table id="item-table" class="scroll table table-bordered">				
+						<thead class="table-head">
+							<!-- <tr colspan ='11'><div id="bay">Location Details: <span>-</span></div></tr> -->
+							<tr class="table-success">
+								<th>Select</th>
+								<th>Store</th>								
+								<th>Name</th>
+								<th>SKU</th>														
+								<th>Total Qty</th>
+								<th>Loose Qty</th>
+								<th class="display-none">Carton Qty</th>
+								<th>Type</th>
+								<th class="display-none">Quantity Per Carton</th>
+								<th>Image</th>
+								<th>Transfer</th>
+							</tr>
+						</thead>
+						<tbody id="item-table-body"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div id="box-outer" class="modal">
+			<div id="box-container">
+				<div id="skuList" class="hide">	<!-- transactionLogs -->		
+					<br><br><br>
+					<div id="entries"><span></span></div><br>
+					<div id="selectSku">Please select <b>one</b>.</div>
+					<div > <!-- skuBayLog -->
+						<table id="barcodesDuplicated" class="scroll table table-bordered">				
+							<thead class="table-head">
+								<!-- <tr colspan ='11'><div id="bay">Location Details: <span>-</span></div></tr> -->
+								<tr class="table-success">
+									<th>Store</th>								
+									<th>Name</th>
+									<th>SKU</th>
+									<th>Barcode</th>														
+									<th>Image</th>
+								</tr>
+							</thead>
+							<tbody id="fullbody"></tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="close">		
+				</div>
+			</div>
+		</div>
+		<div id="notification" class="hide">
+			<div class="content"></div>
+			<div class="close"></div>
+		</div>
+
+	</div>
+</body>
+</html>

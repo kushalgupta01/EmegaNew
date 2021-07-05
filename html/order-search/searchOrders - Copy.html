@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Search Order</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="searchOrders.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+
+<script src="/order-search/searchOrders.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+</head>
+<body>
+	<div id="container">
+	<div id="header">
+		<div class="title">Search Orders</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container">
+			<div id="content-order-summary" class="content-page">
+				<div id="content-orders-searchbar">
+					<input></input>
+					<button id="content-orders-search" class="action-btn">Search</button>
+				</div>
+				<div id="content-orders-searchfield">
+					<label for="title">SearchBy: </label>
+					<input type="radio" name="searchfield" value="title" checked>
+					<label for="title">Title</label>
+					<input type="radio" name="searchfield" value="sku">
+					<label for="sku">SKU</label>
+					<input type="radio" name="searchfield" value="name">
+					<label for="name">Name</label>
+					<input type="radio" name="searchfield" value="tracking">
+					<label for="tracking">Tracking</label>
+				</div>
+				<div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div>
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+							<th>Store</th>
+							<th>Name</th>
+							<th>Sales Record</th>
+							<th>Title</th>
+							<th>Sku</th>
+							<th>Quantity</th>
+							<th>Status</th>
+							<th>Tracking</th>
+							<th>Paid Date</th>
+							<th>Packed Time</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<div id="content-action-btns" class="action-btns">
+					<button id="content-orders-save" class="action-btn">Save Order</button>
+					<button id="content-orders-selected-save" class="action-btn btn-green">Save Selected Orders</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</div>
+</body>
+</html>

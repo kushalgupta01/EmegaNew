@@ -1,0 +1,42 @@
+
+#main {
+	display: block;
+}
+
+#inventory-search {
+	display: inline-block;
+	width: 100%;
+	align-items: center;
+	padding: 10px;
+}
+
+.filter-input {
+	width: 40%;
+	height: 100%;
+	display: inline-block;
+
+} 
+
+#inventory-search input {
+    /*box-sizing: border-box;*/
+    font-size: 20px;
+    /*border: none;*/
+    padding: 0 10px;
+    width: 100%;
+    border-width: 1px;
+}
+
+#content-action-btns {
+	display: inline-block;
+}
+
+
+#table-container {
+	display: block;
+}
+
+.feedback {
+	color: red;
+}
+
+

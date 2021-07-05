@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Generate Reports</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="css/main.css" rel="stylesheet" />
+<script src="js/main.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+<script src="/common/FileSaver.min.js"></script>
+<script src="/common/papaparse.min.js"></script>
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<div class="title">Generate Reports</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<nav id="menu-list">
+			<ul>
+				<li data-panel="content-download-inventory">Download inventory</li>
+				<li data-panel="content-download-receivedstock">Download Received stock</li>
+				<li data-panel="content-download-dispatched">Download Dispatched</li>
+				<li data-panel="content-download-qvbstocksent">Download QVB Stock Sent</li>
+				<li data-panel="content-download-packed-orders">Download Packed Orders</li>
+				<li data-panel="content-download-new-orders">Download New Orders</li>
+				<li data-panel="content-download-purchase-orders">Download Purchase Orders</li>
+				<li data-panel="content-download-stock">Download Emega Stock</li>
+				<li data-panel="content-download-b2b-weights">Download B2B Weights</li>
+			</ul>
+		</nav>
+		<div id="content-container">
+			<!-- Download Products -->
+			<div id="products-download-container" class="content-page hide">
+				<div id="products-download-option" class="options">
+					<span>Choose stores:</span>
+					<form class="checkbox"></form>
+				</div>
+				<div class="products-action-btns">
+					<button id="products-download-btn" class="action-btn">Download Products</button>
+				</div>
+				<br/>
+				<div id="amazon-label"><span>Amazon:</span></div>
+				<br/>
+				<div class="products-action-btns">
+					<button id="products-request-amazon-btn" class="action-btn">Request Report</button>
+					<button id="products-download-amazon-btn" class="action-btn" disabled>Download Products</button>
+					<button id="products-images-download-amazon-btn" class="action-btn">Download Products Images</button>
+				</div>
+			</div>
+			<!-- Download Inventory -->
+			<div id="content-download-inventory" class="content-page hide">
+				<div id="inventory-download-option" class="options">
+					<span>Choose: </span>
+					<form class="checkbox"></form>
+				</div>
+				<!-- <div id="tracking-download-substore-option" class="options hide">
+					<span>Choose substores:</span>
+					<form class="checkbox"></form>
+				</div>
+				<div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div> -->
+				<div class="inventory-download-btns">
+					<button id="download-inventory-btn" class="action-btn">Download Inventory</button>
+				</div>
+			</div>
+			<!-- Received stock -->
+			<div id="content-download-receivedstock" class="content-page hide">
+				<div id="receivedstock-download-option" class="options">
+					<span>Choose stores:</span>
+					<form class="checkbox"></form>
+				</div>		
+				<div class="receivedstock-download-btns">
+					<button id="download-receivedstock-btn" class="action-btn">Download Received Stock</button>
+				</div>
+			</div>
+			<!-- Download Dispatched -->
+			<div id="content-download-dispatched" class="content-page hide">
+				<div id="dispatched-download-option" class="options">
+					<span>Choose stores:</span>
+					<form class="checkbox"></form>
+				</div>
+				<div id="dispatched-download-substore-option" class="options hide">
+					<span>Choose substores:</span>
+					<form class="checkbox"></form>
+				</div>
+				<div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div>
+				<div class="dispatched-download-btns">
+					<button id="download-dispatched-btn" class="action-btn">Download Dispatched</button>
+				</div>
+			</div>
+			<!-- Download QVBstocksent -->
+			<div id="content-download-qvbstocksent" class="content-page hide">
+				<div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div>
+				<div class="qvbstocksent-download-btns">
+					<button id="download-qvbstocksent-btn" class="action-btn hide">Download QVB Stock Sent</button>
+					<button id="download-qvbstocksent-order-btn" class="action-btn">Download QVB Stock Sent Orders</button>
+				</div>
+			</div>
+			<!-- Download Packed Orders -->
+			<div id="content-download-packed-orders" class="content-page hide">
+				<div id="packed-orders-download-option" class="options">
+					<span>Choose stores:</span>
+					<form class="checkbox"></form>
+				</div>
+				<div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div>
+				<div class="packed-orders-download-btns">
+					<button id="download-packed-orders-btn" class="action-btn">Download Packed Orders</button>
+				</div>
+			</div>
+			<!-- Download New Orders -->
+			<div id = "content-download-new-orders" class="content-page hide">
+				<div id="new-orders-download-option" class="options">
+					<span>Choose stores:</span>
+					<form class="checkbox"></form>
+				</div>
+				<div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div>
+				<div class="new-orders-download-btns">
+					<button id="download-new-orders-btn" class="action-btn">Download New Orders</button>
+				</div>
+			</div>
+			<!-- Purchase Order -->
+			<div id = "content-download-purchase-orders" class="content-page hide">
+				<div id="content-order-summary" class="content-page">
+					<div id="content-purchaseorder-searchbar">
+						<input placeholder="Search for PO Number..."></input>
+					</div>
+					<table id="po-details" class="styled-table">
+						<thead>
+							<tr>								
+								<th>PO Number</th>
+								<th>Store</th>
+								<th>Supplier</th>
+								<th>Created Date</th>
+								<th>Notes</th>		
+							</tr>			
+						</thead>
+						<tbody></tbody>
+					</table>																				
+				</div>
+			</div>
+			<!-- Download Stock -->
+			<div id="content-download-stock" class="content-page hide">
+				<div id="content-stock-summary" class="content-page">
+					<div id="stock-download-option" class="options">
+						<span>Choose stores:</span>
+						<form class="checkbox">
+							<input type="radio" name="sts" id="sts-hobbyco" value="hobbyco" checked><label for="sts-hobbyco"><span>Hobbyco</span></label>
+							<input type="radio" name="sts" id="sts-all" value="all"><label for="sts-all"><span>All</span></label>
+						</form>
+					</div>
+					<div class="stock-download-btns">
+						<button id="download-stock-btn" class="action-btn">Download Stock</button>
+					</div>
+<!-- 					<div id="products-download-option" class="options">
+						<span>Choose stores:</span>
+						<form class="checkbox">
+							<input type="radio" name="sts" id="sts-hobbyco" value="hobbyco" checked><label for="sts-hobbyco"><span>Hobbyco</span></label>
+							<input type="radio" name="sts" id="sts-all" value="all"><label for="sts-all"><span>All</span></label>
+						</form>
+						<button id="download-stock-search" class="action-btn">Download</button>
+						<button id="export-to-excel" class="action-btn btn-green">Generate Report</button>
+					</div> -->
+					<!-- <div class="line">Average time of parcel: <span id="avgTimeParcel"></span></div> 
+					
+					<table id="download-stock-day" class="content-table">
+						<thead>
+							<tr class="tr-header">
+								<th></th>
+								<th>Store</th>
+								<th>Item Name</th>
+								<th>SKU</th>
+								<th>SOH</th>
+								
+							</tr>
+						</thead>
+						<tbody id="logsByDay"></tbody>
+					</table>-->
+				</div>
+			</div>
+			<!-- Download B2B Box Weights -->
+			<div id = "content-download-b2b-weights" class="content-page hide">
+				<div id="b2b-weights-download-option" class="options">
+					<span>Choose stores:</span>
+					<form class="checkbox"></form>
+				</div>
+				<div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div>
+				<div class="b2b-weights-download-btns">
+					<button id="download-b2b-weights-btn" class="action-btn">Download B2B Weights</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+<div id="box-outer" class="">
+	<div id="box-container">
+		<div id="purchaseOrder-details" class='hide'>
+			<div class="title">Purchase Order</div><br>
+			<div id="poNo" class="line padded-s">PO No: <span>-</span></div>
+			<div id="sname" class="line padded-s">Supplier: <span>-</span></div>	
+			<table id="po-items" class="content-table">
+				<thead>
+					<tr>
+						<th>Created Date</th>
+						<th>Store</th>
+						<th>SKU</th>
+						<th>Item Name</th>
+						<th>Item Barcode</th>
+						<th>Location</th>
+						<th>Quantity</th>
+						<th class="orderedqty hide">Ordered Qty</th>			
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>	
+			<button id="content-po-save" class="action-btn btn-lightseagreen">Generate Report</button>		
+		</div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

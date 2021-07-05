@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Receive Stock</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<script src="/common/xlsx.full.min.js"></script>
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/common/offline-theme-dark.css" rel="stylesheet" />
+<link href="/common/offline-language-english.css" rel="stylesheet" />
+<link href="/common/offline-language-english-indicator.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="/stock-pick/stockpick.css" rel="stylesheet" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/common/offline.min.js" type="module"></script>
+<script src="/stock-pick/stockpick.js" type="module"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<div class="title">Receive Stock</div>
+		<div id="record-nav-buttons">
+			<!-- <button id="record-logout" class="action-btn btn-green nomargin top right-left" autocomplete="off"><span id="username">Someone</span> - Logout</button> -->
+			<button class="menu action-btn btn-green" >Back to menu</button>
+		</div>
+	</div>
+
+	<div id="main">
+		<div id="content-container">
+			<div id="content-order-summary" class="content-page">			
+				<div id="delivery-address" class="content-page">
+					<div>
+						<form>					    				    	
+
+					        <div class="form-group row">
+					            <label for="poNum" class="col-sm-2 col-form-label">PO No<span class="required">*</span></label>
+					            <input id="supplier-poNum" type="text" class="col-sm-4 form-control" placeholder="Purchase order No">
+					            <label id="poNum-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+					        </div>				        
+
+					        <div class="form-group row">
+					            <label for="fullname" class="col-sm-2 col-form-label">Supplier<span class="required">*</span></label>
+					            <input id="supplier-fullname" type="text" class="col-sm-4 form-control" placeholder="Full Name" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
+					            <label id="fullname-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+					        </div>
+
+					        <div class="form-group row">
+					            <label for="store" class="col-sm-2 col-form-label">Store<span class="required">*</span></label>
+					            <select id="supplier-store" class="col-sm-4 form-control"><option select="selected">-</option></select>
+					            <label id="store-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+					        </div>
+				      
+					        <div class="form-group row" >
+					            <label for="deliveryNote" class="col-sm-2 col-form-label">DeliveryNote</label>
+					            <textarea id="delivery-notes" class="col-sm-4 form-control wide" placeholder="Delivery Note"></textarea>
+					        </div>				        
+
+					         <div class="form-group row">
+					            <label for="date" class="col-sm-2 col-form-label">Received Date<span class="required">*</span></label>
+					            <input id="received-date" type="date" class="col-sm-4 form-control">
+					            <label id="date-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+					        </div>
+						</form>
+					</div>					
+					
+					<br><br>
+					<div id="type-select" class="options">
+						<span>Choose types:</span>
+						<form class="checkbox">
+							<input type="radio" name="sts" id="sts-b2c" value="Loose" checked><label for="sts-b2c"><span>Loose</span></label>
+							<input type="radio" name="sts" id="sts-b2b" value="Container"><label for="sts-b2b"><span>Container</span></label>
+							<input type="radio" name="sts" id="sts-receiving" value="Receiving"><label for="sts-receiving"><span>Receiving</span></label>
+						</form>
+					</div>
+					<div>
+						<div>
+							<div id="content-inventory-searchbar">
+								<input></input>
+								<button class="search action-btn nomargin">Search</button>
+							</div>
+							<div id="content-inventory-searchfield">
+								<label for="title">SearchBy:</label>
+								<input type="radio" name="searchfield" value="itemno" checked>
+								<label for="itemno">Item No</label>
+								<input type="radio" name="searchfield" value="barcode">
+								<label for="itembarcode">Item Barcode</label>
+								<!-- <input type="radio" name="searchfield" value="cartonbarcode">
+								<label for="cartonbarcode">Carton Barcode</label> -->
+								<input type="radio" name="searchfield" value="sku">
+								<label for="sku">SKU</label>
+								<input type="radio" name="searchfield" value="customSku">
+								<label for="customSku">Custom SKU</label>
+
+							</div>
+						</div>
+						<label id="item-feedback" class="col-sm-4 feedback hide">Items</label>
+						<label id="item-quan-feedback" class="col-sm-4 feedback hide">Items</label> 
+						<br/> 
+						<table id="order-items" class="content-table">
+							<thead>
+								<tr>
+									<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+									<th>Store</th>
+									<th>Title</th>
+									<th>SKU</th>
+									<th>Item Barcode</th>
+									<th>Carton Barcode</th>
+									<th class = "quantity">Quantity</th>	
+									<th class = "location">Location</th>															
+									<th>Image</th>
+									<th>Type</th>
+									<th class = "newLocation">New Location</th>										
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div id="content-action-btns" class="action-btns">
+						<button id="content-stock-pick" class="action-btn hide">Pick</button>
+						<button id="content-delete-selected" class="action-btn btn-green">Delete Selected Rows</button>
+						<!-- <button id="content-orders-save" class="action-btn btn-purple">Generate Report</button> -->
+						<button id="content-orders-receive" class="action-btn btn-grey">Save Loose</button>
+						<button id="content-orders-receive-container" class="action-btn btn-purple">Save Container</button>
+						<button id="content-orders-receive-receiving" class="action-btn btn-darkcyan">Save Receiving</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+<div id="box-outer" class="">
+	<div id="box-container">
+		<div id="orderItems">
+			<table id="order-stock-items" class="content-table hide">
+				<thead>
+					<tr>
+						<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+						<th>Store</th>
+						<th>Item Name</th>
+						<th>SKU</th>
+						<th>Item Barcode</th>															
+						<th>Image</th>							
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table> 
+			<div class="box-actions">
+				<button id="orderItems-add" class="action-btn btn-KashmirBlue">Add Items</button>				
+			</div>
+		</div>
+		<div id="stagelocation" class="hide">
+			<div class="title">Staging Locations</div><br>
+			<div id="itemname" class="line padded-s">Item Name: <span>-</span></div>
+			<div id="sku" class="line padded-s">SKU: <span>-</span></div>
+
+			<table id="stagelocationtable" class="table">
+				<thead>					
+					<tr>													
+						<th>Actions</th>
+						<th>Location</th>
+						<th>Quantity</th>							
+					</tr>
+				</thead>
+				<tbody id="stage-location-table-body"></tbody>
+			</table>
+
+			<div class="box-actions">
+				<button id="stage-location-add" class="action-btn btn-lightseagreen">Add</button>
+				<button id="stage-location-save" class="action-btn btn-KashmirBlue">Save</button>				
+			</div>
+
+			<!-- <div class="close"></div> -->
+		</div>
+
+		<div id="baylocation" class="hide">
+			<div class="title">Location details</div><br>
+			<div id="itemname2" class="line padded-s">Item Name: <span>-</span></div>
+			<div id="sku2" class="line padded-s">SKU: <span>-</span></div>
+
+			<table id="baylocationtable" class="table">
+				<thead>					
+					<tr>
+						<!-- <th class="selected-all"><input type="checkbox" autocomplete="off"></th>												 -->						
+						<th>Location</th>
+						<th>Type</th>
+						<th>Quantity</th>	
+						<th>Received Qty</th>	
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="bay-location-table-body"></tbody>
+			</table>
+
+			<div class="box-actions">
+				<button id="bay-location-add" class="action-btn btn-lightseagreen">Add</button>
+				<button id="bay-location-save" class="action-btn btn-KashmirBlue">Save</button>				
+			</div>
+			<!-- <div class="close"></div> -->
+		</div>
+		<br><br>
+		<div id="receive-qty" class='hide'>
+			<div class="title">Receive Inventory</div><br>
+			<form>
+				<div>
+					 <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Location:</label>
+			            <input id="existingBay" type="text" class="col-sm-4 form-control" readonly>
+			        </div>	
+					 <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Available Qty:</label>
+			            <input id="existingQty" type="text" class="col-sm-4 form-control" readonly>		          
+			        </div>				       
+			        <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Receive Qty:<span class="required">*</span></label>
+			            <input id="newQty" type="text" class="col-sm-4 form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+			            <label id="newQty-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+			        </div>	
+			    </div>
+		    </form>
+
+			<button id="qty-save" class="action-btn btn-lightseagreen">Save</button>
+			
+		</div>
+
+		<div id="new-qty" class='hide'>
+			<div class="title">Receive Inventory</div><br>
+			<form>
+				<div>
+					 <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Add Location:<span class="required">*</span></label>
+			            <input id="newBay" type="text" class="col-sm-4 form-control">
+			            <label id="newBay-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+			        </div>				       
+			        <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Add Qty:<span class="required">*</span></label>
+			            <input id="newQty" type="text" class="col-sm-4 form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+			            <label id="newQty-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+			        </div>	
+			        <!-- <div class="form-group row">
+			            <label for="type" class="col-sm-2 col-form-label">Type:<span class="required">*</span></label>
+			            <select id="types" class="col-sm-4 form-control">
+			            	<option select="selected">-</option>
+			            	<option select="selected" value="Pick">Pick</option>
+			            	<option value="Bulk">Bulk</option>
+			            </select>
+			            <label id="store-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+			        </div> -->
+			    </div>
+		    </form>
+
+			<button id="newQty-save" class="action-btn btn-lightseagreen">Save</button>
+			
+		</div>
+
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

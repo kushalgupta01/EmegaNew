@@ -1,0 +1,150 @@
+.feedback {
+	color: red;
+}
+
+.required {  
+   color: red;
+}
+
+#search-item {
+	margin-left: 3px;
+}
+
+.container {
+	max-width: 100%;
+}
+
+#content-buyer-searchbar{
+    font-size: 16px;
+    background-color: #fafbf9;
+    text-align: left;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    margin: 10px 10px;
+    margin-bottom: 10px;
+    outline: 0;
+    padding: 5px 12px;
+    transition: background-color 0.2s, border-color 0.2s;
+    width: 25%;
+   /* height: 50%;*/
+
+}
+
+#buyerList {
+    margin: 10px;
+    width: 25%;
+    /*height: 60px;*/
+    font-size: 16px;
+}
+
+#delivery-address {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.col-sm-2 {
+	max-width: 12%;
+}
+
+.col-sm-4 {
+	max-width: 30%;
+	font-size: 20px;
+}
+
+#order-items thead th{
+   font-weight: bold;
+}
+
+#content-inventory-searchbar input{
+    font-size: 20px;
+    background-color: #fafbf9;
+    text-align: left;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    margin: 10px 10px;
+    margin-bottom: 10px;
+    outline: 0;
+    padding: 8px 18px;
+    transition: background-color 0.2s, border-color 0.2s;
+    width: 500px;
+}
+
+
+#content-inventory-searchfield {
+    font-size: 20px;
+    padding: 0px 10px;
+    font-weight: 600;
+}
+
+/* Popup boxes */
+#box-outer {
+    position: fixed;
+    background-color: rgba(0,0,0,0.4);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    overflow: auto;
+    visibility: hidden;
+    z-index: 20;
+}
+#box-outer.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: visible;
+    opacity: 1;
+}
+#box-outer, #box-container > div:not(.close){
+    transition: opacity 0.2s ease-in-out;
+}
+#box-container {
+    position: relative;
+    background-color: #fefefe;
+    border: 1px solid #888;
+    padding: 15px;
+    width: 100%;
+    height: auto;
+    max-width: 1000px;
+    margin: auto;
+}
+#box-container > div.hide {
+    display: none;
+}
+
+#box-container > div .title {
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 25px;
+/*    text-decoration: underline;*/
+}
+
+#order-items thead th{
+   font-weight: bold;
+}
+
+#response{
+    display: block;
+    background-color: #e6e6ff;
+    border: solid 1px black;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 10px;
+    font-size: 2rem;
+}
+
+.row .form-control{
+    font-size: 2rem!important;
+}
+
+#order-items{
+    display: table;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+#box-container{
+    width: auto!important;
+    max-width: 50%!important;
+}

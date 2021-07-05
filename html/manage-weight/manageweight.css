@@ -1,0 +1,25 @@
+img {
+	max-height:120px;
+	width: 120px;
+	height: auto;
+}
+
+a {
+	margin: 0 10px;
+	font-size: 20px;
+	color: blue;
+	cursor: pointer;
+}
+
+a[class='currentPage'] {
+	font-weight: bold;
+	color: red;
+}
+
+td[class='Done'] {
+	background-color: green;
+}
+
+td[class='Error'] {
+	background-color: red;
+}

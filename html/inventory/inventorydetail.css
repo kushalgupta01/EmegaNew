@@ -1,0 +1,26 @@
+.locationtable {
+    position: fixed;
+    top: 50px;
+    left: 10px;
+    /*font-size: 50px;*/
+    color: red;
+    width: 20%;
+}
+
+.detailImg {
+	width: 300%;
+}
+
+#location th, #location .loc {
+  border: 1px solid black;
+  text-align: center;
+}
+
+#location .sum {
+  text-align: center;
+}
+
+#inv-save-location {
+    margin-left: 50px;
+}
+

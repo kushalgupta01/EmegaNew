@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Purchase Order</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="purchaseorder.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+
+<script src="/inventory/purchaseorder.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+
+</head>
+<body>
+	<div id="container">
+	<div id="header">
+		<div class="title">Purchase Orders</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container">
+			<div id="content-order-summary" class="content-page">
+				<div id="content-purchaseorder-searchbar">
+					<input></input>
+					<button id="content-purchaseorder-search" class="action-btn btn-KashmirBlue">Search</button>
+				</div>
+				<div id="content-purchaseorder-searchfield">
+					<label for="title">SearchBy: </label>
+					<input type="radio" name="searchfield" value="poNum" checked>
+					<label for="poNum">PO Number</label>
+				</div>
+				<!-- <div id="record-supplier-details"> -->
+					<table id="supplier-details" class="content-table hide">
+						<thead>
+							<tr>
+								<th>PO Number</th>
+								<th>Purchase Date</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Phone</th>
+								<th>Email</th>								
+								<th>Address 1</th>
+								<th>Address 2</th>
+								<th>City/Suburb</th>
+								<th>State</th>
+								<th>Postcode</th>
+								<th>Country</th>																						
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+					<br>
+				<!-- </div> -->
+				<!-- <div id="record-purchaseorder-items"> -->
+					<table id="purchaseorder-items" class="content-table hide">
+						<thead>
+							<tr>
+								<th>Store</th>
+								<th>SKU</th>
+								<th>Title</th>
+								<th>Quantity</th>																	
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+					<br>
+				<!-- </div> -->
+				<button id="content-generate-po-report" class="action-btn btn-lightseagreen hide">Generate Report</button>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</div>
+</body>
+</html>

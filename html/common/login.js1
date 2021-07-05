@@ -1,0 +1,43 @@
+import '../order-collect/js/config.js';
+
+if (window.location.hostname.startsWith('1')) {
+	apiServer = apiServerLocal;
+}
+
+//console.log(apiServer);
+document.addEventListener('DOMContentLoaded', async function() {
+	document.querySelector('.main .form button').addEventListener('click', login);
+});
+
+async function login() {
+	let username = document.querySelector('#username').value;
+	let password = document.querySelector('#password').value;
+
+	
+	try {
+		let formData = new FormData();
+		formData.append('username', username);
+		formData.append('password', password);
+
+		let response = await fetch(apiServer+'login', {method: 'post', body: formData});
+		let data = await response.json();
+
+		if (!response.ok) {
+			if (response.status == 400) {
+				alert('The username you have entered does not exist or wrong password.');
+			}
+			else {
+				alert('Error: '+data.result);
+			}
+		}
+
+		if (data.result == 'success') {
+			// Save user ID and username
+			localStorage.setItem('mainToken', data.token);
+			window.location.href = 'index.html';
+		}
+	}
+	catch (e) {
+		alert('Error: Could not connect to the server.');
+	}
+}

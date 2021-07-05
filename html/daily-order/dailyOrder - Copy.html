@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Daily Order</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link href="dailyOrder.css" rel="stylesheet" />
+
+<script src="/daily-order/index.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+</head>
+<body>
+	<div id="loading">
+	  <img id="loading-image" src="../order-collect/img/5.gif" alt="Loading..." />
+	</div>
+	<div id="container">
+	<div id="header">
+		<div class="title">Daily Order & VR Download</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container">
+			<div id="content-order-summary" class="content-page">
+				<div id="content-orders-filters" class="options">
+					<span>Filter:</span>
+					<form class="checkbox" autocomplete="off">
+						<!-- <input type="radio" data-filter="neworder" name="cof" id="cof-do" value="DO">
+						<label for="cof-do"><span>Daily Order</span></label>
+						<input type="radio" data-filter="neworder" name="cof" id="cof-vr" value="VR">
+						<label for="cof-vr"><span>VR</span></label>
+						<input type="radio" data-filter="neworder" name="cof" id="cof-hyc" value="HYC">
+						<label for="cof-hyc"><span>HY-CLOR</span></label>
+						<input type="radio" data-filter="neworder" name="cof" id="cof-sp" value="SP">
+						<label for="cof-sp"><span>SP WAREHOUSE</span></label> -->
+						<input type="radio" data-filter="neworder" name="cof" id="cof-sig" value="SIG" checked>
+						<label for="cof-sig"><span>SIGMA</span></label>
+						<input type="radio" data-filter="neworder" name="cof" id="cof-cos" value="COS">
+						<label for="cof-cos"><span>COSTCO</span></label>
+						<input type="radio" data-filter="neworder" name="cof" id="cof-hob" value="HOB">
+						<label for="cof-hob"><span>HOBBYCO</span></label>
+						<input type="radio" data-filter="neworder" name="cof" id="cof-hobw" value="HOBW">
+						<label for="cof-hobw"><span>HOBBYCO WAREHOUSE</span></label>
+						<input type="radio" data-filter="neworder" name="cof" id="cof-jv" value="JV">
+						<label for="cof-jv"><span>JV</span></label>
+						<input type="radio" data-filter="neworder" name="cof" id="cof-hpd" value="HPD">
+						<label for="cof-hpd"><span>HPD</span></label>
+					</form>
+				</div>
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+							<th data-col="Item Title">Item Title</th>
+							<th data-col="sku">Sku</th>
+							<th data-col="Quantity Need">Quantity Need</th>
+							<th data-col="Quantity In Stock">Quantity In Stock</th>
+							<th data-col="Quantity Order">Quantity Order</th>
+							<th data-col="Inner">Inner</th>
+							<th data-col="Pack Size">Pack Size</th>
+							<th data-col="Image">Image</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<div id="content-action-btns" class="action-btns">
+					<button id="content-orders-save" class="action-btn">Save Order</button>
+					<button id="content-orders-selected-save" class="action-btn btn-green">Save Selected Orders</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</div>
+</body>
+</html>

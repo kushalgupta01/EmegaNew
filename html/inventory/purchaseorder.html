@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Purchase Order</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/inventory/purchaseorder.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/inventory/purchaseorder.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<div class="title">Purchase Orders</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container">
+			<div id="content-order-summary" class="content-page">
+				<div id="content-purchaseorder-searchbar">
+					<input placeholder="Search for PO Number..."></input>
+				</div>
+				<table id="po-details" class="styled-table">
+					<thead>
+						<tr>								
+							<th>PO Number</th>
+							<th>Store</th>
+							<th>Supplier</th>
+							<th>Created Date</th>
+							<th>Notes</th>		
+						</tr>			
+					</thead>
+					<tbody></tbody>
+				</table>																				
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+
+<div id="box-outer" class="">
+	<div id="box-container">
+		<div id="purchaseOrder-details" class='hide'>
+			<div class="title">Purchase Order</div><br>
+			<div id="poNo" class="line padded-s">PO No: <span>-</span></div>
+			<div id="sname" class="line padded-s">Supplier: <span>-</span></div>
+			<label id="item-feedback" class="col-sm-4 feedback hide">Items</label>
+			<label id="item-quan-feedback" class="col-sm-4 feedback hide">Items</label>
+			<br/>
+			<div id="content-inventory-searchbar">
+				<input placeholder="Search..."></input>
+			</div>
+			<br>
+			<table id="po-items" class="content-table">
+				<thead>
+					<tr>
+						<th>Store</th>
+						<th>Item Name</th>
+						<th>SKU</th>
+						<th>Item Barcode</th>
+						<th>Ordered Qty</th>
+						<th>Location</th>	
+						<th>Received Qty</th>					
+						<th>Image</th>
+						<th>New Location</th>								
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>	
+			<button id="content-po-save" class="action-btn btn-lightseagreen">Save</button>		
+			<div class="close"></div>
+		</div>
+		<div id="baylocation" class="hide">
+			<div class="title">Location details</div><br>
+			<div id="poNum" class="line padded-s">PO No: <span>-</span></div>
+			<div id="itemname2" class="line padded-s">Item Name: <span>-</span></div>
+			<div id="sku2" class="line padded-s">SKU: <span>-</span></div>
+
+			<table id="baylocationtable" class="table">
+				<thead>					
+					<tr>
+						<!-- <th class="selected-all"><input type="checkbox" autocomplete="off"></th>												 -->						
+						<th>Location</th>
+						<th>Type</th>
+						<th>Quantity</th>	
+						<th>Received Qty</th>	
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="bay-location-table-body"></tbody>
+			</table>
+
+			<div class="box-actions">
+				<button id="bay-location-add" class="action-btn btn-lightseagreen">Add</button>
+				<button id="bay-location-save" class="action-btn btn-KashmirBlue">Save</button>				
+			</div>
+			<div class="close" id="closeBaylocationtable"></div>
+		</div>
+		<div id="receive-qty" class='hide'>
+			<div class="title">Receive Inventory</div><br>
+			<form>
+				<div>
+					 <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Location:</label>
+			            <input id="existingBay" type="text" class="col-sm-4 form-control" readonly>
+			        </div>	
+					 <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Available Qty:</label>
+			            <input id="existingQty" type="text" class="col-sm-4 form-control" readonly>		          
+			        </div>				       
+			        <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Receive Qty:<span class="required">*</span></label>
+			            <input id="newQty" type="text" class="col-sm-4 form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+			            <label id="newQty-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+			        </div>	
+			    </div>
+		    </form>
+
+			<button id="qty-save" class="action-btn btn-lightseagreen">Save</button>
+			<div class="close" id="closeReceiveQty"></div>			
+		</div>
+		<div id="new-qty" class='hide'>
+			<div class="title">Receive Inventory</div><br>
+			<form>
+				<div>
+					 <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Add Location:<span class="required">*</span></label>
+			            <input id="newBay" type="text" class="col-sm-4 form-control">
+			            <label id="newBay-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+			        </div>				       
+			        <div class="form-group row">
+			            <label class="col-sm-2 col-form-label">Add Qty:<span class="required">*</span></label>
+			            <input id="newQty" type="text" class="col-sm-4 form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+			            <label id="newQty-feedback" class="feedback col-sm-4 col-form-label hide"></label>
+			        </div>	
+			    </div>
+		    </form>
+			<button id="newQty-save" class="action-btn btn-lightseagreen">Save</button>	
+			<div class="close" id="closeNewQty"></div>		
+		</div>
+		<!-- <div class="close"></div> -->
+	</div>
+</div>
+</body>
+</html>

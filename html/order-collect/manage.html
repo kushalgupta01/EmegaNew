@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>eMega - Admin Panel</title>
+
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="../admin/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../admin/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../admin/css/ionicons.min.css">
+	<link rel="stylesheet" href="../admin/css/datepicker3.css">
+	<link rel="stylesheet" href="../admin/css/all.css">
+	<link rel="stylesheet" href="../admin/css/custom.css">
+	<link rel="stylesheet" href="../admin/css/select2.min.css">
+	<link rel="stylesheet" href="../admin/css/dataTables.bootstrap.css">
+	<link rel="stylesheet" href="../admin/css/jquery.fancybox.css">
+	<link rel="stylesheet" href="../admin/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="../admin/css/_all-skins.min.css">
+	<link rel="stylesheet" href="../admin/css/on-off-switch.css"/>
+	<link href="/common/buttons.css" rel="stylesheet" />
+	<link href="/common/checkbox.css" rel="stylesheet" />
+	<link href="css/main.css" rel="stylesheet" />
+	<link href="css/manage.css" rel="stylesheet" />
+
+	<script src="js/manage.js" type="module"></script>
+	<script src="/common/pdfkit.js"></script>
+	<script src="/common/blob-stream.js"></script>
+	<script src="/common/JsBarcode.code128.min.js"></script>
+	<script src="/common/FileSaver.min.js"></script>
+
+</head>
+
+<body class="hold-transition fixed skin-blue sidebar-mini">
+
+	<div class="wrapper">
+
+		<header class="main-header">
+
+			<a href="#" class="logo">
+				<span class="logo-lg">
+				<img src="/common/images/logo.svg" style="width:120px;" />
+				</span>
+			</a>
+
+			<nav class="navbar navbar-static-top">
+				
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+					<span class="sr-only">Toggle navigation</span>
+				</a>
+
+
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						 <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">                 
+                  <span class="profile-title">AS</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">                   
+                    <p>
+                      Asif Pathan
+                      <small>Supplier</small>
+                    </p>
+                  </li>
+                
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="#" onclick="appLogout()" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+					</ul>
+				</div>
+
+			</nav>
+		</header>
+
+  		
+
+  		<aside class="main-sidebar">
+    		<section class="sidebar">      
+      			<ul class="sidebar-menu">
+			        <li class="treeview">
+			          <a href="/home/index.html">
+			            <i class="fa fa-laptop"></i> <span>Dashboard</span>
+			          </a>
+			        </li>
+
+					<li class="treeview active">
+						<a href="#">
+							<i class="fa fa-file-text"></i>
+							<span>Orders</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=collect"><i class="fa fa-circle-o"></i> Collect Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=partialcollect"><i class="fa fa-circle-o"></i> Partial Collect Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=warehousecollect"><i class="fa fa-circle-o"></i> Warehouse Collect Orders</a></li>
+							<li><a href="/order-pack/index.html"><i class="fa fa-circle-o"></i> Pack Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=stock"><i class="fa fa-circle-o"></i> Out of Stock Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=ordered"><i class="fa fa-circle-o"></i> Ordered</a></li>
+							<li class="active"><a href="/order-collect/manage.html"><i class="fa fa-circle-o"></i> Manage Orders</a></li>
+							<li><a href="/order-download/index.html"><i class="fa fa-circle-o"></i> Download Orders</a></li>
+							<li><a href="/add-order/addOrder.html"><i class="fa fa-circle-o"></i> Add Orders</a></li>
+							<li><a href="/order-search/searchOrders.html"><i class="fa fa-circle-o"></i> Search Orders</a></li>
+							<li><a href="/order-create/createOrder.html"><i class="fa fa-circle-o"></i> Create Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=b2b"><i class="fa fa-circle-o"></i> Collected Orders</a></li>
+							<li><a href="/dashboard/index.html"><i class="fa fa-circle-o"></i> Orders Dashboard</a></li>
+							<li><a href="/order-collect/orders.html?p=newOrders"><i class="fa fa-circle-o"></i> B2B Orders</a></li>
+							
+						</ul>
+					</li>	
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-bars"></i>
+							<span>Management</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/user-management/index.html"><i class="fa fa-circle-o"></i> User Management</a></li>
+							<li><a href="/packer-management/packerDetail.html"><i class="fa fa-circle-o"></i>Packer Management</a></li>
+							<li><a href="/inventory/inventorymanagement.html"><i class="fa fa-circle-o"></i>Inventory Management</a></li>
+						
+						</ul>
+					</li>
+					
+
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-address-book"></i>
+							<span>Labels</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=labels"><i class="fa fa-circle-o"></i> Create Labels</a></li>
+							<li><a href="/order-collect/orders.html?p=morelabels"><i class="fa fa-circle-o"></i> More Labels</a></li>						
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Reports</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/generate-reports/index.html"><i class="fa fa-circle-o"></i> Reports</a></li>
+							<li><a href="/b2b-order/newOrder.html"><i class="fa fa-circle-o"></i> B2B New Orders Reports</a></li>
+							<li><a href="/b2b-order/packedOrder.html"><i class="fa fa-circle-o"></i> B2B Packed Orders Reports</a></li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Items</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/add-item/addItem.html"><i class="fa fa-circle-o"></i> Add Items</a></li>
+							<li><a href="/manage-item/manageItem.html"><i class="fa fa-circle-o"></i> Manage Items</a></li>							
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Others</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-right pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=refunds"><i class="fa fa-circle-o"></i>Refunds</a></li>
+							<li><a href="/order-collect/orders.html?p=rts"><i class="fa fa-circle-o"></i>RTS</a></li>
+							<li><a href="/invoice-management/index.html"><i class="fa fa-circle-o"></i>Invoice</a></li>
+							<li><a href="/label-template/index.html"><i class="fa fa-circle-o"></i>Label Templates</a></li>
+							<li><a href="/daily-order/dailyOrder.html"><i class="fa fa-circle-o"></i>DO VR Download</a></li>
+							<li><a href="/customers/customers.html"><i class="fa fa-circle-o"></i>Repeat Customers</a></li>
+							<li><a href="/manage-weight/manageweight.html"><i class="fa fa-circle-o"></i>Manage Weight</a></li>
+							<li><a href="/order-collect/orders.html?p=awaitinglist"><i class="fa fa-circle-o"></i>Awaiting List</a></li>
+							<li><a href="/order-collect/orders.html?p=deal"><i class="fa fa-circle-o"></i>Deal</a></li>
+						</ul>
+					</li>
+      			</ul>
+    		</section>
+  		</aside>
+
+  		<div class="content-wrapper">
+
+<section class="content-header">
+  <h1>Manage Orders</h1>
+</section>
+
+
+
+<section class="content">
+<div id="container" data-page-type="manage">	
+	<div id="home" class="manage_orders_home">
+		<div id="home-content" class="manage">
+			<div class="page-line centre">
+				<div class="row search_block">
+					 <label  for="record-store-input" class="col-sm-2">Store:</label>
+					 <div class="col-sm-4">
+					 <select id="record-store-input" class="form-control"></select>
+					</div>
+					 <div class="col-sm-4"><input type="text" id="record-num-input" placeholder="Enter record number" value="" autocomplete="off" required></div>
+				</div>
+				<!-- <label for="record-store-input">Store:
+					<select id="record-store-input" class="form-control"></select>
+				</label> -->
+				
+				<button id="record-load-record" class="action-btn btn-darkcyan btn btn-primary">Load Record #</button>
+				<button id="record-load-dbid" class="action-btn btn-darkcyan btn btn-primary">Load DB ID</button>
+				<button id="record-load-buyerid" class="action-btn btn-darkcyan btn btn-primary">Load BuyerID</button>
+				<button id="record-load-orderid" class="action-btn btn-darkcyan btn btn-primary">Load OrderID</button>
+				<button id="record-load-poid" class="action-btn btn-darkcyan btn btn-primary">Load PO #</button>
+			</div>
+			<div id="record-nav-buttons">
+				<button id="record-logout" class="action-btn btn-green absolute nomargin top right-left" autocomplete="off"><span id="username">Someone</span> - Logout</button>
+				<button id="back-to-home" class="action-btn btn-green absolute nomargin top right-center" autocomplete="off">Back to menu</button>
+			</div>
+			<div id="record-details" class="page-line hide">
+				<div id="record-combined-list" hide></div>	
+
+				<div class="row">
+					<div class="col-sm-6">
+						<table id="record-buyer-details" class="content-table">
+						<thead>
+							<tr>
+								<th colspan="2">Buyer Details</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><td>ID</td><td id="record-buyer-id"></td></tr>
+							<tr><td>Name</td><td class="buyer-name" contentEditable="true"></td></tr>
+							<tr><td>Address 1</td><td class="buyer-address1" contentEditable="true"></td></tr>
+							<tr><td>Address 2</td><td class="buyer-address2" contentEditable="true"></td></tr>
+							<tr><td>City</td><td class="buyer-city" contentEditable="true"></td></tr>
+							<tr><td>State</td><td class="buyer-state" contentEditable="true"></td></tr>
+							<tr><td>Postcode</td><td class="buyer-postcode" contentEditable="true"></td></tr>
+							<tr><td>Country</td><td class="buyer-country" contentEditable="true"></td></tr>
+							<tr><td>Phone</td><td class="buyer-phone" contentEditable="true"></td></tr>
+							<tr><td>Email</td><td id="buyer-email" contentEditable="true"></td></tr>
+							<tr><td>Delivery Note</td><td class="record-delivery-note" contentEditable="true"></td></tr>
+							<tr><td colspan="2" rowspan="2"><button id="record-buyer-save" class="centre action-btn btn-grey btn btn-primary" >Update buyer details</button></td></tr>
+						</tbody>
+					</table>
+					</div>
+					<div class="col-sm-6">
+							<table id="record-order-details" class="content-table">
+						<thead>
+							<tr>
+								<th colspan="2">Order Details</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><td>Database ID</td><td id="record-db-id"></td></tr>
+							<tr><td>Record ID</td><td id="record-id"></td></tr>
+							<tr><td>Order ID</td><td id="record-order-id"></td></tr>
+							<tr class="hide"><td>PO ID</td><td id="record-order-poid"></td></tr>
+							<tr class="hide"><td>Channel</td><td id="record-order-channel"></td></tr>
+							<tr class="hide"><td>Page</td><td id="record-order-page"></td></tr>
+							<tr class="hide"><td>CouponCode</td><td id="record-order-couponcode"></td></tr>								
+							<tr><td>Purchase date</td><td id="record-order-purchase-date"></td></tr>
+							<tr><td>Order type</td><td><select id="record-type"></select></td></tr>
+							<tr><td>Order status</td><td><select id="record-status"></select></td></tr>							
+							<tr><td>Tracking numbers (newest at the bottom)</td><td><textarea id="record-tracking" class="wide" autocomplete="off"></textarea></td></tr>
+							<tr><td rowspan="2" colspan="2">
+								<div class="mb30 checkbox">Show ABN on invoice:
+									<input type="checkbox" id="record-show-abn" value="" autocomplete="off">
+									<label for="record-show-abn"></label>
+								</div>
+								<button id="manage-save-invoice" class="action-btn btn btn-primary mb-10" >Save invoice</button>
+								<button id="manage-open-tracking" class="action-btn line btn btn-primary mb-10">Open tracking details</button>
+								 
+								<button id="manage-send-invoice" class="action-btn btn btn-primary mb-10">Send invoice</button>
+								<button id="manage-send-tracking" class="action-btn line btn btn-primary mb-10">Send tracking details</button>
+								 
+									<button id="manage-mark-invoiced" class="action-btn btn btn-primary mb-10">Mark as invoiced</button>
+									<button id="manage-order-tracking-status" class="action-btn btn btn-primary mb-10">Tracking status</button>
+							</td></tr>
+							</tbody>
+					</table>
+					</div>
+				</div>		
+					
+				
+
+					<div class="row">
+					<div class="col-sm-6">
+						<table id="record-collect-pack-details" class="content-table">
+						<thead>
+							<tr>
+								<th colspan="2">Collect/Pack Details</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><td>Collector</td><td id="record-collector"></td></tr>
+							<tr><td>Collected time</td><td id="record-collected-time"></td></tr>							
+							<tr><td>Latest access</td><td id="record-packed-time"></td></tr>	
+							<tr><td>Bucket</td><td id="record-groupnum" contentEditable="true"></td></tr>
+							<tr><td>Weight</td><td>
+									<table id="tblTrackingWeight"></table>
+								</td></tr>
+							<tr><td>Packer</td><td id="record-packer"></td></tr>						
+							<tr><td>Packed time</td><td><textarea id="record-pre-packed-time" class="line wide" autocomplete="off" readonly></textarea></td></tr>		
+						</tbody>
+					</table>
+					</div>
+					<div class="col-sm-6">
+							 <div id="box-table-container" >
+						<table id="box-table" class="content-table">					
+							<thead class="table-head">
+								<tr class="table-success">
+									<th><button class="rows-add btn-green" style="width:32px; height:32px; font-size:20px;">+</button></th>
+									<th>Box No</th>							
+									<th>Weight</th>
+									<th>Tracking No</th>
+								</tr>					
+							</thead>													
+							<tbody id="box-table-body">									
+							</tbody>
+						</table>
+					</div>
+					</div>
+				</div>
+
+					
+				
+					<!-- <hr>			 -->
+					<br>
+					<div class="row">
+					<div class="col-sm-12">
+					<div id="rec-details">
+							Order notes: <textarea id="record-notes" class="line wide" autocomplete="off"></textarea>
+							<!-- <table id="invoicesTable" class="content-table hide">
+								<thead>
+									<tr>
+										<td colspan="6" class="title">Invoices</td>
+									</tr>
+									<tr>
+										<th>OrderId#</th>
+										<th>Tracking Number</th>
+										<th>Total Cost</th>
+										<th>Invoice By</th>
+										<th>Invoice Time</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table> -->
+						</div>
+					</div>
+				</div>
+
+					<!-- <br> -->
+					<table id="itemTable" class="content-table">
+						<thead>
+							<tr>
+								<td id="items-details" colspan="6">Original Items</td>
+							</tr>
+							<tr>
+								<th>Item#</th>
+								<th>SKU</th>
+								<th>Title</th>
+								<th>Quantity</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+
+					<ul id="leg" class="notice">
+						<li>Highlighted rows indicate items that are partially picked.</li>
+					</ul>	
+					<table id="alterItemTable" class="content-table">
+						<thead>
+							<tr>
+								<td id="alter-items-details" colspan="6">Alternative Items</td>
+							</tr>
+							<tr>
+								<th>Item#</th>
+								<th>SKU</th>
+								<th>Title</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th>Alternative Item</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>	
+					<table id="replaceItemTable" class="content-table">
+						<thead>
+							<tr>
+								<td id="replace-items-details" colspan="6">Replacement Items</td>
+							</tr>
+							<tr>
+								<th>Item#</th>
+								<th>SKU</th>
+								<th>Title</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>									
+					<br>
+					<br>					
+			</div>
+			<div id= "record-details-btns" class="centre padding-btn pad-less hide">
+				<button id="manage-invoice" class="action-btn btn-KashmirBlue hide btn btn-primary">Invoice</button>
+				<button id="manage-replaceStock" class="action-btn btn-KashmirBlue btn btn-primary">Replacement</button>
+				<button id="manage-alternativeStock" class="action-btn btn-KashmirBlue btn btn-primary">Alternative</button>
+				<button id="manage-edit" class="action-btn btn-KashmirBlue btn btn-primary">Edit</button>
+				<button id="manage-save" class="action-btn btn-KashmirBlue btn btn-primary">Save</button>
+				<button id="manage-reset" class="action-btn btn-KashmirBlue btn btn-primary">Reset</button>
+				<button id="manage-close" class="action-btn btn-KashmirBlue btn btn-primary">Close</button>
+				<button id="manage-create-label" class="action-btn btn-KashmirBlue btn btn-primary">Create label</button>
+				<button id="manage-copy-excel-customer-support" class="action-btn btn-KashmirBlue btn btn-primary">Copy for CS</button>
+				<button id="order-logs" class="action-btn btn-KashmirBlue btn btn-primary">Logs</button>
+				<button id="collect-logs" class="action-btn btn-KashmirBlue btn btn-primary">Collect Logs</button>
+			</div>
+			
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+	</div>
+ 
+<div id="box-outer">
+	<div id="box-container">
+		<div id="rec-details" class="hide">
+			<table id="invoicesTable" class="content-table">
+				<thead>
+					<tr>
+						<td colspan="6" class="title">Invoices</td>
+					</tr>
+					<tr>
+						<th>OrderId#</th>
+						<th>Tracking Number</th>
+						<th>Total Cost</th>
+						<th>Invoice By</th>
+						<th>Invoice Time</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<div id="send-invoice-box" class="hide">
+			<div class="title"></div>
+			<div id="send-invoice-text" class="line padded centre"></div>
+			<div class="box-actions">
+				<button id="send-invoice-send" class="action-btn btn btn-primary">Send</button>
+				<button id="send-invoice-cancel" class="action-btn btn btn-primary">Close</button>
+			</div>
+		</div>
+		<div class="close"></div>
+
+		<!-- item-replacement -->
+		<div id="item-replace-box" class="hide"> 
+			<div>
+				<label class="col-sm-2 col-form-label">ITEMS</label>
+				<label id="item-replace-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="item-replace-quan-feedback" class="col-sm-4 feedback hide"></label>  
+				<br/>
+				<table id="item-replace-table" class="table">
+					<thead>
+						<tr>
+							<!-- <th scope="col">Id</th> -->
+							<th></th>
+							<th scope="col">Store</th>
+							<th scope="col">Item Title</th>
+							<th scope="col">Sku</th>
+							<th scope="col">Item No</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+							<!-- <th scope="col">Action</th> -->
+						</tr>
+					</thead>
+					<tbody id="item-replace-table-body"></tbody>						
+				</table>									
+			</div>
+			<div id="content-action-btns" class="action-btns">
+				<button id="replace-items-add-items" class="btn btn-primary">Add Items</button>
+				<button id="replace-items-close" class="btn btn-secondary">Close</button>
+			</div>	
+		</div>
+
+		<!-- mark invoiced -->
+		<div id="mark-invoiced-box" class="hide">
+			<div>
+				<label class="col-sm-2 col-form-label">Parcel weights</label>
+				<label id="mark-invoiced-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="mark-invoiced-quan-feedback" class="col-sm-4 feedback hide"></label>
+				<br />
+				<table id="mark-invoiced-table" class="table">
+				</table>
+			</div>
+			<div id="content-action-btns" class="action-btns">
+				<button id="btn-mark-invoiced" class="btn btn-primary">Mark invoiced</button>
+			</div>
+		</div>
+
+		<!-- show tracking status -->
+		<div id="order-tracking-status-box" class="hide">
+			<div>
+				<label class="col-sm-2 col-form-label"><h3>Order tracking status</h3></label>
+				<br />
+				<div id="trackingNumbers"></div>
+				<table id="order-tracking-status-table" class="table">
+				</table>
+			</div>
+		</div>
+
+		<!-- item-alternative -->
+		<div id="item-alternative-box" class="hide"> 
+			<div>
+				<label class="col-sm-2 col-form-label">ITEMS</label>
+				<label id="item-alternative-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="item-alternative-quan-feedback" class="col-sm-4 feedback hide"></label>  
+				<br/>
+				<table id="item-alternative-table" class="table">
+					<thead>
+						<tr>
+							<th> </th>
+							<!-- <th scope="col">Id</th> -->
+							<th scope="col">Store</th>
+							<th scope="col">Item Title</th>
+							<th scope="col">Sku</th>
+							<th scope="col">Item No</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody id="item-alternative-table-body"></tbody>
+						
+				</table>
+				<div>
+					<h4>Add Items</h4>
+					<div>
+						<div id="alternative-item-searchbar">
+							<input id="alternative-item-keyword" placeholder="Item No, Item Name, SKU"
+								style="height:40px;width:250px;">
+				
+							<select id="alternative-item-searchfield-stores"></select>
+				
+							<label for="title">SearchBy:</label>
+							<input type="radio" name="alternative-item-searchfield" value="itemno" checked>
+							<label for="itemno">Item No</label>
+							<input type="radio" name="alternative-item-searchfield" value="itemname">
+							<label for="itemname">Item Name</label>
+							<input type="radio" name="alternative-item-searchfield" value="sku">
+							<label for="sku">SKU</label>
+				
+							<button id="alternative-item-search" class="action-btn btn-darkcyan">Search</button>
+						</div>
+					</div>
+					<h4>Result Items</h4>
+					<table id="alternative-items-search" class="scroll table table-bordered">
+						<thead class="table-head">
+							<tr class="table-success">
+								<th></th>
+								<!-- <th>Id</th> -->
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>ItemNo</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+						<tfoot>
+							<tr>
+								<td colspan="6">
+									<button id="alternative-items-select-item" class="btn btn-primary">Select Item</button>
+									<button id="alternative-items-close" class="btn btn-secondary">Close</button>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					<h4>Selected Items</h4>
+					<table id="alternative-items-selected" class="scroll table table-bordered">
+						<thead class="table-head">
+							<tr class="table-success">
+								<th></th>
+								<!-- <th>Id</th> -->
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>ItemNo</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th>Alternative Item</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div id="content-action-btns" class="action-btns">
+					<button id="alternative-items-add-items" class="btn btn-primary">Add Items</button>
+					<button id="alternative-items-remove-items" class="btn btn-warning">Removed Selected Item</button>
+				</div>	
+			</div>
+		</div> 
+
+		<!-- logs -->
+		<div id="order-transLogs" class="hide">
+			<div>
+				<p>
+					<span>Record #: </span>
+					<strong><span class="record-id"></span></strong>
+				</p>
+				<p>
+					<span>Name: </span>
+					<strong><span class="record-buyer-name"></span></strong>
+				</p>
+				<!-- <div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div> -->
+			</div>
+			<br>
+			<table id="order-transLogs-table" class="content-table">
+				<thead>
+					<tr>
+						<th>Field</th>
+						<th>Old value</th>
+						<th>New value</th>
+						<th>User</th>
+						<th>Time & Date</th>
+					</tr>
+				</thead>
+				<tbody id="order-transLogs-table-body"></tbody>
+			</table>
+		</div>
+
+		<!-- collect logs -->
+		<div id="collect-transLogs" class="hide">
+			<div>
+				<p>
+					<span>Record #: </span>
+					<strong><span class="record-id2"></span></strong>
+				</p>
+				<p>
+					<span>Name: </span>
+					<strong><span class="record-buyer-name2"></span></strong>
+				</p>
+				<!-- <div id="content-orders-filter">
+					From: <input id="datefrom" type="date" name="from" />
+					To: <input id="dateto" type="date" name="to" />
+				</div> -->
+			</div>
+			<br>
+			<table id="order-collectLogs-table" class="content-table">
+				<thead>
+					<tr>
+						<th>Page Type</th>
+						<th>SKU</th>
+						<th>Item Name</th>
+						<th>Quantity Picked</th>
+						<th>Location</th>
+						<th>User</th>
+						<th>Time & Date</th>
+					</tr>
+				</thead>
+				<tbody id="order-collectLogs-table-body"></tbody>
+			</table>
+		</div>
+
+		<!-- edit-item -->
+		<div id="item-edit-box" class="hide"> 
+				<div>
+				<label class="col-sm-2 col-form-label">ITEMS</label>
+				<label id="item-edit-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="item-edit-quan-feedback" class="col-sm-4 feedback hide"></label>  
+				<br/>
+				<table id="item-table" class="table">
+					<thead>
+						<tr>
+							<th> </th>
+							<th scope="col">Id</th>
+							<th scope="col">Store</th>
+							<th scope="col">Item Title</th>
+							<th scope="col">Sku</th>
+							<th scope="col">Item No</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+						</tr>
+					</thead>
+					<tbody id="item-table-body"></tbody>
+					
+					
+					
+				</table>
+				<div>
+					<button type="button" class="btn-primary" id="edit-items-delete-items">Delete Selected</button>
+					<button type="button" class="btn-secondary" id="edit-items-update-items">Update Selected</button>
+				</div>
+				<div>
+					<h4>Add Items</h4>
+					<div>
+						<div id="edit-item-searchbar">
+							<input id="edit-item-keyword" placeholder="Id, Item No, Item Name, SKU"
+								style="height:40px;width:250px;">
+				
+							<select id="edit-item-searchfield-stores"></select>
+				
+							<label for="title">SearchBy:</label>
+							<input type="radio" name="edit-item-searchfield" value="id" checked="">
+							<label for="itemno">ID</label>
+							<input type="radio" name="edit-item-searchfield" value="itemno">
+							<label for="itemno">Item No</label>
+							<input type="radio" name="edit-item-searchfield" value="itemname">
+							<label for="itemname">Item Name</label>
+							<input type="radio" name="edit-item-searchfield" value="sku">
+							<label for="sku">SKU</label>
+				
+							<button id="edit-item-search" class="action-btn">Search</button>
+						</div>
+					</div>
+					<h4>Result Items</h4>
+					<table id="edit-items-search" class="scroll table table-bordered">
+						<thead class="table-head">
+							<tr class="table-success">
+								<th></th>
+								<th>Id</th>
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>ItemNo</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+						<tfoot>
+							<tr>
+								<td colspan="6">
+									<input type="button" value="Select Item" class="btn-primary" id="edit-items-select-item" />
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					<h4>Selected Items</h4>
+					<table id="edit-items-selected" class="scroll table table-bordered">
+						<thead class="table-head">
+							<tr class="table-success">
+								<th></th>
+								<th>Id</th>
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>ItemNo</th>
+								<th>Quantity</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div id="content-action-btns" class="action-btns">
+					<button id="edit-items-add-items" class="btn btn-primary">Add Items</button>
+
+					<button id="edit-items-remove-items" class="btn btn-warning">Removed Selected Item</button>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+
+</section>
+
+		</div>
+
+	</div>
+
+	<script src="../admin/js/jquery-2.2.4.min.js"></script>
+	<script src="../admin/js/bootstrap.min.js"></script>
+	<script src="../admin/js/jquery.dataTables.min.js"></script>
+	<script src="../admin/js/dataTables.bootstrap.min.js"></script>
+	<script src="../admin/js/select2.full.min.js"></script>
+	<script src="../admin/js/jquery.inputmask.js"></script>
+	<script src="../admin/js/jquery.inputmask.date.extensions.js"></script>
+	<script src="../admin/js/jquery.inputmask.extensions.js"></script>
+	<script src="../admin/js/moment.min.js"></script>
+	<script src="../admin/js/bootstrap-datepicker.js"></script>
+	<script src="../admin/js/icheck.min.js"></script>
+	<script src="../admin/js/fastclick.js"></script>
+	<script src="../admin/js/jquery.sparkline.min.js"></script>
+	<script src="../admin/js/jquery.slimscroll.min.js"></script>
+	<script src="../admin/js/jquery.fancybox.pack.js"></script>
+	<script src="../admin/js/app.min.js"></script>
+	<script src="../admin/js/jscolor.js"></script>
+	<script src="../admin/js/on-off-switch.js"></script>
+    <script src="../admin/js/on-off-switch-onload.js"></script>
+	<script src="../admin/ckeditor/ckeditor.js"></script>
+	<script src="../admin/js/demo.js"></script>
+    <script src="../admin/js/utility.js"></script>
+
+	
+</body>
+</html>

@@ -1,0 +1,102 @@
+const Database = require('./connection');
+const {Config} = require('./config');
+const {userCheckToken} = require('./users-token');
+
+const bulkUpdateBayTransferItem = async function(req, res, next) {
+	var conn = new Database(dbconn);
+	var method = req.method.toLowerCase();
+
+	var token = req.header(Config.ACCESS_TOKEN_HEADER);
+	
+	var origin = req.body.origin;
+	var destination = req.body.destination;
+	var ids = JSON.parse(req.body.ids);
+
+	var output = {result: null};
+	var httpStatus = 400;
+
+	try {
+		do {
+			// Check token
+			if (!await userCheckToken(token)) {
+				httpStatus = 401;
+				output.result = 'Not logged in.';
+				break;
+			}
+			await conn.connect();
+			
+			if (destination == origin) {
+				break;
+			}
+			let secondids = [];
+			for (let id of ids) {
+				let cod = id.id;
+				let results = await conn.query('SELECT * FROM inventorylocation WHERE id='+cod);
+				//let type = results[0].type;
+				let invID = results[0].invID;
+				let indivQty = results[0].indivQty;
+				let secondid = {};
+				//UPDATE EXISTING LOCATION
+				/*if (type=='null') {type = null};
+				if (type==null) {	
+						var resultados = await conn.query('SELECT COUNT(id) as resultado FROM inventorylocation WHERE invID='+invID+' AND bay='+conn.connection.escape(destination)+' AND type IS '+type);
+					}
+					else {
+						var resultados = await conn.query('SELECT COUNT(id) as resultado FROM inventorylocation WHERE invID='+invID+' AND bay='+conn.connection.escape(destination)+' AND type='+conn.connection.escape(type));
+					};*/
+				var resultados = await conn.query('SELECT COUNT(id) as resultado FROM inventorylocation WHERE invID='+invID+' AND bay='+conn.connection.escape(destination)/*+' AND type='+conn.connection.escape(type)*/);
+				var result = JSON.stringify(resultados[0].resultado);
+				if (result == 1){
+					console.log('ONE existed entry FOUND for item ('+results[0].customSku+') at bay: ('+destination/*+') and type: ('+type+')'*/);
+					/*if (type==null) {
+						await conn.query('UPDATE inventorylocation SET indivQty=indivQty+'+indivQty+' WHERE invID='+invID+' AND bay='+conn.connection.escape(destination)+' AND type IS '+type);
+						console.log('UPDATE inventorylocation SET indivQty=indivQty+'+indivQty+' WHERE invID='+invID+' AND bay='+conn.connection.escape(destination)+' AND type IS '+type);
+					}
+					else {*/
+						await conn.query('UPDATE inventorylocation SET indivQty=indivQty+'+indivQty+' WHERE invID='+invID+' AND bay='+conn.connection.escape(destination)/*+' AND type='+conn.connection.escape(type)*/);
+						console.log('UPDATE inventorylocation SET indivQty=indivQty+'+indivQty+' WHERE invID='+invID+' AND bay='+conn.connection.escape(destination)/*+' AND type IS '+type*/);
+						var selids = await conn.query('SELECT * FROM inventorylocation WHERE invID='+invID+' AND bay='+conn.connection.escape(destination));
+						secondid.id = selids[0].id;
+						secondids.push(secondid);
+					//};
+					await conn.query('DELETE FROM inventorylocation WHERE id='+cod);
+				}
+				else {
+					console.log('did NOT find entry for item ('+results[0].customSku+') at bay: ('+destination/*+') and type: ('+type+')'*/);
+					await conn.query('UPDATE inventorylocation SET bay='+conn.connection.escape(destination)+' WHERE id='+cod);
+					console.log('UPDATE inventorylocation SET bay='+conn.connection.escape(destination)+' WHERE id='+cod);
+				}
+
+
+			}
+			console.log(ids);
+			for (let secondid of secondids) {
+				let obj = {};
+				obj.id = String(secondid.id);
+				ids.push(obj);
+			}
+			console.log(ids);
+			output.ids = ids;
+			output.result = 'success';
+			httpStatus = 200;	
+
+		} while(0); 
+		
+	}
+	catch (e) {
+		// Error
+		httpStatus = 503;
+		output.result = e;
+		console.log(e);
+	}
+	if (conn.connected) conn.release();
+
+	res.set({
+		'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0',
+		'Pragma': 'no-cache',
+	});
+	res.json(httpStatus, output);
+	next();
+}
+
+module.exports = bulkUpdateBayTransferItem;

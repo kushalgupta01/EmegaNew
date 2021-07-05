@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>eMega - Admin Panel</title>
+
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="../admin/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../admin/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../admin/css/ionicons.min.css">
+	<link rel="stylesheet" href="../admin/css/datepicker3.css">
+	<link rel="stylesheet" href="../admin/css/all.css">
+	<link rel="stylesheet" href="../admin/css/custom.css">
+	<link rel="stylesheet" href="../admin/css/select2.min.css">
+	<link rel="stylesheet" href="../admin/css/dataTables.bootstrap.css">
+	<link rel="stylesheet" href="../admin/css/jquery.fancybox.css">
+	<link rel="stylesheet" href="../admin/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="../admin/css/_all-skins.min.css">
+	<link rel="stylesheet" href="../admin/css/on-off-switch.css"/>
+	<link href="/common/buttons.css" rel="stylesheet" />
+	<link href="/order-download/css/main.css" rel="stylesheet" />
+	<link href="/add-order/addOrder.css" rel="stylesheet" />
+
+	<script src="/add-order/index.js" type="module"></script>
+	
+	<style>
+		table {
+		  font-family: arial, sans-serif;
+		  border-collapse: collapse;
+		  width: 100%;
+		}
+
+		td, th {
+		  border: 1px solid #000000;
+		  text-align: left;
+		  padding: 8px;
+		}
+</style>
+
+</head>
+
+<body class="hold-transition fixed skin-blue sidebar-mini">
+
+	<div class="wrapper">
+
+		<header class="main-header">
+
+			<a href="#" class="logo">
+				<span class="logo-lg">
+				<img src="/common/images/logo.svg" style="width:120px;" />
+				</span>
+			</a>
+
+			<nav class="navbar navbar-static-top">
+				
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+					<span class="sr-only">Toggle navigation</span>
+				</a>
+
+
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						 <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">                 
+                  <span class="profile-title">AS</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">                   
+                    <p>
+                      Asif Pathan
+                      <small>Supplier</small>
+                    </p>
+                  </li>
+                
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="#" onclick="appLogout()" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+					</ul>
+				</div>
+
+			</nav>
+		</header>
+
+  		
+
+  		<aside class="main-sidebar">
+    		<section class="sidebar">      
+      			<ul class="sidebar-menu">
+			        <li class="treeview">
+			          <a href="/home/index.html">
+			            <i class="fa fa-laptop"></i> <span>Dashboard</span>
+			          </a>
+			        </li>
+
+					<li class="treeview active">
+						<a href="#">
+							<i class="fa fa-file-text"></i>
+							<span>Orders</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=collect"><i class="fa fa-circle-o"></i> Collect Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=partialcollect"><i class="fa fa-circle-o"></i> Partial Collect Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=warehousecollect"><i class="fa fa-circle-o"></i> Warehouse Collect Orders</a></li>
+							<li><a href="/order-pack/index.html"><i class="fa fa-circle-o"></i> Pack Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=stock"><i class="fa fa-circle-o"></i> Out of Stock Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=ordered"><i class="fa fa-circle-o"></i> Ordered</a></li>
+							<li><a href="/order-collect/manage.html"><i class="fa fa-circle-o"></i> Manage Orders</a></li>
+							<li><a href="/order-download/index.html"><i class="fa fa-circle-o"></i> Download Orders</a></li>
+							<li class="active"><a href="/add-order/addOrder.html"><i class="fa fa-circle-o"></i> Add Orders</a></li>
+							<li><a href="/order-search/searchOrders.html"><i class="fa fa-circle-o"></i> Search Orders</a></li>
+							<li><a href="/order-create/createOrder.html"><i class="fa fa-circle-o"></i> Create Orders</a></li>
+							<li><a href="/order-collect/orders.html?p=b2b"><i class="fa fa-circle-o"></i> Collected Orders</a></li>
+							<li><a href="/dashboard/index.html"><i class="fa fa-circle-o"></i> Orders Dashboard</a></li>
+							<li><a href="/order-collect/orders.html?p=newOrders"><i class="fa fa-circle-o"></i> B2B Orders</a></li>
+							
+						</ul>
+					</li>	
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-bars"></i>
+							<span>Management</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/user-management/index.html"><i class="fa fa-circle-o"></i> User Management</a></li>
+							<li><a href="/packer-management/packerDetail.html"><i class="fa fa-circle-o"></i>Packer Management</a></li>
+							<li><a href="/inventory/inventorymanagement.html"><i class="fa fa-circle-o"></i>Inventory Management</a></li>
+						
+						</ul>
+					</li>
+					
+
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-address-book"></i>
+							<span>Labels</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=labels"><i class="fa fa-circle-o"></i> Create Labels</a></li>
+							<li><a href="/order-collect/orders.html?p=morelabels"><i class="fa fa-circle-o"></i> More Labels</a></li>						
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Reports</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/generate-reports/index.html"><i class="fa fa-circle-o"></i> Reports</a></li>
+							<li><a href="/b2b-order/newOrder.html"><i class="fa fa-circle-o"></i> B2B New Orders Reports</a></li>
+							<li><a href="/b2b-order/packedOrder.html"><i class="fa fa-circle-o"></i> B2B Packed Orders Reports</a></li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Items</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/add-item/addItem.html"><i class="fa fa-circle-o"></i> Add Items</a></li>
+							<li><a href="/manage-item/manageItem.html"><i class="fa fa-circle-o"></i> Manage Items</a></li>							
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>Others</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="/order-collect/orders.html?p=refunds"><i class="fa fa-circle-o"></i>Refunds</a></li>
+							<li><a href="/order-collect/orders.html?p=rts"><i class="fa fa-circle-o"></i>RTS</a></li>
+							<li><a href="/invoice-management/index.html"><i class="fa fa-circle-o"></i>Invoice</a></li>
+							<li><a href="/label-template/index.html"><i class="fa fa-circle-o"></i>Label Templates</a></li>
+							<li><a href="/daily-order/dailyOrder.html"><i class="fa fa-circle-o"></i>DO VR Download</a></li>
+							<li><a href="/customers/customers.html"><i class="fa fa-circle-o"></i>Repeat Customers</a></li>
+							<li><a href="/manage-weight/manageweight.html"><i class="fa fa-circle-o"></i>Manage Weight</a></li>
+							<li><a href="/order-collect/orders.html?p=awaitinglist"><i class="fa fa-circle-o"></i>Awaiting List</a></li>
+							<li><a href="/order-collect/orders.html?p=deal"><i class="fa fa-circle-o"></i>Deal</a></li>
+						</ul>
+					</li>
+      			</ul>
+    		</section>
+  		</aside>
+
+  		<div class="content-wrapper">
+
+<section class="content-header">
+  <h1>Add Orders</h1>
+</section>
+
+
+<section class="content p-0">
+<div id="container">
+	
+	<div id="main">
+		<div id="content-container">
+			<div id="add-order" class="content-page">
+				<div class="row">
+					<div class="col-md-12">
+					 <div class="box box-info">
+					    	<div class="box-body">
+					<form class="form-horizontal">
+
+				    	<div class="form-group">
+				            <label for="store" class="col-sm-2 control-label col-form-label">Store</label>
+			                <div class="col-sm-4 ">
+				              <select id="order-store" class="form-control"><option select="selected" >-</option></select>    </div>
+				            <div class="col-sm-4 ">
+				            	 <label id="store-feedback" class="feedback col-form-label hide"></label>
+				            </div>
+				        </div>
+					    
+				        <div class="form-group">
+				            <label for="salesRecordID" class="col-sm-2  control-label  col-form-label">SalesRecordID</label>
+				            <div class="col-sm-4">
+				               <input id="salesRecordID" type="text" class="form-control" placeholder="SalesRecordID">
+				            </div>
+				            <div class="col-sm-4">
+				               <label id="salesRecordID-feedback" class="feedback col-form-label hide"></label>
+				            </div>
+				        </div>
+
+				        <div class="form-group">
+				            <label for="orderID" class="col-sm-2  control-label col-form-label">OrderID</label>
+				            <div class="col-sm-4">
+				               <input id="orderID" type="text" class="form-control" placeholder="OrderID">
+				            </div>
+				            <div class="col-sm-4">
+				               <label id="orderID-feedback" class="feedback col-form-label hide"></label>
+				            </div>
+				        </div>
+
+				        <div class="form-group" >
+				            <label for="deliveryNote" class="col-sm-2  control-label col-form-label">DeliveryNote</label>
+				            <div class="col-sm-4 ">
+				            <input id="deliveryNote" type="text" class="form-control" placeholder="DeliveryNote">
+				            </div>
+				        </div>
+
+				        <div class="form-group">
+				            <label for="buyerID" class="col-sm-2  control-label col-form-label">Buyer's ID</label>
+				            <div class="col-sm-4 ">
+				            <input id="buyerID" type="text" class="form-control" placeholder="Buyer's ID">
+				            </div>
+				            <div class="col-sm-4 ">
+				            <label id="buyerID-feedback" class="feedback col-form-label hide"></label>
+				            </div>
+				        </div>
+
+				        <div class="form-group">
+				            <label for="firstname" class="col-sm-2  control-label col-form-label">First Name</label>
+				            <div class="col-sm-4 ">
+				            <input id="firstname" type="text" class="form-control" placeholder="First Name">
+				           </div>
+				           <div class="col-sm-4 ">
+				            <label id="firstname-feedback" class="feedback col-form-label hide"></label>
+				           </div>
+				        </div>
+
+				        <div class="form-group">
+				            <label for="lastname" class="col-sm-2  control-label col-form-label">Last Name</label>
+				            <div class="col-sm-4 ">
+				            <input id="lastname" type="text" class="form-control" placeholder="Last Name">
+				            </div>
+				        </div>
+
+					        <div class="form-group">
+					            <label for="addr1" class="col-sm-2  control-label col-form-label">Address1</label>
+					             <div class="col-sm-4 ">
+					            <input id="addr1" type="text" class="form-control" placeholder="Address1">
+					        </div>
+					         <div class="col-sm-4 ">
+					            <label id="addr1-feedback" class="feedback col-form-label hide"></label>
+					        </div>
+					        </div>
+
+					        <div class="form-group">
+					            <label for="addr2" class="col-sm-2  control-label col-form-label">Address2</label>
+					             <div class="col-sm-4 ">
+					            <input id="addr2" type="text" class="form-control" placeholder="Address2">
+					        </div>
+					        </div>
+
+					        <div class="form-group">
+					            <label for="city" class="col-sm-2 control-label col-form-label">City</label>
+					             <div class="col-sm-4 ">
+					            <input id="city" type="text" class="form-control" placeholder="City">
+					        </div>
+					         <div class="col-sm-4 ">
+					            <label id="city-feedback" class="feedback col-form-label hide"></label>
+					        </div>
+					        </div>
+
+					        <div class="form-group">
+					            <label for="state" class="col-sm-2  control-label col-form-label">State</label>
+					             <div class="col-sm-4 ">
+					            <select id="state" class="form-control" >
+					            	<option select="selected">-</option>
+					            	<option value="New South Wales">New South Wales</option>
+					            	<option value="Queensland">Queensland</option>
+					            	<option value="Victoria">Victoria</option>
+					            	<option value="South Australia">South Australia</option>
+					            	<option value="Tasmania">Tasmania</option>
+					            	<option value="Western Australia">Western Australia</option>
+					            	<option value="Australian Capital Territory">Australian Capital Territory</option>
+					            	<option value="Northern Territory">Northern Territory</option>
+					            </select>
+					        </div>
+					         <div class="col-sm-4 ">
+					            <label id="state-feedback" class="feedback col-form-label hide"></label>
+					        </div>
+					        </div>
+
+					        <div class="form-group">
+					            <label for="postcode" class="col-sm-2  control-label col-form-label">Postcode</label>
+					             <div class="col-sm-4 ">
+					            <input id="postcode" type="text" class="form-control" placeholder="Postcode">
+					        </div>
+					         <div class="col-sm-4">
+					            <label id="postcode-feedback" class="feedback col-form-label hide"></label>
+					        </div>
+					        </div>
+
+					        <div class="form-group">
+					            <label for="country" class="col-sm-2  control-label col-form-label">Country</label>
+					            <!-- <input id="country" type="text" class="col-sm-4 form-control" placeholder="Country"> -->
+					             <div class="col-sm-4 ">
+					            <select id="country" class="form-control" >
+					            	<option select="selected">-</option>
+					            	<option value="AU">AU</option>
+					            </select>
+					        </div>
+					         <div class="col-sm-4">
+					            <label id="country-feedback" class="feedback col-form-label hide"></label>
+					        </div>
+					        </div>
+
+					        <div class="form-group">
+					            <label for="email" class="col-sm-2  control-label col-form-label">Email Address</label>
+					             <div class="col-sm-4">
+					            <input id="email" type="email" class="form-control" placeholder="Email Address">
+					        </div>
+					         <div class="col-sm-4">
+					            <label id="email-feedback" class="feedback  col-form-label hide"></label>
+					        </div>
+					        </div>
+
+					        <div class="form-group">
+					            <label for="phone" class="col-sm-2  control-label col-form-label">Phone</label>
+					             <div class="col-sm-4">
+					            <input id="phone" type="number" class="form-control" placeholder="Phone">
+					        </div>
+					         <div class="col-sm-4">
+					            <label id="phone-feedback" class="feedback col-form-label hide"></label>
+					        </div>
+					        </div>
+
+					        <div class="form-group">
+					            <label for="date" class="col-sm-2  control-label col-form-label">Purchase Date</label>
+					             <div class="col-sm-4">
+					            <input id="date" type="date" class="form-control" placeholder="Purchase Date">
+					        </div>
+					         <div class="col-sm-4">
+					            <label id="date-feedback" class="feedback  col-form-label hide"></label>
+					        </div>
+					        </div>
+
+					</form>
+				
+		
+			
+				<hr>
+			
+				<div >
+					<label class="col-sm-2 col-form-label">Items</label>
+					<label id="item-feedback" class="col-sm-4 feedback hide">Items</label>
+					<label id="item-quan-feedback" class="col-sm-4 feedback hide">Items</label>  
+					<br/>
+					<table id="item-table" class="table table-bordered add_order_item_table">
+						<thead>
+							<tr>
+								<th class="selected-all" scope="col"><input type="checkbox" autocomplete="off"></th>
+								<th scope="col">Id</th>
+								<th scope="col">Store</th>
+								<th scope="col">Item Title</th>
+								<th scope="col">Sku</th>
+								<th scope="col">Item#</th>
+								<th scope="col">Price</th>
+								<th scope="col">Quantity</th>
+							</tr>
+						</thead>
+						<tbody id="item-table-body">
+						 
+						</tbody>
+					</table>
+					<div id="content-action-btns" class="action-btns">
+						<button id="content-items-add" class="btn btn-sm btn-primary">Add Items</button>
+						<button id="content-items-selected-remove" class="btn btn-sm btn-warning">Remove Selected Items</button>
+					</div>	
+				</div>
+
+
+				<br>
+				<hr>
+				<br>
+				
+				<div class="text-center">
+		            <div id="content-action-btns" class="action-btns">
+						<button id="content-orders-add" class="btn btn-success">Add Orders</button>
+					</div>
+		        </div>
+
+				</div>
+				</div>
+			</div>
+</div>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+<div id="box-outer" class="">
+	<div id="box-container">
+		<div id="item-add-box" class="hide">
+			<div class="title">Add Items</div>
+			<div id="item-search" class="">
+
+<div class="row mb-10">
+				 <div class="form-grou">
+		            <label for="Store" class="col-sm-2 control-label text-right">Store</label>
+		             <div class="col-sm-4 ">
+			            <select id="search-store" class="form-control"><option select="selected">-</option></select>
+			        </div>
+			        <label for="Id" class="col-sm-2 control-label col-form-label text-right">Id</label>
+		         <div class="col-sm-4 ">
+		            <input type="text" class="form-control" id="search-id">
+		        </div>
+		        </div>
+ </div>
+ <div class="row mb-10">
+		        	 <div class="form-group">
+		            <label for="SKU" class="col-sm-2 control-label text-right">SKU</label>
+		             <div class="col-sm-4 ">
+			            <input type="text" id="search-sku" class="col-4 form-control">
+			        </div>
+			        <label for="Item#" class="col-sm-2 control-label col-form-label text-right">Item#</label>
+		         <div class="col-sm-4 ">
+		           <input type="num" id="search-itemNum" class="col-4 form-control">
+		        </div>
+		        </div>
+ </div>
+ <div class="row mb-10">
+                <div class="form-group">
+		            <label for="Name" class="col-sm-2 control-label text-right">Name</label>
+		             <div class="col-sm-4 ">
+			           <input type="text" id="search-name" class="col-9 form-control">
+			        </div>
+			        <label for="" class="col-sm-2 control-label col-form-label text-right"></label>
+		         <div class="col-sm-4 ">
+		          <button id="search-item" class="btn btn-primary mt-10" >Search Item</button>
+		        </div>
+		        </div>
+ </div>
+
+			</div>
+
+			<br>
+
+			<table id="search-table" class="table table-bordered">
+				<thead>
+					<tr>
+						<!-- <th class="selected-all"><input type="checkbox" autocomplete="off"></th> -->
+						<th>  </th>
+						<th>Id</th>
+						<th>Store</th>
+						<th>Item Title</th>
+						<th>Sku</th>
+						<th>Item#</th>
+					</tr>
+				</thead>
+				<tbody id="search-table-body"></tbody>
+			</table>
+			<div class="box-actions">
+				<button id="add-item" class="btn btn-primary">Add Items</button>
+				<button id="add-item-cancel" class="btn btn-secondary">Close</button>
+			</div>
+		</div>
+		<!-- <div class="close"></div> -->
+	</div>
+</div>
+
+</section>
+
+		</div>
+
+	</div>
+
+	<script src="../admin/js/jquery-2.2.4.min.js"></script>
+	<script src="../admin/js/bootstrap.min.js"></script>
+	<script src="../admin/js/jquery.dataTables.min.js"></script>
+	<script src="../admin/js/dataTables.bootstrap.min.js"></script>
+	<script src="../admin/js/select2.full.min.js"></script>
+	<script src="../admin/js/jquery.inputmask.js"></script>
+	<script src="../admin/js/jquery.inputmask.date.extensions.js"></script>
+	<script src="../admin/js/jquery.inputmask.extensions.js"></script>
+	<script src="../admin/js/moment.min.js"></script>
+	<script src="../admin/js/bootstrap-datepicker.js"></script>
+	<script src="../admin/js/icheck.min.js"></script>
+	<script src="../admin/js/fastclick.js"></script>
+	<script src="../admin/js/jquery.sparkline.min.js"></script>
+	<script src="../admin/js/jquery.slimscroll.min.js"></script>
+	<script src="../admin/js/jquery.fancybox.pack.js"></script>
+	<script src="../admin/js/app.min.js"></script>
+	<script src="../admin/js/jscolor.js"></script>
+	<script src="../admin/js/on-off-switch.js"></script>
+    <script src="../admin/js/on-off-switch-onload.js"></script>
+	<script src="../admin/ckeditor/ckeditor.js"></script>
+	<script src="../admin/js/demo.js"></script>
+    <script src="../admin/js/utility.js"></script>
+
+</body>
+</html>

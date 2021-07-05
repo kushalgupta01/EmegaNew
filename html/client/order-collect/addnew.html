@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Create Order</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+	<link href="/common/buttons.css" rel="stylesheet" />
+	<link href="/common/checkbox.css" rel="stylesheet" />
+	<link href="/client/inventory/css/jquery.dataTables.min.css" rel="stylesheet" />
+	<link href="/client/inventory/css/main.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="/client/inventory/css/inventory.css" rel="stylesheet" />
+	<link href="../css/header.css" rel="stylesheet" />
+	<script src="js/addnew.js" type="module"></script>
+	<script src="/common/jquery-3.2.1.min.js"></script>
+	<script src="/client/inventory/js/jquery.dataTables.min.js"></script>
+	<script src="/common/pdfkit.js"></script>
+	<script src="/common/blob-stream.js"></script>
+	<script src="/common/JsBarcode.code128.min.js"></script>
+	<script src="/common/FileSaver.min.js"></script>
+</head>
+
+<body>
+	<div id="main" data-page-type="manage">
+		<div class="wrapper">
+			<!-- Sidebar  -->
+			<nav id="sidebar">
+				<div class="sidebar-header">
+					<a href=""><img src="/common/images/logo.svg" alt="logo"></a>
+					<button type="button" id="sidebarCollapse-mobile" class="show-sidebar">
+						<i class="fa fa-bars"></i>
+					</button>
+				</div>
+				<ul class="list-unstyled nav-links">
+					<li>
+						<a href="/client/index.html">
+							<i class="fa fa-home" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Home</span>
+						</a>
+					</li>
+					<li class="active">
+						<a href="javascript:void(0)" class="has-sub open-dropdown">
+							<i class="fa fa-tasks" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Manage Orders</span>
+						</a>
+						<ul class="sub-nav" style="display: block;">
+							<li style="margin-top: 0px;margin-bottom: 0px;">
+								<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/manage.html">View order</a>
+							</li>
+							<li style="margin-top: 0px;margin-bottom: 0px;">
+								<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/addnew.html">Create order</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/client/inventory/inventory.html">
+							<i class="fa fa-table" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Manage Inventory</span>
+						</a>
+					</li>
+					<li id="addOrders">
+	                	<a href="/client/add-order/addOrder.html">
+	          				<i class="fas fa-folder-plus"></i>
+	          				<span class="sidebar-menu-text">Add Orders</span> 
+	          			</a>
+	          		</li>
+				</ul>
+			</nav>
+			<!-- Page Content  -->
+			<div id="layout-admin" class="collapse-sidebar">
+				<div id="header" class="header titleonly">
+					<div class="header-left">
+						<button type="button" id="sidebarCollapse" class="show-sidebar">
+							<i class="fa fa-bars"></i>
+						</button>
+						<div class="logo">
+							<div class="title"><span>Create Order</span></div>
+						</div>
+					</div>
+					<div class="header-right">
+						<!-- <div class="setting">
+											<a href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
+										</div> -->
+						<div class="login">
+							<a href="javascript:void(0)" id="logout_link"><span id="username"></span><i class="fa fa-sign-out"
+									aria-hidden="true"></i></a>
+						</div>
+					</div>
+				</div>
+				<div id="content-admin" class="content-admin">
+					<div id="inventory">
+						<div class="content-table">
+							<div style="float:left;margin-right:5px;margin-bottom: 15px;;">
+								<a style="display:none;" class="modal-btn btn-action modal-trigger" data-modal-action="open"
+									data-modal-target="modal-1">Add new stock</a>
+
+								<div id="Modal_1" class="modal-container" data-modal="modal-1">
+									<div class="modal-body">
+										<div class="modal-header">
+											<div class="modal-heading">Add new item</div>
+											<div class="modal-close" data-modal-action="close">
+												<svg class="icon iconClose" viewBox="0 0 32 40">
+													<path
+														d="M16,0C7.163,0,0,7.163,0,16s7.163,16,16,16s16-7.163,16-16S24.837,0,16,0z M22.717,21.304l-1.414,1.414L16,17.414   l-5.303,5.304l-1.414-1.414L14.586,16l-5.303-5.304l1.414-1.414L16,14.586l5.303-5.304l1.414,1.414L17.414,16L22.717,21.304z">
+													</path>
+												</svg>
+											</div>
+										</div>
+										<div class="modal-content">
+											<div class="content-table">
+												<table class="table-no-block">
+													<tbody>
+														<tr>
+															<th>Item No</th>
+															<td><input class="input-text" type="text" id="itemNo"></td>
+														</tr>
+														<tr>
+															<th>Item Name</th>
+															<td><input class="input-text" type="text" id="itemName"></td>
+														</tr>
+														<tr>
+															<th>Sku</th>
+															<td>
+																<input class="input-text" type="text" id="sku">
+																<label id="sku-feedback"
+																	class="feedback col-sm-4 col-form-label hide"></label>
+															</td>
+														</tr>
+														<tr>
+															<th>Item Barcode</th>
+															<td>
+																<input class="input-text" type="text" id="itemBarcode">
+															</td>
+														</tr>
+														<tr>
+															<th>Carton Barcode</th>
+															<td><input class="input-text" type="text" id="cartonBarcode"></td>
+														</tr>
+														<tr>
+															<th>Quantity Per Carton</th>
+															<td><input class="input-text" type="number" id="quantityPerCarton"></td>
+														</tr>
+														<tr>
+															<th>Weight</th>
+															<td><input class="input-text" type="text" id="weight"></td>
+														</tr>
+														<tr>
+															<th>Quantity</th>
+															<td>
+																<input class="input-text" type="number" id="stockInHand">
+																<label id="stockInHand-feedback"
+																	class="feedback col-sm-4 col-form-label hide"></label>
+															</td>
+														</tr>
+														<tr>
+															<th>Store</th>
+															<td>
+																<select id="store"></select>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												<button class="action-btn" type="button" id="btnAddStock">Save</button>
+												<button class="action-btn" type="button" id="btnResetStock">Reset</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="item-import" style="display:none;">
+								<div class="input-file-container">
+									<input class="input-file" id="my-file" type="file">
+									<label tabindex="0" for="my-file" class="input-file-trigger">Import Stock</label>
+								</div>
+								<p class="file-return"></p>
+							</div>
+							<table id="tblInventory" class="display" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>SKU</th>
+										<th>Item Name</th>
+										<th>Image</th>
+										<th>Price</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+
+
+
+
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+<div class="modal-container" data-modal="modal-shoppingcart">
+	<div class="modal-body">
+		<div class="modal-header">
+			<div class="modal-heading">Order Detail</div>
+			<div class="modal-close" data-modal-action="close"><svg class="icon iconClose"
+					viewBox="0 0 32 40">
+					<path
+						d="M16,0C7.163,0,0,7.163,0,16s7.163,16,16,16s16-7.163,16-16S24.837,0,16,0z M22.717,21.304l-1.414,1.414L16,17.414   l-5.303,5.304l-1.414-1.414L14.586,16l-5.303-5.304l1.414-1.414L16,14.586l5.303-5.304l1.414,1.414L17.414,16L22.717,21.304z">
+					</path>
+				</svg></div>
+		</div>
+		<div class="modal-content">
+		</div>
+	</div>
+</div>
+<div id="notification" class="hide">
+						<div class="content"></div>
+						<div class="close"></div>
+					</div>
+	<div id="box-outer">
+		<div id="box-container">
+			<div id="send-invoice-box" class="hide">
+				<div class="title"></div>
+				<div id="send-invoice-text" class="line padded centre"></div>
+				<div class="box-actions">
+					<button id="send-invoice-send" class="action-btn">Send</button>
+					<button id="send-invoice-cancel" class="action-btn">Close</button>
+				</div>
+			</div>
+			<div class="close"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+			"use strict"; // Start of use strict
+
+			//Sidebar menu
+			$('.show-sidebar').on('click', function () {
+				$('#sidebar').toggleClass('collapse-sidebar');
+				$('#layout-admin').toggleClass('collapse-sidebar');
+			});
+			$('.has-sub').on('click', function () {
+				$('.has-sub').toggleClass('open-dropdown');
+				$('.sub-nav').slideToggle("slow");
+			});
+
+
+		});
+	</script>
+	<script type="text/javascript">
+		document.querySelector("html").classList.add('js');
+
+		var fileInput = document.querySelector(".input-file"),
+			button = document.querySelector(".input-file-trigger"),
+			the_return = document.querySelector(".file-return");
+
+		button.addEventListener("keydown", function (event) {
+			if (event.keyCode == 13 || event.keyCode == 32) {
+				fileInput.focus();
+			}
+		});
+		button.addEventListener("click", function (event) {
+			fileInput.focus();
+			return false;
+		});
+		fileInput.addEventListener("change", function (event) {
+			the_return.innerHTML = this.value;
+		});
+	</script>
+
+
+</body>
+
+</html>

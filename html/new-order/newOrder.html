@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>New Orders</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="newOrder.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+
+<script src="newOrder.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<div class="title">New Orders</div>
+			<button class="menu action-btn btn-green" >Back to menu</button>
+		</div>
+		<div id="main">
+			<div id="content-container">
+				<!-- Download New Orders -->
+				<div id = "content-download-new-orders" class="content-page">
+					<div id="new-orders-download-option" class="options">
+						<span>Choose stores:</span>
+						<form class="checkbox"></form>
+					</div>
+					<div id="content-orders-filter">
+						From: <input id="datefrom" type="date" name="from" />
+						To: <input id="dateto" type="date" name="to" />
+						<button id="download-new-orders-btn" class="action-btn">Download New Orders</button>
+					</div>
+					<table id="new-order-details" class="styled-table hide">
+						<thead>
+							<tr class="tr-header">
+							    <th id="action">Action</th>
+								<th id="notes">Notes</th>								
+								<th id="orderID">OrderID</th>
+								<th id="sku">SKU</th>
+								<th id="title">Title</th>
+								<th id="itemQty">Item Qty</th>		
+							</tr>			
+						</thead>
+						<tbody></tbody>
+					</table>	
+				</div>		
+			</div>
+		</div>
+		<div id="notification" class="hide">
+			<div class="content"></div>
+			<div class="close"></div>
+		</div>
+	</div>
+	<div id="box-outer" class="">
+		<div id="box-container">
+			<div class="close"></div>
+		</div>
+	</div>
+</body>
+</html>

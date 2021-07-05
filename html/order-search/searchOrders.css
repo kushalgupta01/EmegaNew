@@ -1,0 +1,33 @@
+#content-orders-searchbar input{
+	font-size: 20px;
+	background-color: #fafbf9;
+	text-align: left;
+	border: 1px solid #bbb;
+	border-radius: 4px;
+	margin: 10px 10px;
+	margin-bottom: 10px;
+	outline: 0;
+	padding: 8px 18px;
+	transition: background-color 0.2s, border-color 0.2s;
+	width: 800px;
+}
+
+#content-orders-filter input {
+	font-size: 20px;
+	width: 200px;
+	margin: 10px;
+}
+
+#content-orders-filter {
+	font-size: 20px;
+	padding: 0px 10px;
+}
+
+#content-orders-searchfield {
+	font-size: 20px;
+	padding: 0px 10px;
+}
+
+#content-orders-searchfield input {
+	margin-left: 20px;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>B2B SKUs</title>
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link href="/dashboard/b2b-skus.css" rel="stylesheet" />
+
+<script src="/dashboard/b2b-skus.js" type="module"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="container">
+  <div id="header">
+    <div class="title">B2B SKUs</div>
+    <button class="menu action-btn btn-green" >Back to menu</button>
+  </div>
+  <div id="main">
+    <div id="content-container" class="container">
+      <table id="top-b2b-skus" class="content-table hide">
+        <thead>
+          <tr class="tr-header">  
+            <th id="action">SKUs</th>
+            <th id="notes">No of occurrences</th>             
+            <th id="orderID">Orders</th>
+            <th id="totalSkus">Total items</th>
+            <th id="stockOnHand">Stock On Hand</th>
+          </tr>     
+        </thead>
+        <tbody></tbody>
+      </table>
+  </div>
+  <div id="notification" class="hide">
+    <div class="content"></div>
+    <div class="close"></div>
+  </div>
+</div>
+
+</body>
+<html> 

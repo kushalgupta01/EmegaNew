@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<link href="https://emails.discountchemist.com.au/open-sans.css" rel="stylesheet">
+<link href="css/email.css" rel="stylesheet">
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<div class="title">Your order is on the way!</div>
+	</div>
+	<div id="content">
+		<p><span class="bold">Dear +recipient.name+,</span><br><br><br>
+		Thank you for shopping with `+storeName+`! Your order is on its way and your tracking details are as follows:</p>
+		<table id="tracking">
+			<tr><td>Order number:</td><td>`+recipient.record+`</td></tr>
+			<tr><td>Courier service:</td><td>`+recipient.courier+`</td></tr>
+			<tr><td>Tracking number:</td><td>`+recipient.trackingNum+`</td></tr>
+		</table>
+		<p>We hope you enjoy your purchase!</p>
+		<p>If you have any queries or need any assistance, please send us a message through eBay and we will get back to you as soon as possible.<br>
+		Please note that this email is not monitored and we are unable to respond to any emails sent to us here.<br><br><br>
+		<span class="bold">Regards,<br><br>
+		+storeName+</span></p>
+	</div>
+</div>
+</body>
+</html>

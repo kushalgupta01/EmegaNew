@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="css/home.css" rel="stylesheet" />
+<link href="css/header.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="/client/order-collect/js/index.js" type="module"></script>
+<script src="/common/pdfkit.js"></script>
+<script src="/common/blob-stream.js"></script>
+<script src="/common/JsBarcode.code128.min.js"></script>
+<script src="/common/FileSaver.min.js"></script>
+
+</head>
+
+<body>
+	<div id="container" data-page-type="home">
+	    <div class="wrapper">
+	        <!-- Sidebar  -->
+	        <nav id="sidebar">
+	            <div class="sidebar-header">
+	                <a href="/client/index.html"><img src="/common/images/logo.svg" alt="logo"></a>
+	                <button type="button" id="sidebarCollapse-mobile" class="show-sidebar">
+                        <i class="fa fa-bars"></i>
+                    </button>
+	            </div>
+	            <ul class="list-unstyled nav-links">
+	                <li class="active">
+	                    <a href="/client/index.html">
+							<i class="fa fa-home" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Home</span>
+						</a>
+	                </li>
+	               <li id="li-pendingorders" class="habitania hide">
+	                    <a href="javascript:void(0)" class="has-sub open-dropdown">
+							<i class="fas fa-box-open" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Pending Orders</span>
+						</a>
+						<ul class="sub-nav" style="display: none;">
+							<li id="li-collectorders"style="margin-top: 0px;margin-bottom: 0px;">
+								<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/orders.html?p=collect"><span class="fas fa-crosshairs"></span> Collect orders</a>
+							</li>							
+							<!-- <li id="li-awaitinglist" style="margin-top: 0px;margin-bottom: 0px;">
+								<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/orders.html?p=awaitinglist"><span class="fas fa-pause-circle"></span> Awaiting List</a>
+							</li> -->
+						</ul>
+	                </li>
+	               <li id="li-manageorders">
+	               	
+	                	<a href="javascript:void(0)" class="has-sub2 open-dropdown">
+	                    	<i class="fa fa-tasks" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Manage Orders</span>
+						</a>
+						<ul class="sub-nav2" style="display: none;">
+							<li id="li-addneworder" style="margin-top: 0px;margin-bottom: 0px;">
+								<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/manage.html"><span class="fas fa-eye"></span> View Order</a>
+							</li>
+							<!-- <li id="li-warehousecollect" style="margin-top: 0px;margin-bottom: 0px;">
+								<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/order-create/createOrder.html"><span class="fas fa-plus"></span> Create Order</a>
+							</li> -->
+						</ul>
+	                </li> 
+	                <li id="li-manageinventory" class="combinedgroup hide">
+	                    <a href="/client/inventory/inventory.html">
+							<i class="fa fa-table" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Manage Inventory</span>
+						</a>
+	                </li>
+	               	<li id="li-packorders" class="habitania hide">
+	                    <a href="/client/order-pack/index.html">
+							<i class="fa fa-table" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Pack Orders</span>
+						</a>
+	                </li>	               
+					<li id="li-orderdownload" >
+	                    <a href="/client/order-download/index.html">
+							<i class="fa fa-download" aria-hidden="true"></i>
+							<span class='sidebar-menu-text'>Download Orders</span>
+						</a>
+	                </li>
+	            </ul>
+	        </nav>
+	        <!-- Page Content  -->
+	        <div id="layout-admin" class="collapse-sidebar">
+	            <div id="header" class="header titleonly">
+	                <div class="header-left">
+	                    <button type="button" id="sidebarCollapse" class="show-sidebar">
+	                        <i class="fa fa-bars"></i>
+	                    </button>
+	                    <div class="logo">
+	                        <div class="title"><span>Home</span></div>
+	                    </div>
+	                </div>
+	                <div class="header-right">
+	                    <!-- <div class="setting">
+			                    <a href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
+			                </div> -->
+	                   <!--  <div class="login">
+	                        <a href="javascript:void(0)" id="logout_link"><span id="username"></span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+	                    </div> -->
+	                    <div id="record-nav-buttons">							
+							<button id="record-logout" class="action-btn btn-navy nomargin top right-left" autocomplete="off"><a id="username"></a> - <span class="fas fa-sign-out-alt"></span></button>
+							<button id="record-refresh" class="action-btn btn-navy nomargin top right" autocomplete="off"><span class="fas fa-sync"></span> Refresh</button>
+						</div>
+	                </div>
+	            </div>
+	            <div id="content-admin" class="content-admin">
+	                <div id="home" class="content-wrapper">
+	                    <div class="item-block">
+	                        <div class="item-order">
+	                            <p class="number-order" id="total_new_orders">Loading...</p>
+	                            <p class="name-order">New Orders</p>
+	                        </div>
+	                        <div class="item-order">
+	                            <p class="number-order" id="total_collected_orders">Loading...</p>
+	                            <p class="name-order">Collect Orders</p>
+	                        </div>
+	                    </div>
+	                    <div class="item-tab">
+	                        <!-- TAB CONTROLLERS -->
+	                        <input id="panel-1-ctrl" class="panel-radios" type="radio" name="tab-radios" checked>
+	                        <input id="panel-2-ctrl" class="panel-radios" type="radio" name="tab-radios">
+	                        <!-- TABS LIST -->
+	                        <ul id="tabs-list">
+	                            <!-- MENU TOGGLE -->
+	                            <label id="open-nav-label" for="nav-ctrl"></label>
+	                            <li id="li-for-panel-1">
+	                                <label class="panel-label" for="panel-1-ctrl">New orders</label>
+	                            </li>
+	                            <!--INLINE-BLOCK FIX-->
+	                            <li id="li-for-panel-2">
+	                                <label class="panel-label" for="panel-2-ctrl">Collect orders</label>
+	                            </li>
+	                            <!--INLINE-BLOCK FIX-->
+	                        </ul>
+	                        <!-- THE PANELS -->
+	                        <article id="panels">
+	                            <div class="container">
+	                                <section id="panel-1">
+	                                    <main>
+	                                        <table class="content-table">
+	                                            <thead>
+	                                                <tr>
+	                                                    <th>Store</th>
+	                                                    <th>Record ID</th>
+	                                                    <th>Buyer ID</th>
+	                                                    <th>Price</th>
+	                                                    <th>First Name</th>
+	                                                    <th>Last Name</th>
+	                                                    <th>Name for Delivery</th>
+	                                                    <th>Address 1</th>
+	                                                    <th>Address 2</th>
+	                                                    <th>City</th>
+	                                                    <th>State</th>
+	                                                    <th>Postcode</th>
+	                                                    <th>Country</th>
+	                                                    <th>Phone</th>
+	                                                    <th>Delivery Note</th>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody>
+	                                            </tbody>
+	                                        </table>
+	                                    </main>
+	                                </section>
+	                                <section id="panel-2">
+	                                    <main>
+	                                        <table class="content-table">
+	                                            <thead>
+	                                                <tr>
+	                                                    <th>Store</th>
+	                                                    <th>Record ID</th>
+	                                                    <th>Buyer ID</th>
+	                                                    <th>Price</th>
+	                                                    <th>First Name</th>
+	                                                    <th>Last Name</th>
+	                                                    <th>Name for Delivery</th>
+	                                                    <th>Address 1</th>
+	                                                    <th>Address 2</th>
+	                                                    <th>City</th>
+	                                                    <th>State</th>
+	                                                    <th>Postcode</th>
+	                                                    <th>Country</th>
+	                                                    <th>Phone</th>
+	                                                    <th>Delivery Note</th>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody>
+	                                            </tbody>
+	                                        </table>
+	                                    </main>
+	                                </section>
+	                            </div>
+	                        </article>
+	                    </div>
+	                    <!-- <div class="page-line">
+						<button id="page-manage" class="action-btn big hide" data-user-type="Supplier" data-user-type="Supplier">Manage Orders</button>
+						<button id="page-download" class="action-btn big btn-purple hide" data-user-type="Supplier">Download Orders</button>
+					</div> -->
+	                </div>
+	                <div id="notification" class="hide">
+	                    <div class="content"></div>
+	                    <div class="close"></div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	    "use strict"; // Start of use strict
+
+	    //Sidebar menu
+	    $('.show-sidebar').on('click', function() {
+	        $('#sidebar').toggleClass('collapse-sidebar');
+	        $('#layout-admin').toggleClass('collapse-sidebar');
+	    });
+	    $('.has-sub').on('click', function() {
+	    	$('.has-sub').toggleClass('open-dropdown');
+	        $('.sub-nav').slideToggle("slow");
+	    });
+	    $('.has-sub2').on('click', function() {
+	    	$('.has-sub2').toggleClass('open-dropdown');
+	        $('.sub-nav2').slideToggle("slow");
+	    });
+	     $('.has-sub3').on('click', function() {
+	    	$('.has-sub3').toggleClass('open-dropdown');
+	        $('.sub-nav3').slideToggle("slow");
+	    });
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>DC Packing</title>
+<link href="../common/buttons.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<script src="../common/jquery-3.2.1.min.js"></script>
+<script src="js/config.js" type="module"></script>
+<script src="js/main.js" type="module"></script>
+<script src="../order-collect/js/manage.js" type="module"></script>
+</head>
+
+<body>
+<div id="container">
+	<div id="header">
+		<h1></h1>
+		<button class="logout action-btn btn-green">Logout</button>
+	</div>
+	<div id="main">
+		<div id="record-container"></div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+
+<template id="record-entry-template">
+	<div class="record-entry">
+		<div class="record-title inline">
+			<div>
+				<span>Name: <span class="record-buyer-name">-</span></span>
+				<span>User ID: <span class="record-user-id">-</span></span>
+				<span>Date: <span class="record-date">-</span></span>
+				<span>Record #: <span class="record-num">-</span></span>
+				<span>DB ID: <span class="record-db-id">-</span></span>
+				<span>Bucket: <span class="bucket-num">-</span></span>
+			</div>
+		</div>
+		<div class="record-duplicate inline hide">
+			<div class="bg-pink">Combined Order</div>
+		</div>
+		<table class="record-items">
+			<thead>
+				<tr>
+					<th>Quantity</th>
+					<th>Item #</th>
+					<th>SKU</th>
+					<th>Item Name</th>
+					<th>Cartons<br>to be scanned</th>
+					<th>Individual Items<br>to be scanned</th>
+					<th>Photos</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="record-prices"></td>
+				</tr>
+			</tfoot>
+		</table>
+		<div class="record-buyer-message">Message from buyer:<br><span>-</span></div>
+		<div class="manual-message">Manual message:<br><span>-</span></div>
+		<div class="tracking-number">Tracking ID: <span>-</span></div>
+		<div class="record-actions">
+			<button class="override action-btn btn-red" disabled>OVERRIDE</button>
+			<button class="next action-btn btn-dblue">Next Order</button>
+			<button class="later action-btn btn-dblue">Do Order Later</button>
+			<button class="save-track action-btn btn-dblue hide" style="margin-left: 200px">Scan Tracking</button>
+			<!-- <button class="next action-btn btn-dblue" disabled>Next Order</button> -->
+		</div>
+	</div>
+</template>
+
+<template id="record-error-template">
+	<div class="record-error">
+		<div class="record-error-msg"></div>
+		<div class="record-duplicate inline hide">
+				<div class="bg-pink">Combined Order</div>
+		</div>
+		<div class="record-actions">
+			<button class="later action-btn btn-dblue">Do Order Later</button>
+		</div>
+	</div>
+</template>
+
+</body>
+</html>

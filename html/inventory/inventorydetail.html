@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Inventory Detail</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script src="inventorydetail.js" type="module"></script>
+<link href="inventorydetail.css" rel="stylesheet" />
+</head>
+
+<body>
+<div id="container" data-page-type="home">
+	<div id="header" class="titleonly">
+		<div class="title">Inventory</div>
+		<button class="back-to-inv-search action-btn btn-green nomargin">Back to Search</button>
+		<!-- <button class="menu action-btn btn-green nomargin">Back to menu</button> -->
+	</div>
+	<div id="main">
+		
+		<div id="content-container" class="container">
+			<div id="inventory-detail" class="content-page row">
+				<div id="location" class="col-sm-2"></div>
+				<div class="col-sm-8">
+					<form>
+						<div class="col-sm subtitle">Product Details <span id="result-current"></span>/<span id="result-total"></span></div>
+						<div id="inventoryid"></div>
+				    	<div class="form-group row">
+				            <label for="itemNo" class="col-sm-2 col-form-label">Item Number</label>
+				            <div class="input-group col-sm-8">
+					            <input id="itemNo" type="text" class="form-control" placeholder="Item Number">
+					        </div>
+				            <label id="itemNo-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="itemName" class="col-sm-2 col-form-label">Item Name</label>
+				            <div class="input-group col-sm-8">
+				              <input id="itemName" type="text" class="form-control" placeholder="Item Name">
+				            </div>
+				            <label id="itemName-feedback" class="feedback col-sm-2 col-form-label hide"></label> 
+				        </div>
+
+				        <div class="form-group row" >
+				            <label for="sku" class="col-sm-2 col-form-label">Sku</label>
+				            <div class="input-group col-sm-8">
+				              <input id="sku" type="text" class="form-control" placeholder="Sku">
+				            </div>
+				            <label id="sku-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row" >
+				            <label for="customsku" class="col-sm-2 col-form-label">Custom Sku</label>
+				            <div class="input-group col-sm-8">
+				              <input id="customsku" type="text" class="form-control" placeholder="Custom Sku">
+				            </div>
+				            <label id="customsku-feedback" class="feedback col-sm-8 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="itemBarcode" class="col-sm-2 col-form-label">Item Barcode</label>
+				            <div class="input-group col-sm-8">
+					            <input id="itemBarcode" type="text" class="form-control" placeholder="Item Barcode">
+					        </div>
+				            <label id="itemBarcode-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="cartonBarcode" class="col-sm-2 col-form-label">Carton Barcode</label>
+				            <div class="input-group col-sm-8">
+					            <input id="cartonBarcode" type="text" class="form-control" placeholder="Carton Barcode">
+					        </div>
+				            <label id="cartonBarcode-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="type" class="col-sm-2 col-form-label">Type</label>
+				            <div class="input-group col-sm-8">
+				              <select id="type" class="form-control">
+				              	<option id="-" value="">-</option>
+				              	<option id="b2b" value="B2B">B2B</option>
+				              	<option id="b2c" value="B2C">B2C</option>
+				              </select>
+				            </div>
+				            <label id="type-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="quantityPerCarton" class="col-sm-2 col-form-label">Quantity Per Carton</label>
+				            <div class="input-group col-sm-8">
+				              <input id="quantityPerCarton" type="text" class="form-control" placeholder="Number of units in each carton">
+				            </div>
+				            <label id="quantityPerCarton-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="weight" class="col-sm-2 col-form-label">Weight</label>
+				            <div class="input-group col-sm-8">
+				              <input id="weight" type="text" class="form-control" placeholder="Item's weight">
+				            </div>
+				            <label id="weight-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="stockInHand" class="col-sm-2 col-form-label">Stock In Hand</label>
+				            <div class="input-group col-sm-8">
+				              <input id="stockInHand" type="text" class="form-control" placeholder="Stock In Hand" disabled>
+				            </div>
+				            <label id="stockInHand-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="indivQty" class="col-sm-2 col-form-label">Loose Qty</label>
+				            <div class="input-group col-sm-8">
+				              <input id="indivQty" type="text" class="form-control" placeholder="Loose Qty">
+				            </div>
+				            <label id="indivQty-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="cartonQty" class="col-sm-2 col-form-label">Carton Qty</label>
+				            <div class="input-group col-sm-8">
+				              <input id="cartonQty" type="text" class="form-control" placeholder="Carton Qty">
+				            </div>
+				            <label id="cartonQty-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="stockSent" class="col-sm-2 col-form-label">Stock Sent</label>
+				            <div class="input-group col-sm-8">
+				              <input id="stockSent" type="text" class="form-control" placeholder="Stock Sent">
+				            </div>
+				            <label id="stockSent-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="bay" class="col-sm-2 col-form-label">Bay</label>
+				            <div class="input-group col-sm-8">
+				              <input id="bay" type="text" class="form-control" placeholder="Bay">
+				            </div>
+				            <label id="bay-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="expiry" class="col-sm-2 col-form-label">Expiry</label>
+				            <div class="input-group col-sm-8">
+				              <input id="expiry" type="text" class="form-control" placeholder="yyyy-mm-dd">
+				            </div>
+				            <label id="expiry-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="coreCloseout" class="col-sm-2 col-form-label">Core or Closeout</label>
+				            <div class="input-group col-sm-8">
+				              <input id="coreCloseout" type="text" class="form-control" placeholder="Enter 1 for Core or 0 for Closeout">
+				            </div>
+				            <label id="coreCloseout-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="clearance" class="col-sm-2 col-form-label">Clearance</label>
+				            <div class="input-group col-sm-8">
+				              <input id="clearance" type="text" class="form-control" placeholder="Enter 1 if Clearance, 0 if not">
+				            </div>
+				            <label id="clearance-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+
+				        <div class="form-group row">
+				            <label for="supplier" class="col-sm-2 col-form-label">Supplier</label>
+				            <div class="input-group col-sm-8">
+				              <select id="supplier" class="form-control" placeholder="Supplier">
+				              	<option id="-" value="">-</option>
+				              	<option id="intertrading" value="intertrading">Intertrading</option>
+				              	<option id="factory" value="factory">Factory</option>
+				              	<option id="fgb" value="fgb">FGB</option>
+				              	<option id="morlife" value="morlife">MORLIFE</option>
+				              	<option id="costco" value="costco">COSTCO</option>
+				              	<option id="mnb" value="mnb">MNB</option>
+				              	<option id="cg" value="cg">Combined Group</option>
+				              	<option id="sos" value="sos">SOS</option>
+				              	<option id="hyclor" value="hyclor">HYCLOR</option>
+				              	<option id="emega" value="emega">Emega</option>
+				              	<option id="mjm" value="mjm">MJM</option>
+				              	<option id="hobbyco" value="hobbyco">HOBBYCO</option>
+				              </select>
+				            </div>
+				            <label id="supplier-feedback" class="feedback col-sm-2 col-form-label hide"></label>
+				        </div>
+				    </form>
+
+			        <div id="content-action-btns" class="action-btns">
+						<button id="inv-update" class="update-inventory-btn btn btn-primary">Update</button>
+						<!-- <button id="inv-save-location" class="update-save-location-btn btn btn-primary">Save Location</button> -->
+					</div>
+				</div>
+				<div id="image-container" class="col-sm-2"></div>
+			</div>
+		</div>
+		<div class="navigation">
+			<button class="nav-left btn-info">Pre</button>
+			<button class="nav-right btn-info">Next</button>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

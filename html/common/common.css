@@ -1,0 +1,312 @@
+
+body > div {
+	box-sizing: border-box;
+}
+
+/* Header */
+#content-header {
+	/*background: #2a8dd4;*/
+	background: #36abff;
+	color: #fff;
+	height: 80px;
+	width: 100%;
+	overflow: hidden;
+}
+#content-header h1 {
+	text-align: center;
+	line-height: 80px;
+}
+
+/* Panels */
+#panel-template {
+	display: none;
+}
+
+/* Content */
+#content-main {
+	background: #fff;
+	padding: 0 15px;
+	overflow-x: hidden; /* Enable scrollbars within main content section */
+}
+#content-main > div {
+	border-bottom: 1px solid #999;
+	padding: 30px 0;
+}
+#content-main > div:last-child {
+	border-bottom: none;
+}
+
+div label, div input, div select {
+	font-size: 16px;
+	line-height: 30px;
+	height: 30px;
+}
+#content-main > div input, #content-main > div select {
+	margin: 0 auto;
+}
+div label {
+	display: block;
+	/*margin-bottom: 10px;*/
+}
+#content-main > div label[for^="load-date"], #content-main > div label[for="recordnum"], #content-main > div label[for="minprice"] {
+	margin-bottom: 20px;
+}
+#content-main > div label input#recordnum {
+	width: 220px;
+}
+#content-main > div input, div select {
+	padding: 0 5px;
+}
+/*#content-main > div input {
+	width: 200px;
+}*/
+
+.list {
+	display: inline-block;
+	margin-bottom: 20px;
+}
+.list label {
+	position: relative;
+	border: 1px solid #999;
+	border-bottom-width: 0;
+	text-align: center;
+	padding: 4px 5px;
+	width: 185px;
+	/*padding-left: 40px;
+	width: 130px;*/
+	cursor: pointer;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+/*.list label:before {
+	position: absolute;
+	background: #D1D3D4;
+	content: '';
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 40px;
+}*/
+.list label:first-of-type {
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.list label:last-of-type {
+	border-bottom-width: 1px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.list input[type="radio"]:checked + label, .list label:hover {
+	background-color:#d9fdd5;
+}
+.list input[type="radio"]:not(:checked) + label:not(:hover) {
+	color: #999;
+}
+.list input[type="radio"]:empty {
+	display: none;
+}
+/*.list input[type="radio"]:checked + label:before, .list input[type="radio"]:hover:not(:checked) + label {
+	content:'\2714';
+}
+.list input[type="radio"]:checked + label:before {
+	color: #9CE2AE;
+	background-color: #4DCB6D;
+}*/
+
+div select {
+	margin-left: 10px;
+	line-height: 34px;
+	height: 34px;
+}
+
+.block > div {
+	display: block;
+	margin-bottom: 20px;
+}
+.block > div:last-child {
+	margin-bottom: 0;
+}
+
+#load-date, #minprice {
+	text-align: center;
+	margin-left: 10px !important;
+}
+#minprice {
+	width: 60px;
+}
+
+
+/* Checkbox */
+.checkbox {
+	display: inline-block;
+	background-color: #fff;
+	margin: 4px 4px 5px 4px;
+	width: 100%;
+}
+.checkbox label {
+	position: relative;
+	display: inline-block;
+	color: #bbb;
+	padding-left: 35px;
+	line-height: 25px;
+	height: 28px;
+	cursor: pointer;
+	user-select: none;
+}
+.checkbox label:after {
+	position: absolute;
+	display: block;
+	content: '';
+	top: 12px;
+	left: 0;
+	border-right: 4px solid #cee;
+	border-top: 4px solid #cee;
+	height: 20px;
+	width: 10px;
+	transform: scaleX(-1) rotate(135deg);
+	transform-origin: left top;
+}
+.checkbox label:hover:after {
+	border-color: #bdd;
+}
+.checkbox input {
+	display: none;
+}
+.checkbox input:not(:checked) + label:hover {
+	color: #999;
+}
+.checkbox input:checked + label {
+	color: #000;
+}
+.checkbox input:checked + label:after {
+	animation: check 0.8s;
+	border-color: #6aa;
+}
+
+@keyframes check {
+	0% {
+		height: 0;
+		width: 0;
+	}
+	25% {
+		height: 0;
+		width: 10px;
+	}
+	50% {
+		height: 20px;
+		width: 10px;
+	}
+}
+
+
+/* Tracking and confirmation box */
+#box-outer {
+	display: none;
+	position: fixed;
+	background-color: rgba(0,0,0,0.4);
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	z-index: 20;
+}
+#tracking-data-box {
+	display: none; /*flex*/
+	position: relative;
+	flex-direction: column;
+	background-color: #fefefe;
+	border: 1px solid #888;
+	padding: 15px;
+	margin: 15% auto;
+	height: 430px;
+	max-width: 85%;
+	max-height: 85%;
+}
+#tracking-data-box .title {
+	font-size: 18px;
+	font-weight: bold;
+	height: 40px;
+}
+div label[for="tracking-store"] {
+	margin-bottom: 15px;
+}
+#tracking-data-box textarea {
+	display: block;
+	flex: 1 1 auto;
+}
+#tracking-data-generate, #tracking-data-upload {
+    flex: 0 0 auto;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Clear confirmation box */
+#clear-confirm-box {
+	display: none; /*flex*/
+	flex-direction: column;
+	position: relative;
+	background-color: #fefefe;
+	text-align: center;
+	border: 1px solid #888;
+	padding: 15px;
+	margin: 15% auto;
+	max-width: 90%;
+	width: 250px;
+	height: auto;
+}
+#clear-confirm-box .title {
+	font-size: 16px;
+	height: 40px;
+}
+#clear-confirm-btns {
+	flex: 0 0 auto;
+	margin-top: 20px;
+	height: 40px;
+}
+
+.flex {
+	display: flex !important;
+}
+.centre {
+	text-align: center;
+}
+.gap {
+	margin-bottom: 30px;
+}
+
+
+/* Button */
+.action-btn {
+	display: inline-block;
+	background-color: #82c2fa;
+	font-size: 16px;
+	color: #fff;
+	text-decoration: none;
+	/*text-shadow: 0px 1px 0px #263666;*/
+	border: 1px solid #777;
+	border-radius: 3px;
+	padding: 8px 10px;
+	margin: 0;
+	cursor: pointer;
+}
+.action-btn:not(:last-child) {
+	margin-right: 10px;
+}
+.action-btn:not(:disabled):hover {
+	background-color: #38a2ff;
+}
+.action-btn:disabled {
+	cursor: default;
+	opacity: 0.5;
+}
+
+/* Colours */
+.green {
+	color: #008000;
+}
+.red {
+	color: #d81212;
+}

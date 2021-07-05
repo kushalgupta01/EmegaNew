@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Location Details - Add/Receive Stock</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/locations/locations.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<script src="/locations/add/locationdetails-add.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<div class="title">Location Details - Add/Receive Stock</div>
+			<button class="menu action-btn btn-green" >Back to locations</button>
+		</div>
+		<div style="margin: 0 auto; margin-top: 20px; display: flex">
+					  <button id="back-to-locations" class="action-btn"style="position: absolute; align-self: center">Load location..</button>
+					  <input type="text" placeholder="Scan Barcode.." id="item-input-select" autofocus>
+					  <button id="select-items" type="submit"></button>
+					  <button id="save-bay" type="submit" style="margin-left: 10px;"><a>Save</a></button>
+					  <label id="location-type" for="type">Location Type: <select class="type-selection">  <option value="pick">Pick Location</option>
+			<option value="bulk">Bulk Location</option><option value="dispatch">Dispatch Location</option>
+			</select></label>
+		</div>
+		<div id="content-inventory-searchfield" style="margin: 0 auto;">
+			<form >
+				<span>Load:</span>
+				<input type="radio" name="searchfield" id="itembarcode" value="item" checked><label for="itembarcode">Item Barcode</label>
+				<input type="radio" name="searchfield" id="itemno" value="location"><label for="itemno">Item No</label>
+				<input type="radio" name="searchfield" id="itemsku" value="item"><label for="itemsku">Item SKU</label>
+				<input type="radio" name="searchfield" id="itemcustomsku" value="item"><label for="itemcustomsku">Item Custom SKU</label>
+				<input type="radio" name="searchfield" id="itemname" value="item"><label for="itemname">Item Name</label>
+			</form>
+		</div>
+		<div id="location-management">			
+				<br><br><br>
+				<div id="bay">Location Details: <span>-</span></div>
+				<div id="item-table-container">
+					<table id="item-table" class="scroll table table-bordered">				
+						<thead class="table-head">
+							<!-- <tr colspan ='11'><div id="bay">Location Details: <span>-</span></div></tr> -->
+							<tr class="table-success">
+								<th>Store</th>								
+								<th>Name</th>
+								<th>SKU</th>
+								<th>Barcode</th>														
+								<th>Total Qty</th>
+								<th class="display-none">Loose Qty</th>
+								<th class="display-none">Carton Qty</th>
+								<!-- <th>Type</th> -->
+								<th class="display-none">Quantity Per Carton</th>
+								<th>Image</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody id="item-table-body"></tbody>
+					</table>
+				</div>
+			
+		</div>
+
+		<div id="box-outer" class="modal">
+			<div id="box-container">
+				<div id="skuList" class="hide">	<!-- transactionLogs -->		
+					<br><br><br>
+					<div id="entries"><span></span></div><br>
+					<div id="selectSku">Please select <b>one</b>.</div>
+					<div > <!-- skuBayLog -->
+						<table id="barcodesDuplicated" class="scroll table table-bordered">				
+							<thead class="table-head">
+								<!-- <tr colspan ='11'><div id="bay">Location Details: <span>-</span></div></tr> -->
+								<tr class="table-success">
+									<th>Store</th>								
+									<th>Name</th>
+									<th>SKU</th>
+									<th>Barcode</th>														
+									<th>Image</th>
+								</tr>
+							</thead>
+							<tbody id="fullbody"></tbody>
+						</table>
+					</div>
+				</div>
+				
+				<div class="close"></div>
+			</div>
+		</div>
+
+		<div id="notification" class="hide">
+			<div class="content"></div>
+			<div class="close"></div>
+		</div>
+
+		<div class="hover_bkgr_fricc">
+		    <span class="helper"></span>
+		    <div>
+		        <div class="popupCloseButton">&times;</div>
+		        <p>Reason to change quantity to <span id="numQty"></span><br><input id="reason"></input>
+		        <div class="">
+						<button id="reason-save" class="action-btn btn-KashmirBlue">Save</button>				
+				</div>
+		    </div>
+		</div>
+
+	</div>
+</body>
+<script>
+// Warning before leaving the page (back button, or outgoinglink)
+window.onbeforeunload = function() {
+   return "Do you really want to leave the application?";
+   //if we return nothing here (just calling return;) then there will be no pop-up question at all
+   //return;
+};
+</script>
+</html>

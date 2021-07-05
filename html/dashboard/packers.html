@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Packers Report</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="css/orders.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+
+<script src="js/packers.js" type="module"></script>
+
+</head>
+<body>
+<div id="loading">
+  <!-- <img id="loading-image" src="/order-collect/img/5.gif" alt="Loading..." /> -->
+</div>
+	<div id="container">
+	<div id="header">
+		<div class="title">Packers Report</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container">
+			<div id="content-packer-summary" class="content-page">
+
+				<div id="packed-date">
+					By: <input id="dateby" type="date" name="by" />
+					<button id="packers-search" class="action-btn">Search</button>
+				</div>
+				<!-- <div id="content-packer-searchfield">
+					<label for="title">SearchBy: </label>
+					<input type="radio" name="searchfield" value="name" checked>
+					<label for="name">Total Orders</label>
+					<input type="radio" name="searchfield" value="items">
+					<label for="items">No. of Items</label>
+					<input type="radio" name="searchfield" value="weight">
+					<label for="weight">Weight</label>
+				</div> -->
+				<!-- <div class="line">Average time of parcel: <span id="avgTimeParcel"></span></div> -->
+				
+				<table id="packed-total-day" class="content-table">
+					<thead>
+						<tr class="tr-header">
+							<!--<th></th>
+							<th>User</th>
+							<th>Item Name</th>
+							<th>SKU</th>
+							<th>Stock Received</th>
+							<th>Emega Whs Qty</th> -->
+							
+						</tr>
+					</thead>
+					<tbody id="packedByDay"></tbody>
+					<tfoot>
+						<tr id="total">
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+    </div>
+</body>
+</html>

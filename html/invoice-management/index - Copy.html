@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Download Orders 📲</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="css/main.css" rel="stylesheet" />
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script src="js/main.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+<script src="/common/papaparse.min.js"></script>
+</head>
+<body>
+	<style>
+		.content-orders-filter__choose__flex {
+			display: flex;
+			flex-flow: row wrap;
+		}
+	
+		.content-orders-filter__choose__flex-input .input-group label {
+			width: 150px;
+			display: inline-block;
+		}
+	
+		.content-orders-filter__choose__flex-input {
+			margin-right: 10%;
+		}
+	
+		.checkbox label {
+			margin-bottom: 5px;
+		}
+	
+		.action_btns {
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+	</style>
+
+	<div id="container">
+		<div id="header">
+			<div class="title">Download Invoices</div>
+			<button class="menu action-btn btn-green" >Back to menu</button>
+		</div>
+		<div id="main">
+			<div id="content-container">
+				<!-- Download Invoices -->
+				<div id="content-download-invoices" class="content-page hide">
+					<div id="invoices-download-option" class="options">
+						<span>Choose stores:</span>
+						<form class="checkbox"></form>
+					</div>
+					<div id="invoices-download-substore-option" class="options hide">
+						<span>Choose substores:</span>
+						<form class="checkbox"></form>
+					</div>
+					<div id="content-orders-filter">
+						From: <input id="datefrom" type="date" name="from" />
+						To: <input id="dateto" type="date" name="to" />
+						Receive Email: <input id="receive_email" type="email" name="receive_email" placeholder="Email" />
+						<style type="text/css"> 
+						.min_weight, .max_weight, .cost_weight, .show_field_name{width: 100px !important;}
+						.show_field_name {width: auto !important;margin-left: 0 !important;}
+						.lbl_unit {width: 50px !important;}				
+						</style>
+						<div class="content-orders-filter__choose">
+							<div class="content-orders-filter__choose__flex">
+								<div class="content-orders-filter__choose__flex-input">
+									<h3>Please input the cost: </h3>
+									<div class="action_btns">
+										<input id="add-costweights-btn" class="action-btn btn-KashmirBlue" type="button" value="Add row" />
+										<input id="save-costweights-btn" class="action-btn btn-KashmirBlue" type="button" value="Save" />
+										<button id="download-invoices-btn" class="action-btn">Download Invoices</button>
+									</div>
+										
+								</div>
+								<div class="content-orders-filter__choose__flex-checkbox">
+									<h3>Select fields: </h3>
+									<div><input type="checkbox" class="show_field_name" id="showPaypalPayment" checked="true" /> <label for="showPaypalPayment">Paypal Payment</label></div>
+									<div><input type="checkbox" class="show_field_name" id="showParcelWeight" checked="true" /> <label for="showParcelWeight">Parcel Weight</label></div>
+									<div><input type="checkbox" class="show_field_name" id="showPostageCost" checked="true" /> <label for="showPostageCost">Postage Cost</label></div>
+									<div><input type="checkbox" class="show_field_name" id="showHandlingCost" checked="true" /> <label for="showHandlingCost">Handling</label></div>
+									<div><input type="checkbox" class="show_field_name" id="showPaypalTransactionFee" checked="true" /> <label for="showPaypalTransactionFee">Paypal Transaction Fee</label></div>
+									<div><input type="checkbox" class="show_field_name" id="showEbayFee" checked="true" /> <label for="showEbayFee">Ebay Fee</label></div>
+									<div><input type="checkbox" class="show_field_name" id="showServiceFee" checked="true" /> <label for="showServiceFee">Service Fee</label></div>
+									<div><input type="checkbox" class="show_field_name" id="showPaypalTotalFee" checked="true" /> <label for="showPaypalTotalFee">Paypal Total Fee</label></div>
+									<div><input type="checkbox" class="show_field_name" id="showSalesChannel" checked="true" /> <label for="showSalesChannel">SalesChannel</label></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="invoices-download-btns">
+						<hr />
+						<input id="invoicesFile" type="file" accept=".xlsx" />
+						<button id="import-invoices-btn" class="action-btn btn-KashmirBlue">Import Invoices</button>
+						<br/><br />
+						<input id="postalchargesFile" type="file" accept=".xlsx" />
+						<button id="import-postalcharges-btn" class="action-btn btn-KashmirBlue">Import Postal Charges</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div id="notification" class="hide">
+			<div class="content"></div>
+			<div class="close"></div>
+		</div>
+	</div>
+
+</body>
+</html>

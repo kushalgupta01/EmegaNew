@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>eMega - Admin Panel</title>
+
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="../admin/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../admin/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../admin/css/ionicons.min.css">
+	<link rel="stylesheet" href="../admin/css/datepicker3.css">
+	<link rel="stylesheet" href="../admin/css/all.css">
+	<link rel="stylesheet" href="../admin/css/custom.css">
+	<link rel="stylesheet" href="../admin/css/select2.min.css">
+	<link rel="stylesheet" href="../admin/css/dataTables.bootstrap.css">
+	<link rel="stylesheet" href="../admin/css/jquery.fancybox.css">
+	<link rel="stylesheet" href="../admin/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="../admin/css/_all-skins.min.css">
+	<link rel="stylesheet" href="../admin/css/on-off-switch.css"/>
+	<link href="/common/buttons.css" rel="stylesheet" />
+	<link href="css/main.css" rel="stylesheet" />
+	<script src="js/main.js" type="module"></script>
+	<script src="/common/pdfkit.js"></script>
+	<script src="/common/blob-stream.js"></script>
+	<script src="/common/JsBarcode.code128.min.js"></script>
+	<script src="/common/FileSaver.min.js"></script>
+	<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #000000;
+  text-align: left;
+  padding: 8px;
+}
+</style>
+
+</head>
+
+<body class="hold-transition fixed skin-blue sidebar-mini">
+
+	<div class="wrapper">
+
+		<header class="main-header">
+
+			<a href="#" class="logo">
+				<span class="logo-lg"><font color="red"><h3>eMega</h3></font></span>
+			</a>
+
+			<nav class="navbar navbar-static-top">
+				
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+					<span class="sr-only">Toggle navigation</span>
+				</a>
+
+				<span style="float:left;line-height:50px;color:#fff;padding-left:15px;font-size:18px;">Admin Panel</span>
+
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<li class="dropdown user user-menu">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								
+								<span class="hidden-xs">Asif</span>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="user-footer">
+									<div>
+										<a href="#" class="btn btn-default btn-flat">Edit Profile</a>
+									</div>
+									<div>
+										<a href="#" class="btn btn-default btn-flat">Log out</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+			</nav>
+		</header>
+
+  		
+
+  		<aside class="main-sidebar">
+    		<section class="sidebar">
+      
+      			<ul class="sidebar-menu">
+
+			        <li class="treeview">
+			          <a href="#">
+			            <i class="fa fa-laptop"></i> <span>Dashboard</span>
+			          </a>
+			        </li>
+
+
+					
+			        
+			        
+
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-file-text"></i>
+							<span>Orders</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="#"><i class="fa fa-circle-o"></i> Collected Orders</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i> Partial Collected Orders</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i> Warehouse Orders</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i> Pack Orders</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i> Out of Stock Orders</a></li>
+						</ul>
+					</li>
+
+										
+
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-podcast"></i>
+							<span>B2B orders</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="#"><i class="fa fa-circle-o"></i> B2B Orders</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i> B2B New Orders report</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i> B2B Packed Orders report</a></li>
+						</ul>
+					</li>
+
+					
+
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa-bars"></i>
+							<span>Management</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="#"><i class="fa fa-circle-o"></i>Inventory Management</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i> User Management</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i>Packer Management</a></li>
+						
+						</ul>
+					</li>
+					
+
+<li class="treeview">
+						<a href="#">
+							<i class="fa fa-address-book"></i>
+							<span>eCommerce</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="#"><i class="fa fa-circle-o"></i> sales</a></li>
+							<li><a href="#"><i class="fa fa-circle-o"></i> orders</a></li>
+						
+						</ul>
+					</li>
+					
+
+					
+			      
+
+        
+      			</ul>
+    		</section>
+  		</aside>
+
+  		<div class="content-wrapper">
+
+<section class="content-header">
+	
+		<table>
+  <tr>
+    <th>Name</th>
+    <th>User ID</th>
+    <th>Date</th>
+	<th>Store</th>
+	<th>ID</th>
+	<th>Record #</th>
+  </tr>
+  <tr>
+    <td>Rebekah lavell</td>
+    <td>30048411_cotd</td>
+    <td>09-Apr-21</td>
+	<td>Hobbyco Website</td>
+	<td>280224</td>
+	<td>O162885</td>
+  </tr>
+ 
+  
+  
+</table>
+
+	
+</section>
+<section class="content">
+<div id="container">
+<div id="header">
+		<div class="title">Title</div>
+		</div>
+		<div id="record-container">
+			<div id="record-main">
+<p>
+<div id="record-entries"></div>
+<label for="hobbyco">Bucket:</label>
+  <select name="bucket" id="bucket">
+    <option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+<option value="32">32</option>
+<option value="33">33</option>
+<option value="34">34</option>
+<option value="35">35</option>
+<option value="36">36</option>
+<option value="37">37</option>
+<option value="38">38</option>
+<option value="39">39</option>
+<option value="40">40</option>
+<option value="41">41</option>
+<option value="42">42</option>
+<option value="43">43</option>
+<option value="44">44</option>
+<option value="45">45</option>
+<option value="46">46</option>
+<option value="47">47</option>
+<option value="48">48</option>
+<option value="49">49</option>
+<option value="50">50</option>
+<option value="51">51</option>
+<option value="52">52</option>
+<option value="53">53</option>
+<option value="54">54</option>
+<option value="55">55</option>
+<option value="56">56</option>
+<option value="57">57</option>
+<option value="58">58</option>
+<option value="59">59</option>
+<option value="60">60</option>
+<option value="61">61</option>
+<option value="62">62</option>
+<option value="63">63</option>
+<option value="64">64</option>
+<option value="65">65</option>
+<option value="66">66</option>
+<option value="67">67</option>
+<option value="68">68</option>
+<option value="69">69</option>
+<option value="70">70</option>
+<option value="71">71</option>
+<option value="72">72</option>
+<option value="73">73</option>
+<option value="74">74</option>
+<option value="75">75</option>
+<option value="76">76</option>
+<option value="77">77</option>
+<option value="78">78</option>
+<option value="79">79</option>
+<option value="80">80</option>
+<option value="81">81</option>
+<option value="82">82</option>
+<option value="83">83</option>
+<option value="84">84</option>
+<option value="85">85</option>
+<option value="86">86</option>
+<option value="87">87</option>
+<option value="88">88</option>
+<option value="89">89</option>
+<option value="90">90</option>
+<option value="91">91</option>
+<option value="92">92</option>
+<option value="93">93</option>
+<option value="94">94</option>
+<option value="95">95</option>
+<option value="96">96</option>
+<option value="97">97</option>
+<option value="98">98</option>
+<option value="99">99</option>
+<option value="100">100</option>
+<option value="101">101</option>
+<option value="102">102</option>
+<option value="103">103</option>
+<option value="104">104</option>
+<option value="105">105</option>
+<option value="106">106</option>
+<option value="107">107</option>
+<option value="108">108</option>
+<option value="109">109</option>
+<option value="110">110</option>
+<option value="111">111</option>
+<option value="112">112</option>
+<option value="113">113</option>
+<option value="114">114</option>
+<option value="115">115</option>
+<option value="116">116</option>
+<option value="117">117</option>
+<option value="118">118</option>
+<option value="119">119</option>
+<option value="120">120</option>
+<option value="121">121</option>
+<option value="122">122</option>
+<option value="123">123</option>
+<option value="124">124</option>
+<option value="125">125</option>
+<option value="126">126</option>
+<option value="127">127</option>
+<option value="128">128</option>
+<option value="129">129</option>
+<option value="130">130</option>
+<option value="131">131</option>
+<option value="132">132</option>
+<option value="133">133</option>
+<option value="134">134</option>
+<option value="135">135</option>
+<option value="136">136</option>
+<option value="137">137</option>
+<option value="138">138</option>
+<option value="139">139</option>
+<option value="140">140</option>
+<option value="141">141</option>
+<option value="142">142</option>
+<option value="143">143</option>
+<option value="144">144</option>
+<option value="145">145</option>
+<option value="146">146</option>
+<option value="147">147</option>
+<option value="148">148</option>
+<option value="149">149</option>
+<option value="150">150</option>
+
+  </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <label for="storename">Clients :</label>
+  <select name="Client" id="client">
+    <option value="HobbyCo">HobbyCo</option>
+<option value="HobbyExp">HobbyExp</option>
+<option value="Quarantine">Quarantine</option>
+<option value="Parcels">Parcels</option>
+<option value="Flat-Pack">Flat-Pack</option>
+<option value="Fastway FlatPack">Fastway FlatPack</option>
+<option value="Express">Express</option>
+<option value="International">International</option>
+  <option value="HABITANIA">HABITANIA</option>
+<option value="SONSOFAMAZON">SONSOFAMAZON</option>
+<option value="AUTOWELL">AUTOWELL</option>
+<option value="TRINITYCONNECT">TRINITYCONNECT</option>
+<option value="CIRCULAR2NDS">CIRCULAR2NDS</option>
+<option value="RRV">RRV</option>
+<option value="SWD">SWD</option>
+<option value="HPD">HPD</option>
+<option value="ELIABATHROOMS">ELIABATHROOMS</option>
+<option value="SPARTAN">SPARTAN</option>
+<option value="DEAL">DEAL</option>
+<option value="ATPACK">ATPACK</option>
+
+  </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+  <div class="container">
+  <div class="row">
+       <div class="col-lg-12">
+     <div class="button-group">
+        <button type="button" data-toggle="dropdown" ><font color="black" size="2">Select Orders from the list</font><span class="caret"></span></button>
+<ul class="dropdown-menu">
+  <li><a href="#" class="small" data-value="How  O162885" tabIndex="-1"><input type="checkbox"/>&nbsp;How  O162885</a></li>
+  <li><a href="#" class="small" data-value="HOW O162940" tabIndex="-1"><input type="checkbox"/>&nbsp;HOW O162940</a></li>
+  <li><a href="#" class="small" data-value="HOW O162939" tabIndex="-1"><input type="checkbox"/>&nbsp;HOW O162939</a></li>
+  <li><a href="#" class="small" data-value="HOW O162960" tabIndex="-1"><input type="checkbox"/>&nbsp;HOW O162960</a></li>
+  <li><a href="#" class="small" data-value="HOW O162994" tabIndex="-1"><input type="checkbox"/>&nbsp;HOW O162994</a></li>
+  <li><a href="#" class="small" data-value="HOW O163004" tabIndex="-1"><input type="checkbox"/>&nbsp;HOW O163004</a></li>
+   <li><a href="#" class="small" data-value="HOW O162960" tabIndex="-1"><input type="checkbox"/>&nbsp;HOW O162960</a></li>
+  <li><a href="#" class="small" data-value="HOW O162994" tabIndex="-1"><input type="checkbox"/>&nbsp;HOW O162994</a></li>
+  <li><a href="#" class="small" data-value="HOW O163004" tabIndex="-1"><input type="checkbox"/>&nbsp;HOW O163004</a></li>
+</ul>
+  </div>
+</div>
+  </div>
+</div>
+
+<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+
+
+<div id="record-nav-buttons">
+				<button id="record-prev" class="record-nav action-btn btn-green nomargin" autocomplete="off">Previous record</button>
+				<button id="record-next" class="record-nav action-btn btn-green nomargin right" autocomplete="off">Next record</button>
+				<button id="record-logout" class="action-btn btn-green nomargin top right-left" autocomplete="off"><span id="username">Someone</span> - Logout</button>
+				<button id="back-to-menu" class="menu action-btn btn-green top right-center">Back to menu</button>
+				<button id="record-refresh" class="action-btn btn-green nomargin top right" autocomplete="off">Refresh</button>
+			</div>
+
+  </p>
+  </div>
+  </div>
+	<div class="row">
+		<div class="col-md-12">
+	
+			<div class="box box-info">
+				<div class="box-body table-responsive">
+				
+					<table id="example1" class="table table-bordered table-striped record-items">
+						<thead>
+				<tr>
+					<th>Quantity</th>
+					<th data-name="missingQty">Missing Qty</th>
+					<th>Item #</th>
+					<th>SKU</th>
+					<th>Item Name</th>
+					<th>Item Price</th>
+					<th>Subtotal</th>
+					<th data-name="alternativeItem">Alternative Item</th>
+					<th data-name="scanned">Carton Scanned</th>
+					<th data-name="indivScanned">Individually Scanned</th>
+					<th data-name="current-inventory">Current Inventory</th>
+					<th data-name="location-selected">Location Selected</th>
+					<th data-name="image">Image</th>
+					<th data-name="baySat">Bay & Satchel</th>
+					<th data-name="report"></th>
+
+				</tr>
+			</thead>
+			<tbody></tbody>
+					</table>
+					
+					
+					<table>
+  <tr>
+    <td rowspan="4"><mark><b>Please Scan items</b></mark></td>
+    <td>Sub Total</td>
+	<td>$89.99</td>
+  </tr>
+  <tr>
+   <td>Postage & Handling</td>
+    <td>$100</td>
+  </tr>
+  <tr>
+    <td>Total</td>
+    <td>$99.94</td>
+  </tr>
+</table>
+<br>
+<p>                                     <a href="#" class="btn btn-primary btn-xs">READY TO PACK AS PARCEL</a> 
+                                        <a href="#" class="btn btn-primary btn-xs">ADD NOTES</a>
+										<a href="#" class="btn btn-primary btn-xs">MARK ALL</a>
+										<a href="#" class="btn btn-primary btn-xs">BY PASS SCAN</a>
+										<a href="#" class="btn btn-primary btn-xs">REFUND</a>
+										<a href="#" class="btn btn-primary btn-xs">ORDERED</a>
+                                        <a href="#" class="btn btn-primary btn-xs">OUT OF STOCK</a>
+                                        <a href="#" class="btn btn-primary btn-xs">WAREHOUSE COLLECT</a>
+                                        <a href="#" class="btn btn-primary btn-xs">PARTIAL COLLECT</a> </p>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+
+
+	<!-- Box & weight -->
+		<div id="boxWeight-box" class="hide">
+			<div class="line padded-s">Store: <span id="order-boxWeight-store"></span>, order #: <span id="order-boxWeight-num"></span></div>
+			<div>
+				<table id="boxWeight-table" class="content-table">
+					<thead>
+						<tr>
+							<th><button class="rows-add btn-green" style="width:40px; height:40px; font-size:40px;">+</button></th>
+							<th>Box No</th>							
+							<th>Weight(kg)</th>
+						</tr>						
+					</thead>
+					<tbody id="boxWeight-table-body"></tbody> 
+				</table>	
+				<div class="box-actions">
+					<button id="save-boxDetails" class="save-boxDetail action-btn btn-grey">Save</button>
+				</div>
+			</div>			
+		</div>
+	
+
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Delete Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure want to delete this item?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+		</div>
+
+	</div>
+	
+
+	<script src="../admin/js/jquery-2.2.4.min.js"></script>
+	<script src="../admin/js/bootstrap.min.js"></script>
+	<script src="../admin/js/jquery.dataTables.min.js"></script>
+	<script src="../admin/js/dataTables.bootstrap.min.js"></script>
+	<script src="../admin/js/select2.full.min.js"></script>
+	<script src="../admin/js/jquery.inputmask.js"></script>
+	<script src="../admin/js/jquery.inputmask.date.extensions.js"></script>
+	<script src="../admin/js/jquery.inputmask.extensions.js"></script>
+	<script src="../admin/js/moment.min.js"></script>
+	<script src="../admin/js/bootstrap-datepicker.js"></script>
+	<script src="../admin/js/icheck.min.js"></script>
+	<script src="../admin/js/fastclick.js"></script>
+	<script src="../admin/js/jquery.sparkline.min.js"></script>
+	<script src="../admin/js/jquery.slimscroll.min.js"></script>
+	<script src="../admin/js/jquery.fancybox.pack.js"></script>
+	<script src="../admin/js/app.min.js"></script>
+	<script src="../admin/js/jscolor.js"></script>
+	<script src="../admin/js/on-off-switch.js"></script>
+    <script src="../admin/js/on-off-switch-onload.js"></script>
+	<script src="../admin/ckeditor/ckeditor.js"></script>
+	<script src="../admin/js/demo.js"></script>
+    <script src="../admin/js/utility.js"></script>
+
+
+
+	<script>
+	  $(function () {
+	    //Initialize Select2 Elements
+	    $(".select2").select2();
+
+	    //Datemask dd/mm/yyyy
+	    $("#datemask").inputmask("dd-mm-yyyy", {"placeholder": "dd-mm-yyyy"});
+	    //Datemask2 mm/dd/yyyy
+	    $("#datemask2").inputmask("mm-dd-yyyy", {"placeholder": "mm-dd-yyyy"});
+	    //Money Euro
+	    $("[data-mask]").inputmask();
+
+	    //Date picker
+	    $('#datepicker').datepicker({
+	      autoclose: true,
+	      format: 'dd-mm-yyyy',
+	      todayBtn: 'linked',
+	    });
+
+	    $('#datepicker1').datepicker({
+	      autoclose: true,
+	      format: 'dd-mm-yyyy',
+	      todayBtn: 'linked',
+	    });
+
+	    //iCheck for checkbox and radio inputs
+	    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+	      checkboxClass: 'icheckbox_minimal-blue',
+	      radioClass: 'iradio_minimal-blue'
+	    });
+	    //Red color scheme for iCheck
+	    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+	      checkboxClass: 'icheckbox_minimal-red',
+	      radioClass: 'iradio_minimal-red'
+	    });
+	    //Flat red color scheme for iCheck
+	    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+	      checkboxClass: 'icheckbox_flat-green',
+	      radioClass: 'iradio_flat-green'
+	    });
+
+
+
+	    $("#example1").DataTable();
+	    $('#example2').DataTable({
+	      "paging": true,
+	      "lengthChange": false,
+	      "searching": false,
+	      "ordering": true,
+	      "info": true,
+	      "autoWidth": false
+	    });
+
+	    $('#confirm-delete').on('show.bs.modal', function(e) {
+	      $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+	    });
+ 
+	  });
+
+	  $(document).ready(function () {
+	    	CKEDITOR.replace( 'editor1' );
+	  }); 
+
+	</script>
+
+	<script type="text/javascript">
+		function showDiv(elem){
+			if(elem.value == 0) {
+		      	document.getElementById('photo_div').style.display = "none";
+		      	document.getElementById('icon_div').style.display = "none";
+		   	}
+		   	if(elem.value == 1) {
+		      	document.getElementById('photo_div').style.display = "block";
+		      	document.getElementById('photo_div_existing').style.display = "block";
+		      	document.getElementById('icon_div').style.display = "none";
+		   	}
+		   	if(elem.value == 2) {
+		      	document.getElementById('photo_div').style.display = "none";
+		      	document.getElementById('photo_div_existing').style.display = "none";
+		      	document.getElementById('icon_div').style.display = "block";
+		   	}
+		}
+		function showContentInputArea(elem){
+		   if(elem.value == 'Full Width Page Layout') {
+		      	document.getElementById('showPageContent').style.display = "block";
+		   } else {
+		   		document.getElementById('showPageContent').style.display = "none";
+		   }
+		}
+	</script>
+	
+
+	
+
+</body>
+</html>

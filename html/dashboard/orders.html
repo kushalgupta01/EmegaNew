@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/order-collect/css/main.css" rel="stylesheet" />
+<link href="/client/css/home.css" rel="stylesheet" />
+<link href="css/orders.css" rel="stylesheet" />
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="js/orders.js" type="module"></script> 
+<body>
+
+<div id="loading">
+	<img id="loading-image" src="/order-collect/img/5.gif" alt="Loading..." />
+</div>
+<!--   <h1>Orders Dashboard</h1> -->
+<div class="outer">
+	<iframe src="http://free.timeanddate.com/clock/i7pwvqc7/n240/fn17/fs26/tcf90/pc9f0/ftb/bo2/pd2/tt0/th1" frameborder="0" width="667" height="35"></iframe>
+</div>
+<br>
+<div>
+  	<div id="float-left" class="form-group" style="position: absolute;">Store
+    		<div class="content-item-stores">
+			<select type="text"  readonly><option value="0">All</option>
+			<select type="text" class="form-control" readonly>
+   		 </div><!-- group -->
+  	</div>
+	<div class="item-block">
+		<div class="item-order">
+	      		<p class="number-order" id="total_new_orders">Loading</p>
+	      		<p class="name-order">New Orders</p>
+	    	</div>
+	    	<div class="item-order">
+	      		<p class="number-order" id="total_partial_collect_orders">Loading</p>
+	     		<p class="name-order">Partial Collect</p>
+	    	</div>
+	    	<div class="item-order">
+	     		<p class="number-order" id="total_warehouse_collect_orders">Loading</p>
+	      		<p class="name-order">Warehouse Collect</p>
+	    	</div>
+	    	<div class="item-order">
+	      		<p class="number-order" id="total_collected_orders">Loading</p>
+	      		<p class="name-order">Collected</p>
+	   	</div>
+	    	<div class="item-order">
+	      		<p class="number-order" id="total_ready_to_pack_orders">Loading</p>
+	      		<p class="name-order">Ready to Pack</p>
+	   	</div>
+	    	<div class="item-order">
+	      		<p class="number-order" id="total_packed_orders">Loading</p>
+	      		<p class="name-order">Packed Orders</p>
+		</div>
+	</div>
+</div>
+
+<!-- <div id="piechart" style="display: none"></div>
+<div id="chartDiv" style="height:650px; margin:0 auto; display: none"></div>
+
+
+
+<div id="barCharts" style="display: flex; flex-wrap: wrap;"></div> -->
+<div class="outer">
+  	<div id="storeName"></div>
+  	<div id="reason"></div>
+</div>
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+	<!-- Indicators -->
+	<ol class="carousel-indicators">
+	</ol>
+	<!-- Wrapper for slides -->
+	<div class="carousel-inner" role="listbox">
+
+	</div>
+
+	<!-- Controls -->
+	<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    		<span class="sr-only">Next</span>
+  	</a>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+<html> 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Manage Weight</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link href="/manage-weight/manageweight.css" rel="stylesheet" />
+
+<script src="/manage-weight/manageweight.js" type="module"></script>
+<script src="/common/xlsx.full.min.js"></script>
+</head>
+<body>
+	<div id="container">
+	<div id="header">
+		<div class="title">Manage Weight</div>
+		<button class="menu action-btn btn-green" >Back to menu</button>
+	</div>
+	<div id="main">
+		<div id="content-container">
+			<div id="content-item-summary" class="content-page">
+				<div id="content-item-stores" class="options">
+					<span>Store:</span>
+					<form class="checkbox" autocomplete="off">
+					</form>
+				</div>
+				<div id="content-item-perpage" class="options">
+					<span>Per Page:</span>
+					<form class="checkbox" autocomplete="off">
+					</form>
+				</div>
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="selected-all"><input type="checkbox" autocomplete="off"></th>
+							<th>Image</th>
+							<th>Item Title</th>
+							<th>Sku</th>
+							<th>Item Number</th>
+							<th>Weight (kg)</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<div id="pages"></div>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</div>
+</body>
+</html>

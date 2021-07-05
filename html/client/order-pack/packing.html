@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>Packing</title>
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<link href="/client/css/header.css" rel="stylesheet" />
+<script src="js/config.js" type="module"></script>
+<script src="js/main.js" type="module"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="/common/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+
+<div id="container" data-page-type="pack">
+	<div class="wrapper">
+	    <!-- Sidebar  -->
+		<nav id="sidebar">
+            <div class="sidebar-header">
+                <a href="/client/index.html"><img src="/common/images/logo.svg" alt="logo"></a>
+                <button type="button" id="sidebarCollapse-mobile" class="show-sidebar">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            <ul class="list-unstyled nav-links">
+                <li class="active">
+                    <a href="/client/index.html">
+						<i class="fa fa-home" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Home</span>
+					</a>
+                </li>
+                <li id="li-pendingorders" class="habitania hide">
+                    <a href="javascript:void(0)" class="has-sub open-dropdown">
+						<i class="fas fa-box-open" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Pending Orders</span>
+					</a>
+					<ul class="sub-nav" style="display: none;">
+						<li id="li-collectorders"style="margin-top: 0px;margin-bottom: 0px;">
+							<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/orders.html?p=collect"><span class="fas fa-crosshairs"></span> Collect orders</a>
+						</li>							
+						<!-- <li id="li-awaitinglist" style="margin-top: 0px;margin-bottom: 0px;">
+							<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/orders.html?p=awaitinglist"><span class="fas fa-pause-circle"></span> Awaiting List</a>
+						</li> -->
+					</ul>
+                </li>
+               <li id="li-manageorders" >
+                	<a href="javascript:void(0)" class="has-sub2 open-dropdown">
+                    	<i class="fa fa-tasks" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Manage Orders</span>
+					</a>
+					<ul class="sub-nav2" style="display: none;">
+						<li id="li-addneworder" style="margin-top: 0px;margin-bottom: 0px;">
+							<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/client/order-collect/manage.html"><span class="fas fa-eye"></span> View Order</a>
+						</li>
+						<!-- <li id="li-warehousecollect" style="margin-top: 0px;margin-bottom: 0px;">
+							<a style="height: 30px;padding-top: 5px;padding-left: 15px;" href="/order-create/createOrder.html"><span class="fas fa-plus"></span> Create Order</a>
+						</li> -->
+					</ul>
+                </li> 
+               <li class="active">
+                    <a href="/client/order-pack/index.html">
+						<i class="fa fa-table" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Pack Orders</span>
+					</a>
+                </li>
+				<li id="li-orderdownload">
+                    <a href="/client/order-download/index.html">
+						<i class="fa fa-download" aria-hidden="true"></i>
+						<span class='sidebar-menu-text'>Download Orders</span>
+					</a>
+                </li>
+                <li id="addOrders">
+                	<a href="/client/add-order/addOrder.html">
+          				<i class="fas fa-folder-plus"></i>
+          				<span class="sidebar-menu-text">Add Orders</span> 
+          			</a>
+          		</li>
+            </ul>
+        </nav>
+	    <!-- Page Content  -->
+	    <div id="layout-admin" class="collapse-sidebar">
+		    <div id="container">
+				<div id="header">
+					<h1></h1>
+					<button class="logout action-btn btn-navy">Logout</button>
+				</div>
+				<div id="main">
+					<div id="record-container"></div>
+				</div>
+				<div id="notification" class="hide">
+					<div class="content"></div>
+					<div class="close"></div>
+				</div>
+			</div>
+
+			<template id="record-entry-template">
+				<div class="record-entry">
+					<div class="record-title inline">
+						<div>
+							<span>Name: <span class="record-buyer-name">-</span></span>
+							<span>User ID: <span class="record-user-id">-</span></span>
+							<span>Date: <span class="record-date">-</span></span>
+							<span>Record #: <span class="record-num">-</span></span>
+							<span>DB ID: <span class="record-db-id">-</span></span>
+							<span>Bucket: <span class="bucket-num">-</span></span>
+						</div>
+					</div>
+					<div class="record-duplicate inline hide">
+						<div class="bg-pink">Combined Order</div>
+					</div>
+					<div class="record-buyer-message">Message from buyer:<span>-</span></div>
+					<div class="manual-message">Manual message:<span>-</span></div>
+					<table class="record-items">
+						<thead>
+							<tr>
+								<th>Quantity</th>
+								<th>Item #</th>
+								<th>SKU</th>
+								<th>Item Name</th>
+								<th>Price</th>
+								<th>Cartons<br>to be scanned</th>
+								<th>Individual Items<br>to be scanned</th>
+								<th>Photos</th>
+								<th>Weight</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td class="record-prices"></td>
+							</tr>
+						</tfoot>
+					</table>
+					<!-- <div class="record-buyer-message">Message from buyer:<br><span>-</span></div>
+					<div class="manual-message">Manual message:<br><span>-</span></div> -->
+					<div class="record-trackingid">Tracking Numbers (oldest-first, newest-last): <span></span></div>
+					<div class="record-actions">
+						<button class="override action-btn btn-dred" disabled>OVERRIDE</button>
+						<!-- <button class="next action-btn btn-dblue">Next Order</button> -->
+						<button class="later action-btn btn-dblue">Do Order Later</button>
+						<button class="save-track action-btn btn-dblue hide" style="margin-left: 200px">Scan Tracking</button>
+						<button class="next action-btn btn-dblue" disabled>Next Order</button>
+					</div>
+					<br><br><br>
+					<div class="more-labels">More labels:
+								<button class="decreaseValue number-Picker btn-red">-</button>	
+								<input id="labelTextBox" type="text" value="0">
+								<button class="increaseValue number-Picker btn-green">+</button>
+								<button class="sendLabels action-btn btn-grey">Send</button>
+					</div>
+					<div class="save-weight">Parcel Weight:
+								<input id="weightTextBox" type="text">
+								<button class="saveWeight action-btn btn-grey">Save</button>
+					</div>
+				</div>
+			</template>
+
+			<template id="record-error-template">
+				<div class="record-error">
+					<div class="record-error-msg"></div>
+					<div class="record-duplicate inline hide">
+							<div class="bg-pink">Combined Order</div>
+					</div>
+					<div class="record-actions">
+						<button class="later action-btn btn-dblue">Do Order Later</button>
+					</div>
+				</div>
+			</template>
+		</div>
+	</div>
+</div>
+
+<script src="/common/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	    "use strict"; // Start of use strict
+
+	    //Sidebar menu
+	    $('.show-sidebar').on('click', function() {
+	        $('#sidebar').toggleClass('collapse-sidebar');
+	        $('#layout-admin').toggleClass('collapse-sidebar');
+	    });
+	    $('.has-sub').on('click', function() {
+	    	$('.has-sub').toggleClass('open-dropdown');
+	        $('.sub-nav').slideToggle("slow");
+	    });
+	    $('.has-sub2').on('click', function() {
+	    	$('.has-sub2').toggleClass('open-dropdown');
+	        $('.sub-nav2').slideToggle("slow");
+	    });
+
+	});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,164 @@
+
+#container {
+	display: unset;
+	flex-direction: initial;
+}
+#home {
+	margin: 0;
+	padding-top: 20px;
+	height: auto;
+	overflow-y: auto;
+}
+#home-content.manage {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center;*/
+	width: 1000px;
+}
+#home-content.manage .page-line, #record-details {
+	margin-bottom: 20px !important;
+}
+#home-content.manage .page-line input, #home-content.manage label, #home-content.manage label select, #record-details {
+	font-size: 18px;
+}
+#home-content.manage .page-line input {
+	margin: 0;
+	margin-right: 10px;
+	width: 260px;
+}
+
+#record-details {
+	font-family: "Arial", sans-serif;
+	text-align: left;
+}
+#record-store-input, #record-details > * {
+	margin-bottom: 10px;
+}
+#record-store {
+	margin-left: 10px;
+}
+#home-content.manage label, #home-content.manage textarea {
+	display: block;
+}
+#home-content.manage label select {
+	padding: 0 8px;
+	margin-left: 10px;
+	height: 40px;
+}
+
+#record-details .line {
+	margin-bottom: 15px;
+}
+#record-details .line span {
+	margin-left: 10px;
+}
+#record-details .line .bold {
+	font-weight: bold;
+}
+
+#record-combined-list {
+	display: block !important;
+	border: 1px solid #555;
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+	width: 680px;
+}
+#record-combined-list div {
+	display: inline-block;
+	background: #ddefff;
+	border-right: 1px solid #aaa;
+	padding: 0px 8px;
+	line-height: 40px;
+	height: 40px;
+	cursor: pointer;
+}
+#record-combined-list div:hover, #record-combined-list div.selected {
+	background: #c1e2ff;
+}
+
+.content-table {
+	border-collapse: collapse;
+	border-top: 1px solid #555;
+	padding-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px !important;
+	width: 680px;
+}
+.content-table thead tr {
+	background: #d9fdd5;
+	border-bottom: 1px solid #555;
+}
+.content-table tr, .content-table th, .content-table td {
+    font-size: 16px;
+	font-weight: normal;
+	padding: 0;
+	margin: 0;
+}
+
+.content-table thead tr, .content-table tbody tr {
+	border-left: 1px solid #555;
+	border-bottom: 1px solid #555;
+}
+.content-table tbody tr {
+	border-bottom: 1px solid #aaa;
+}
+.content-table th, .content-table td {
+	border-right: 1px solid #555;
+	padding: 1px 10px;
+	height: 35px;
+}
+.content-table th {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+.content-table td:first-child {
+	width: 130px;
+}
+/*.content-table td:last-child {
+	width: 420px;
+}*/
+.content-table td:not(:last-child) {
+	border-right: 1px solid #aaa;
+}
+
+
+textarea.wide {
+	font-size: 16px;
+	padding: 5px;
+	height: 70px;
+	width: 95%;
+}
+#record-group {
+	text-align: left !important;
+	margin-left: 10px !important;
+	overflow: visible !important;
+	width: 250px !important;
+}
+
+#record-show-abn + label {
+	display: inline-block !important;
+	margin-left: 10px;
+}
+#record-show-abn + label::after {
+	top: 18px !important;
+}
+
+.checkbox {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.centre {
+	text-align: center;
+}
+.hide {
+	display: none;
+}
+.mb30 {
+	margin-bottom: 20px !important;
+}

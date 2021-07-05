@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Orders</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="css/main.css" rel="stylesheet" />
+
+<script src="js/main.js" type="module"></script>
+<script src="/common/jquery-3.2.1.min.js"></script> 
+<script src="/common/pdfkit.js"></script>
+<script src="/common/blob-stream.js"></script>
+<script src="/common/JsBarcode.code128.min.js"></script>
+<script src="/common/FileSaver.min.js"></script>
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<div class="title">Title</div>
+		<!--<a href="#tabid" id="tab-id">Tab</a>-->
+	</div>
+	<div id="main">
+		<nav id="record-list">
+			<div id="record-search">
+				<input type="text" placeholder="Search for order" value="" autocomplete="off">
+			</div>
+			<ul>
+				<li>Loading orders...</li>
+			</ul>
+		</nav>
+		<div id="record-container">
+			<div id="record-main">
+				<div id="record-group">
+					<span>Bucket:</span>
+				</div>
+				<div id="record-entries"></div>
+			</div>
+			<div id="record-main-actions">
+				<!-- Labels -->
+				<label class="action-label">Store: </label>
+				<select id="store-label" class="action-label">
+					<option value='all'>ALL</option>
+				</select>
+				<label class="action-label">Type: </label>
+				<select id="type-label" class="action-label">
+					<option value='-'>-</option>
+				</select>
+				<label class="action-label">Repeat Customers: </label>
+				<select id="cust-label" class="action-label">
+					<option value='2'>ALL</option>
+					<option value='0'>Non Repeat Customers</option>
+					<option value='1'>Repeat Customers</option>
+				</select>
+				<br>
+				<button class="order-generate action-btn" data-type="fastway" data-variant="label-data" autocomplete="off">Generate Fastway</button>
+				<!-- <button class="order-generate action-btn" data-type="fastwaybrown" data-variant="label-data" autocomplete="off">Generate Fastway Brown</button> -->
+				<button class="order-generate action-btn" data-type="auspost" data-variant="label-data" autocomplete="off">Generate Australia Post</button>
+				<button class="order-generate action-btn" data-type="fastwayflatpack" data-variant="label-data" autocomplete="off">Generate Fastway Flatpack</button>
+				<button class="order-generate action-btn" data-type="fastwayflatpack1kg" data-variant="label-data" autocomplete="off">Generate Fastway Flatpack 1kg</button>
+				<button class="order-generate action-btn" data-type="fastwayflatpack5kg" data-variant="label-data" autocomplete="off">Generate Fastway Flatpack 5kg+</button>
+				<button class="order-print action-btn" data-type="flatpack" autocomplete="off">Flat-pack labels</button>
+				<button class="order-generate action-btn" data-type="express" data-variant="label-data" autocomplete="off">Generate Express Post</button>
+				<button class="order-print action-btn" data-type="express" autocomplete="off">Express Post labels</button>
+				<button class="order-print action-btn" data-type="international" autocomplete="off">International labels</button>
+				<button class="order-generate action-btn" data-type="international" data-variant="label-data" autocomplete="off">Generate International</button>
+				<!--<button class="order-print action-btn" data-type="flatpack" data-variant="multiple" autocomplete="off">Flat-pack V2</button>-->
+				<!--<button class="order-print action-btn" data-type="flatpack" data-variant="multiple-stores" autocomplete="off">Flat-pack stores</button>-->
+				<button class="order-tracking action-btn btn-apricot nomargin-bottom" autocomplete="off">Add tracking numbers</button>
+				<button class="order-pack action-btn btn-lgreen" data-type="fastway"  autocomplete="off" disabled>Ready - Fastway</button>
+				<!-- <button class="order-pack action-btn btn-lgreen" data-type="fastwaybrown"  autocomplete="off" disabled>Ready - Fastway Brown</button> -->
+				<button class="order-pack action-btn btn-lgreen" data-type="auspost"  autocomplete="off" disabled>Ready - Australia Post</button>
+				<button class="order-pack action-btn btn-lgreen" data-type="fastwayflatpack"  autocomplete="off" disabled>Ready - Fastway Flatpack</button>
+				<button class="order-pack action-btn btn-lgreen" data-type="fastwayflatpack1kg"  autocomplete="off" disabled>Ready - Fastway Flatpack 1kg</button>
+				<button class="order-pack action-btn btn-lgreen" data-type="fastwayflatpack5kg"  autocomplete="off" disabled>Ready - Fastway Flatpack 5kg+</button>
+				<button class="order-pack action-btn btn-lgreen" data-type="flatpack"  autocomplete="off" disabled>Ready - Flat-pack</button>
+				<button class="order-pack action-btn btn-dgreen" data-type="express"  autocomplete="off" disabled>Ready - Express Post</button>
+				<button class="order-pack action-btn btn-dgreen" data-type="international" autocomplete="off" disabled>Ready - International</button>
+				
+				
+				<button class="order-refresh action-btn btn-purple nomargin-bottom" autocomplete="off" disabled>Done - refresh page</button>
+			</div>
+			<div id="record-nav-buttons">
+				<button id="record-prev" class="record-nav action-btn btn-green nomargin" autocomplete="off">Previous record</button>
+				<button id="record-next" class="record-nav action-btn btn-green nomargin right" autocomplete="off">Next record</button>
+				<button id="record-logout" class="action-btn btn-green nomargin top right-left" autocomplete="off"><span id="username">Someone</span> - Logout</button>
+				<button id="back-to-menu" class="menu action-btn btn-green top right-center">Back to menu</button>
+				<button id="record-refresh" class="action-btn btn-green nomargin top right" autocomplete="off">Refresh</button>
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+
+<template id="record-entry-template">
+	<div class="record-entry">
+		<div class="record-title inline">
+			<div>
+				<div>Name: <span class="record-buyer-name">-</span></div>
+				<div>User ID: <span class="record-buyer-id">-</span></div>
+				<div>Country: <span class="record-buyer-country">-</span></div>
+				<div>Date: <span class="record-date">-</span></div>
+				<div>Store: <span class="record-store">-</span></div>
+				<div>Status: <span class="record-status">-</span></div>
+				<div>ID: <span class="record-db-id">-</span></div>
+				<div>Record #: <span class="record-num">-</span></div>
+			</div>
+		</div>
+		<div class="record-postservice inline">
+			<div class="bg-yellow">
+				<span class="flatpacked">Flat-packed</span>
+				<span class="auspost">Australia Post</span>
+				<span class="fastway">Fastway Couriers</span>
+				<span class="fastwayflatpack">Fastway Flatpack</span>
+				<span class="fastwayflatpack1kg">Fastway Flatpack 1kg</span>
+				<span class="fastwayflatpack5kg">Fastway Flatpack 5kg+</span>
+				<!-- <span class="fastwaybrown">Fastway Brown</span> -->
+			</div>
+		</div>
+		<div class="record-express inline">
+			<div class="bg-red">Express</div>
+		</div>
+		<div class="record-international inline">
+			<div class="bg-lblue">International sale</div>
+		</div>
+		<div class="record-combined inline">
+			<div class="bg-pink">Combined order</div>
+		</div>
+		<div class="pack-status inline">
+			<div class="bg-yellow">
+				<span data-status="READYTOPACK">Ready to pack</span>
+				<span data-status="PROGRESS">Progress</span>
+				<span data-status="LATER">Later</span>
+			</div>
+		</div>
+		<div class="pack-rts inline">
+			<div class="bg-yellow">
+				<span data-status="RTS">RTS</span>
+				<span data-status="DAMAGEDRTS">DAMAGED RTS</span>
+			</div>
+		</div>
+		<div class="record-buyer-message">Message from buyer:<br><span>-</span></div>
+		<div class="record-notes">Order notes:<br><span id="notes">-</span></div>
+		<table class="record-items">
+			<thead>
+				<tr>
+					<th>Quantity</th>
+					<th>Item #</th>
+					<th>SKU</th>
+					<th>Item Name</th>
+					<th>Item Price</th>
+					<th>Subtotal</th>
+					<th data-name="alternativeItem">Alternative Item</th>
+					<th data-name="scanned">Carton Scanned</th>
+					<th data-name="indivScanned">Individually Scanned</th>
+					<th data-name="current-inventory">Current Inventory</th>
+					<th data-name="image">Image</th>
+					<th data-name="baySat">Bay & Satchel</th>
+					<th data-name="report"></th>
+
+				</tr>
+			</thead>
+			<tbody></tbody>
+			<tfoot>
+				<tr>
+					<td colSpan="2" class="scan-status">
+						<span class="scan-waiting btn-apricot">Please scan items</span>
+						<span class="scan-done btn-lgreen">All items scanned ✓</span>
+					</td>
+					<td colSpan="3">Subtotal:<br>Postage & Handling:<br>Total:</td>
+					<td class="record-prices"></td>
+				</tr>
+			</tfoot>
+		</table>
+		<!-- <div class="record-buyer-message">Message from buyer:<br><span>-</span></div>
+		<div class="record-notes">Order notes:<br><span id="notes">-</span></div> -->
+
+		<!-- Collect -->
+		<div class="record-actions collect padding-btn">
+			<ul class="notice">
+				<li>Highlighted rows indicate orders that are for partial refund.</li>
+			</ul>
+			<button class="order-ready-parcel order-action action-btn btn-dblue" data-type="parcel">Ready to pack as Auspost parcel</button>
+			<button class="order-ready-flatpack order-action action-btn btn-dblue" data-type="flatpack">Ready to Envelop 250g</button>
+			<button class="order-ready-fastwayflatpack order-action action-btn btn-dblue" data-type="fastwayflatpack">Ready to fastway 0-0.5kg</button>
+			<button class="order-ready-fastwayflatpack1kg order-action action-btn btn-dblue" data-type="fastwayflatpack1kg">Ready to fastway 0.5-5kg</button>
+			<button class="order-ready-fastwayflatpack5kg order-action action-btn btn-dblue" data-type="fastwayflatpack5kg">Ready to fastway 5kg+</button>
+			<button class="order-ready order-action action-btn btn-dblue collect-btn" data-type="express">Ready to pack as express</button>
+			<button class="order-ready order-action action-btn btn-dblue" data-type="international">Ready to pack as international</button>
+			<br>
+			<button class="order-change-status order-action action-btn btn-red right" data-status="outofstock">Out of stock</button>
+			<button class="order-change-status order-action action-btn btn-red right" data-status="ordered">Ordered</button>
+			<button class="order-change-status order-action action-btn btn-red right" data-status="cancelledoos">Refund</button>			
+			<button class="order-notes order-action action-btn btn-purple">Add notes</button>
+			<button class="order-change-status order-action action-btn btn-grey" data-status="none">Reset</button>
+			<button class="order-scan-bypass order-action action-btn btn-lgreen">Bypass scan</button>
+			<button class="order-select-all order-action action-btn btn-KashmirBlue">Mark All</button>
+			<button class="markAll-order-change-status order-action action-btn btn-olive">Ordered</button>
+			<br>
+			<!-- <button id="marksix" class="item-mark-six action-btn btn-grey" data-type="sixpack">6 Pack</button>
+			<button id="markten" class="item-mark-ten action-btn btn-apricot" data-type="tenpack">10 Pack</button>
+			<button id="marktwenty" class="item-mark-twenty action-btn btn-grey" data-type="twentypack">20 Pack</button>
+			<button id="markthirty" class="item-mark-thirty action-btn btn-apricot" data-type="thirtypack">30 Pack</button>
+			<button id="marksixty" class="item-mark-sixty action-btn btn-grey" data-type="sixtypack">60 pack</button>
+			<button id="markgucci" class="item-mark-gucci action-btn btn-apricot" data-type="gucci">GUCCI</button> -->
+		</div>
+		<div class="record-trackingid">Tracking ID: <span></span></div>
+
+		<br>
+
+		<div id = "record-details" class="hide">
+			<label for="record-type">Order type:
+					<select id="record-type"></select>
+			</label>
+			<br><br>
+			<label for="record-status">Order status:
+					<select id="record-status"></select>
+			</label>
+			<br><br>
+			<div class="">Collector: <span id="record-collector"></span></div>
+			<!-- <br><br> -->
+			<div class="">Collected time: <span id="record-collected-time"></span></div>
+			<br><br>
+			<div class="">Packer: <span id="record-packer"></span></div>
+			<!-- <br><br> -->
+			<div class="">Packed time: <span id="record-packed-time"></span></div>
+			<br><br>
+			<button id="opentracking" class="action-btn line">Open latest tracking details</button>
+			<!-- <div class="centre padding-btn pad-less"> -->
+			<button id="awaiting-save" class="action-btn">Save</button>
+		</div>
+		<br><br><br>
+		<div id= "content-container" class="hide">
+			<div id="content-order-summary" class="content-page">
+				<div id="content-order-searchbar">
+					<input></input>
+					<button id="content-order-search" class="action-btn">Search</button>
+				</div> <br>
+				<div id="content-order-searchfield">
+					<label for="title">SearchBy:</label>
+					<!-- <input type="radio" name="searchfield" value="itemno" checked> -->
+					<!-- <label for="itemno">Item No</label> -->
+					<input type="radio" name="searchfield" value="itemname" checked>
+					<label for="itemname">Item Name</label>
+					<input type="radio" name="searchfield" value="sku">
+					<label for="sku">SKU</label>
+					<input type="radio" name="searchfield" value="customsku">
+					<label for="customsku">Custom SKU</label>
+				</div>
+			</div><br><br>
+			<table id="item-table" class="scroll table table-bordered">
+				<thead class="table-head">
+					<tr class="table-success">
+						<th>Store</th>
+						<th>ItemNo</th>
+						<th>Name</th>
+						<th>SKU</th>
+						<th>Custom SKU</th>
+						<th>Stock on Hand</th>
+						<th>Image</th>
+					</tr>
+				</thead>
+				<tbody id="item-table-body"></tbody>
+			</table>
+		</div>
+	</div>
+</template>
+<template id="record-done-template">
+	<div class="record-entry-done">
+		<div class="msg">There's nothing left to <span class="action">collect</span> here</div>
+		<img>
+	</div>
+</template>
+<template id="record-item-scan-template">
+	<span class="current"></span> / <span class="total"></span>
+</template>
+<template id="record-indiv-item-scan-template">
+	<span class="indivCurrent"></span> / <span class="indivTotal"></span>
+</template>
+
+<div id="box-outer">
+	<div id="box-container">
+		<!-- Collect -->
+		<div id="combined-confirm-box" class="hide">
+			<div class="title">Combined orders</div>
+			<div id="combined-confirm-text" class="line padded"><strong>Instructions:</strong> For combined orders, please make sure to click the same button for each order if they are to be processed together.</div>
+			<!--<div class="box-actions">
+				<button id="combined-confirm" class="action-btn">Confirm</button>
+				<button id="combined-cancel" class="action-btn">Cancel</button>
+			</div>-->
+		</div>
+		<div id="barcode-box" class="hide">
+			<div class="title">Scan Barcode for Item</div>
+			<div id="barcode-itemname" class="line padded-s">Item Name: <span>-</span></div>
+			<div id="barcode-itemnum" class="line padded-s">Item #: <span>-</span></div>
+			<div id="barcode-itemsku" class="line padded-s" style="display: none;">SKU: <span>-</span></div>
+			<div id="barcode-itemstore" class="line padded-s" style="display: none;">Store: <span>-</span></div>
+			<div id="barcode-itemid" class="line padded-s" style="display: none;">ID: <span>-</span></div>
+			<label for="barcode-variations" class="line padded">Variation:
+				<select id="barcode-variations"></select>
+			</label>
+			<div id="barcode-input" class="line padded"><input type="text" placeholder="Scan or enter carton barcode here"></div>
+			<div id="barcode-quantity" class="line">
+				<div class="quantity">
+					<span>Carton Quantity:</span>
+					<input type="radio" id="bcq1" name="bcq" value="1" checked><label for="bcq1">1</label>
+					<input type="radio" id="bcq2" name="bcq" value="2"><label for="bcq2">2</label>
+					<input type="radio" id="bcq3" name="bcq" value="3"><label for="bcq3">3</label>
+					<input type="radio" id="bcq4" name="bcq" value="4"><label for="bcq4">4</label>
+					<input type="radio" id="bcq5" name="bcq" value="5"><label for="bcq5">5</label>
+					<input type="radio" id="bcq6" name="bcq" value="6"><label for="bcq6">6</label>
+					<input type="radio" id="bcq7" name="bcq" value="7"><label for="bcq7">7</label>
+					<input type="radio" id="bcq8" name="bcq" value="8"><label for="bcq8">8</label>
+					<input type="radio" id="bcq9" name="bcq" value="9"><label for="bcq9">9</label>
+					<input type="radio" id="bcq10" name="bcq" value="10"><label for="bcq10">10</label>
+				</div>
+				<div class="other">Other: <input type="text" id="bcqo" value=""></div>
+			</div>
+			<div id="indiv-barcode-input" class="line padded"><input type="text" placeholder="Scan or enter item barcode here"></div>
+			<!-- <div class="indiv-quantity">Individual Quantity: <input type="text" id="bcqi" value=""></div> -->
+			<div id="indiv-quantity" class="line">
+				<div class="indivQuantity">
+				<span>Individual Quantity:</span>
+					<input type="radio" id="ivq1" name="ivq" value="1" checked><label for="ivq1">1</label>
+					<input type="radio" id="ivq2" name="ivq" value="2"><label for="ivq2">2</label>
+					<input type="radio" id="ivq3" name="ivq" value="3"><label for="ivq3">3</label>
+					<input type="radio" id="ivq4" name="ivq" value="4"><label for="ivq4">4</label>
+					<input type="radio" id="ivq5" name="ivq" value="5"><label for="ivq5">5</label>
+					<input type="radio" id="ivq6" name="ivq" value="6"><label for="ivq6">6</label>
+					<input type="radio" id="ivq7" name="ivq" value="7"><label for="ivq7">7</label>
+					<input type="radio" id="ivq8" name="ivq" value="8"><label for="ivq8">8</label>
+					<input type="radio" id="ivq9" name="ivq" value="9"><label for="ivq9">9</label>
+					<input type="radio" id="ivq10" name="ivq" value="10"><label for="ivq10">10</label>
+				</div>	
+				<div class="ivother">Other: <input type="text" id="ivqo" value=""></div>
+			</div>
+			<div class="box-actions"><button id="barcode-save" class="action-btn">Save</button></div>
+		</div>
+		<div id="item-report-box" class="hide">
+			<div class="title">Report this item</div>
+			<div id="item-report-reason" class="box-choice line padded-s">
+				<div class="selection">
+					<div class="heading">Reason:</div>
+					<input type="checkbox" id="orr1" name="orr" value="price"><label for="orr1">Price</label>
+					<input type="checkbox" id="orr2" name="orr" value="flatpack"><label for="orr2">Flat-pack symbol</label>
+					<input type="checkbox" id="orr3" name="orr" value="image"><label for="orr3">Picture</label>
+					<br>
+					<input type="checkbox" id="orr4" name="orr" value="title"><label for="orr4">Item title</label>
+					<input type="checkbox" id="orr5" name="orr" value="barcode"><label for="orr5">Create barcode</label>
+					<input type="checkbox" id="orr6" name="orr" value="other"><label for="orr6">Other</label>
+				</div>
+				<textarea id="item-report-other" class="other padded-s" placeholder="Enter the 'other' reason(s) for reporting this item"></textarea>
+			</div>
+			<div class="box-actions">
+				<button id="item-report-save" class="action-btn">Report item</button>
+			</div>
+		</div>
+		<div id="order-notes-box" class="hide">
+			<div class="title">Add notes to this order</div>
+			<div class="line padded-s">Store: <span id="order-notes-store"></span>, order #: <span id="order-notes-num"></span></div>
+			<textarea id="order-notes-text" class="padded-s" placeholder="Enter any notes for this order here"></textarea>
+			<div class="box-actions">
+				<button id="order-notes-save" class="order-action action-btn">Save notes</button>
+			</div>
+		</div>
+
+		<div id="update-inventory-box" class="hide">
+			<div class="left">
+				<div class="title">Update the Inventory from here</div>
+				<div id="exists-inventory"></div>
+				<div>Item Quantity:  <input type="text" id="itemQuantityInput"></div>
+				<div>Carton Quantity:  <input type="text" id="cartonQuantityInput"></div>
+				<div>--------------------------------------------------------------------</div>
+				<div>Inner Quantity: <input type="text" id="innerQuantityInput"></div>
+				<div>Quantity per Carton:  <input type="text" id="quantityPerCartonInput"></div>
+				<div>Expiry date:  <input type="text" id="expiryInput"></div>
+				<div>Core (1) or Closeout (0):  <input id="coreCloseoutInput" type="text"></div>
+				<div>Clearance (1):  <input type="text" id="clearanceInput"></div>
+				<div>Supplier:  <input type="text" id="supplierInput"></div>
+				<div>Pack size: <input type="text" id="packsize"></div>
+				<div class="box-actions"><button id="inventory-save" class="action-btn save-inv">Save</button></div>
+			</div>
+			<div class="right">
+				<div class="title">Damaged Inventory</div>
+				<div id="damage-inventory"></div>
+				<div>Item Quantity:  <input type="text" id="damageQuantityInput"></div>
+				<div>Carton Quantity:  <input type="text" id="damageCartonQuantityInput"></div>
+				<!-- <div>Quantity per Carton:  <input type="text" id="damageQuantityPerCartonInput"></div> -->
+				<div class="box-actions"><button id="damage-inventory-save" class="action-btn save-damageinv">Save</button></div>
+			</div>
+		</div>
+
+		<!-- Labels -->
+		<div id="pack-confirm-box" class="hide">
+			<div class="title">Confirm ready to pack</div>
+			<div class="line padded">This will mark the orders of this type as being ready to be packed.</div>
+			<div class="box-actions">
+				<button id="pack-confirm" class="action-btn">Confirm</button>
+				<!--<button id="pack-cancel" class="action-btn">Cancel</button>-->
+			</div>
+		</div>
+		<div id="tracking-save-box" class="hide">
+			<div class="title">Tracking data</div>
+			<textarea id="tracking-data" class="padded-s" placeholder="Enter tracking data here"></textarea>
+			<div class="box-actions">
+				<button id="tracking-save" class="action-btn">Save tracking data</button>
+				<!--<button id="tracking-cancel" class="action-btn">Cancel</button>-->
+			</div>
+		</div>
+		<div id="order-notes-box" class="hide">
+			<div class="title">Add notes to this order</div>
+			<div class="line padded-s">Store: <span id="order-notes-store"></span>, order #: <span id="order-notes-num"></span></div>
+			<textarea id="order-notes-text" class="padded-s" placeholder="Enter any notes for this order here"></textarea>
+			<div class="box-actions">
+				<button id="order-notes-save" class="order-action action-btn">Save notes</button>
+			</div>
+		</div>
+		
+		<!-- Stock -->
+		<div id="order-cancel-box" class="hide">
+			<div class="title">Cancel Order</div>
+			<fieldset id="order-cancel-items" class="padded"></fieldset>
+			<label for="order-cancel-reason" class="line padded-s">Reason for cancellation:
+				<select id="order-cancel-reason">
+					<option value="outofstock" selected>Out of stock</option>
+					<option value="discontinued">Discontinued</option>
+				</select>
+			</label>
+			<textarea id="order-cancel-notes" class="padded" placeholder="Enter the details for partial orders here"></textarea>
+			<div class="box-actions">
+				<button id="order-cancel-partial" class="order-action action-btn">Partial order</button>
+				<button id="order-cancel-full" class="order-action action-btn btn-red">Cancel order</button>
+			</div>
+		</div>
+
+		<div class="close"></div>
+
+		<!-- add-item -->
+		<div id="item-add-box" class="hide">
+			<div class="title">Add Items</div>
+			<div id="item-search" class="">
+				<div class="form-inline">
+					<label class="form-label col-1">Store</label> 
+					<select id="search-store" class="form-control col-4"><option select="selected">-</option></select>
+					<label class="form-label col-1">Id</label>
+					<input type="text" class="form-control col-4" id="search-id">
+				</div>
+				<div class="form-inline">
+					<label class="form-label col-1">SKU</label>
+					<input type="text" id="search-sku" class="col-4 form-control">
+					<label class="form-label col-1">Item No</label>
+					<input type="num" id="search-itemNum" class="col-4 form-control">	
+				</div>
+				<div class="form-inline">
+					<label class="col-sm-1 col-form-label">Name</label>
+					<input type="text" id="search-name" class="col-9 form-control">
+					<button id="search-item" class="btn btn-primary" >Search Item</button>
+				</div>
+			</div>
+
+			<br>
+
+			<table id="search-table" class="table">
+				<thead>
+					<tr>
+						<!-- <th class="selected-all"><input type="checkbox" autocomplete="off"></th> -->
+						<th>  </th>
+						<th>Id</th>
+						<th>Store</th>
+						<th>Item Title</th>
+						<th>Sku</th>
+						<th>Item No</th>
+					</tr>
+				</thead>
+				<tbody id="search-table-body"></tbody>
+			</table>
+			<div class="box-actions">
+				<button id="select-item" class="btn btn-primary">Select Item</button>
+				<button id="add-item-cancel" class="btn btn-secondary">Close</button>
+			</div>
+
+			<div>
+				<label class="col-sm-2 col-form-label">ITEMS</label>
+				<label id="item-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="item-quan-feedback" class="col-sm-4 feedback hide"></label>  
+				<br/>
+				<table id="item-table" class="table">
+					<thead>
+						<tr>
+							<!-- <th class="selected-all" scope="col"><input type="checkbox" autocomplete="off"></th> -->
+							<th>  </th>
+							<th scope="col">Id</th>
+							<th scope="col">Store</th>
+							<th scope="col">Item Title</th>
+							<th scope="col">Sku</th>
+							<th scope="col">Item No</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+						</tr>
+					</thead>
+					<tbody id="item-table-body"></tbody>
+				</table>
+				<div id="content-action-btns" class="action-btns">
+					<button id="content-items-add" class="btn btn-primary">Add Items</button>
+					<button id="content-items-remove-selected" class="btn btn-warning">Remove Selected Items</button>
+				</div>	
+			</div>
+			
+		</div>
+
+		<!-- modify-item -->
+		<div id="item-modify-box" class="hide"> 
+			<!-- <div class="title">Modify Items</div> -->
+				<div>
+				<label class="col-sm-2 col-form-label">ITEMS</label>
+				<label id="item-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="item-quan-feedback" class="col-sm-4 feedback hide"></label>  
+				<br/>
+				<table id="item-table" class="table">
+					<thead>
+						<tr>
+							<!-- <th class="selected-all" scope="col"><input type="checkbox" autocomplete="off"></th> -->
+							<th> </th>
+							<th scope="col">Id</th>
+							<th scope="col">Store</th>
+							<th scope="col">Item Title</th>
+							<th scope="col">Sku</th>
+							<th scope="col">Item No</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+						</tr>
+					</thead>
+					<tbody id="item-table-body"></tbody>
+				</table>
+				<div id="content-action-btns" class="action-btns">
+					<button id="content-items-modify" class="btn btn-primary">Modify Items</button>
+					<button id="content-items-delete-selected" class="btn btn-warning">Delete Items</button>
+				</div>	
+			</div>
+		</div>
+		
+		<!-- addtoorigin-item -->
+		<div id="item-addtoorigin-box" class="hide"> 
+			<!-- <div class="title">Modify Items</div> -->
+				<div>
+				<label class="col-sm-2 col-form-label">ITEMS</label>
+				<label id="item-addtoorigin-feedback" class="col-sm-4 feedback hide"></label>
+				<label id="item-addtoorigin-quan-feedback" class="col-sm-4 feedback hide"></label>  
+				<br/>
+				<table id="item-table" class="table">
+					<thead>
+						<tr>
+							<!-- <th class="selected-all" scope="col"><input type="checkbox" autocomplete="off"></th> -->
+							<th> </th>
+							<th scope="col">Id</th>
+							<th scope="col">Store</th>
+							<th scope="col">Item Title</th>
+							<th scope="col">Sku</th>
+							<th scope="col">Item No</th>
+							<th scope="col">Price</th>
+							<th scope="col">Quantity</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody id="item-table-body"></tbody>
+						
+				</table>
+				<div>
+					<h4>Add Items</h4>
+					<div>
+						<div id="alternative-item-searchbar">
+							<input id="alternative-item-keyword" placeholder="Id, Item No, Item Name, SKU"
+								style="height:40px;width:250px;">
+				
+							<select id="alternative-item-searchfield-stores"></select>
+				
+							<label for="title">SearchBy:</label>
+							<input type="radio" name="alternative-item-searchfield" value="id" checked="">
+							<label for="itemno">ID</label>
+							<input type="radio" name="alternative-item-searchfield" value="itemno">
+							<label for="itemno">Item No</label>
+							<input type="radio" name="alternative-item-searchfield" value="itemname">
+							<label for="itemname">Item Name</label>
+							<input type="radio" name="alternative-item-searchfield" value="sku">
+							<label for="sku">SKU</label>
+				
+							<button id="alternative-item-search" class="action-btn">Search</button>
+						</div>
+					</div>
+					<h4>Result Items</h4>
+					<table id="alternative-items-search" class="scroll table table-bordered">
+						<thead class="table-head">
+							<tr class="table-success">
+								<th></th>
+								<th>Id</th>
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>ItemNo</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+						<tfoot>
+							<tr>
+								<td colspan="6">
+									<input type="button" value="Select Item" class="btn-primary" id="alternative-items-select-item" />
+									<input type="button" value="Close" class="btn-secondary" id="alternative-items-close" />
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					<h4>Selected Items</h4>
+					<table id="alternative-items-selected" class="scroll table table-bordered">
+						<thead class="table-head">
+							<tr class="table-success">
+								<th></th>
+								<th>Id</th>
+								<th>Store</th>
+								<th>Item Title</th>
+								<th>Sku</th>
+								<th>ItemNo</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th>Alternative Item</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div id="content-action-btns" class="action-btns">
+					<button id="alternative-items-add-items" class="btn btn-primary">Add Items</button>
+					<button id="alternative-items-remove-items" class="btn btn-warning">Removed Selected Item</button>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,280 @@
+import '/order-collect/js/config.js';
+import {NotificationBar} from '/common/notification.js';
+import {copyToClipboard, getDateValue, getQueryValue, includesAll, selectText, addListener, removeListener, checkLogin} from '/common/tools.js';
+import {getItemDetails} from '../order-collect/js/item-details.js';
+
+
+window.page = {
+	//liveMessages: new LiveMessages(wsServer),
+	notification: new NotificationBar(),
+	orders: {},
+	type: 'Purchase Order',
+	tab: null,
+	user: {
+		id: '',
+		username: '',
+		firstname: '',
+		lastname: '',
+		type: '',
+	},
+	userToken: localStorage.getItem('usertoken') || '',
+	local: window.location.hostname.startsWith('1'),
+	localUser: !!localStorage.getItem('local'),
+	loadTime: 0,
+	customers: {},
+};
+
+window.saleRecords = {};
+
+if (page.local) {
+	apiServer = apiServerLocal;
+}
+
+document.addEventListener('DOMContentLoaded', async function() {
+	checkLogin();
+	addListener('#header .menu', 'click', function(e) {
+		window.location.href = '/';
+	});
+
+	document.querySelector('#content-order-summary #content-purchaseorder-search').addEventListener('click', searchPurchaseOrders, false);
+	document.querySelector('#content-order-summary #content-generate-po-report').addEventListener('click', savePODocument, false);
+	
+	await loadSuppliers();
+});
+
+async function loadSuppliers() {
+	let response = await fetch(apiServer + 'suppliers/get', {method: 'get', headers: {'DC-Access-Token': page.userToken}});
+	let data = await response.json();
+
+	if (response.ok && data.result == 'success') {		
+		 for (let supplier of data.suppliers) {
+		 	page.customers[supplier.id] = supplier;
+		 }
+		 console.log(data);
+	}
+	else {
+		page.notification.show(data.result);
+	}
+}
+
+async function searchPurchaseOrders() {
+
+	let formData = new FormData();
+	let keywords = document.querySelector('#content-purchaseorder-searchbar input').value.toLowerCase();
+	let field = document.querySelector('#content-purchaseorder-searchfield input[name="searchfield"]:checked').value;
+	// console.log(keywords);
+
+	if (!keywords) {
+		page.notification.show('Please enter keywords in the search bar.');
+		return;
+	}
+
+	formData.append('keywords', keywords);
+	formData.append('field', field);
+
+	let response, data;
+	try {
+		response = await fetch(apiServer + 'orders/purchase/search', {method: 'post', body: formData});
+		data = await response.json();
+	}
+	catch (e) {
+		page.notification.show('Error: Could not connect to the server.');
+		return;
+	}
+
+	if (response.ok) {
+		if (data.result != 'success') {
+			page.notification.show(data.result, {hide: false});
+			return;
+		}
+
+		if (data.orders) {
+			document.getElementById('supplier-details').classList.remove('hide');
+			document.getElementById('purchaseorder-items').classList.remove('hide');
+			document.getElementById('content-generate-po-report').classList.remove('hide');
+
+			// console.log(data.orders);
+			for (let store in data.orders) {
+				saleRecords[store] = data.orders[store];
+			}
+
+			for (let storeID in saleRecords) {
+				let orders = saleRecords[storeID];
+				// console.log(orders);
+				for (let order of orders) {
+					let items = order.data.Items;
+
+					// supplier details table
+					let cols = ['poNumber', 'purchaseDate', 'firstName', 'lastName', 'phone', 'email', 'address1', 'address2', 'city', 'state', 'postcode', 'country'];
+					let suptbody = document.querySelector('#supplier-details tbody');
+					while (suptbody.firstChild) {
+					    suptbody.removeChild(suptbody.firstChild);
+					}
+						let tr = document.createElement('tr');
+						tr.dataset.id = order.id;
+
+						for (let col of cols) {
+							let td = document.createElement('td');
+							td.classList.add(col);
+
+							let text = '';
+							switch (col) {
+								case 'poNumber':
+									text = (order.poNo).toUpperCase();
+									break;
+								case 'purchaseDate':
+									text = order.createdDate;
+									break;
+								case 'firstName':											
+									text = order.data.BuyerFirstName;
+									break;
+								case 'lastName':
+									text = order.data.BuyerLastName;
+									break;			
+								case 'phone':
+									text = order.data.PhoneNumber;
+									break;
+								case 'email':
+									text = order.data.Email;
+									break;									
+								case 'address1':
+									text = order.data.BuyerAddress1;
+									break;
+								case 'address2':
+									text = order.data.BuyerAddress2;
+									break;
+								case 'city':
+									text = order.data.BuyerCity;
+									break;
+								case 'state':
+									text = order.data.BuyerState;
+									break;
+								case 'postcode':
+									text = order.data.BuyerPostcode;
+									break;
+								case 'country':
+									text = order.data.BuyerCountry;
+									break;				
+								default:
+									text = '';					
+							}
+							td.textContent = text || '';
+		 					tr.appendChild(td);
+						}
+						suptbody.appendChild(tr);
+
+					//item table
+					let cols2 = ['store', 'sku', 'title', 'quantity'];
+					var itemtbody = document.querySelector('#purchaseorder-items tbody');
+					while (itemtbody.firstChild) {
+					    itemtbody.removeChild(itemtbody.firstChild);
+					}
+
+					for (let item of items) {
+						let tr = document.createElement('tr');
+						tr.dataset.id = order.id;
+
+						for (let col of cols2) {
+							let td = document.createElement('td');	
+							td.classList.add(col);
+
+								let text = '';
+							switch (col) {	
+								case 'store':
+									text = stores[storeID].name;
+									break;						
+								case 'sku':											
+									text = item.SKU;
+									break;
+								case 'title':
+									text = item.Name; 
+									break;			
+								case 'quantity':
+									text = item.Quantity;
+									break;
+								default:
+									text = '';					
+							}
+							td.textContent = text || '';
+		 					tr.appendChild(td);
+						}
+						itemtbody.appendChild(tr);
+					}
+				}
+			}
+		}
+
+		if (data.errors && Array.isArray(data.errors) && data.errors.length) {
+			page.notification.show('Warning: Sale record data could not be loaded for one or more records. These records might be older than the loaded date range, might have been deleted or might not exist in the system.', {background: 'bg-orange', hide: false, dontOverlap: true});
+			for (let item of data.errors) {
+				console.warn('Warning: Could not load sale record data for record ['+item[0]+', '+item[1]+']');
+			}
+		}
+	}
+	else {
+		page.notification.show('Error: '+data.result);
+	}
+}
+
+function savePODocument() {
+
+	var suppTable = document.querySelector('#content-container #supplier-details');
+	var suppTBody = suppTable.querySelector('tbody');
+	var suppTBodyTr = suppTBody.querySelectorAll('tr:not(.hide)');
+	// console.log(suppTBodyTr.length);
+
+	var itemTable = document.querySelector('#content-container #purchaseorder-items');
+	var itemTBody = itemTable.querySelector('tbody');
+	var itemTBodyTr = itemTBody.querySelectorAll('tr:not(.hide)');
+	// console.log(itemTBodyTr.length);
+	var orderRows = [];
+	var headerRow = [];
+	
+	// Get indices of columns that should be excluded
+	{		
+		headerRow = ['PO Number', 'Purchase Date', 'Name', 'Store', 'SKU', 'Title', 'Quantity'];
+		orderRows.push(headerRow);
+	}
+
+	if (!suppTBodyTr.length || !itemTBodyTr.length) {
+		page.notification.show('No order have been added.');
+		return;
+	}
+
+	let poNum, purchaseDate, name, store, sku, title, quantity ;
+
+	for (let tr of suppTBodyTr) {
+		poNum = tr.querySelector('.poNumber').textContent;
+
+		let fname = tr.querySelector('.firstName').textContent;
+		let lname = tr.querySelector('.lastName').textContent;
+		name = fname + ' ' + lname;
+		purchaseDate = tr.querySelector('.purchaseDate').textContent;
+		// console.log(poNum, purchaseDate, name);
+	} 
+
+	for (let tr of itemTBodyTr) {
+		store = tr.querySelector('.store').textContent;
+		sku = tr.querySelector('.sku').textContent;
+		title = tr.querySelector('.title').textContent;
+		quantity = tr.querySelector('.quantity').textContent;
+		// console.log(store, sku, title, quantity);
+
+		let orderRow = [poNum, purchaseDate, name, store, sku, title, quantity];
+
+		console.log(orderRow);
+		orderRows.push(orderRow);
+		console.log(orderRows);
+	}
+
+	// Create document for upload
+	createTemplate(orderRows);
+}
+
+function createTemplate(orderRows) {
+	//console.log(orderRows);
+	var workbook = XLSX.utils.book_new();
+	var worksheet = XLSX.utils.aoa_to_sheet(orderRows);
+	XLSX.utils.book_append_sheet(workbook, worksheet, page.type + '_template');
+	XLSX.writeFile(workbook, page.type+'-'+getDateValue(new Date())+'.xlsx');
+}

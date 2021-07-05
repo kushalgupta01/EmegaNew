@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Manage Items</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="/common/checkbox.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="/order-download/css/main.css" rel="stylesheet" />
+<link href="manageItem.css" rel="stylesheet" />
+<script src="/manage-item/index.js" type="module"></script>
+
+
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<div class="title">Manage Items</div>
+		<button class="menu action-btn btn-green">Back to menu</button>
+	</div>
+	<br>
+	<div id="main">
+		<div class="container">
+			<form>
+				<div class="form-row">
+				  <div class="form-group col-2">
+				    <label>Store</label>
+				    <select class="form-control" id="item-store">
+				      <option>-</option>
+				    </select>
+				    <label id="store-feedback" class="feedback hide"></label>
+				  </div>
+				  <div class="form-group col-2">
+				    <label for="itemId">Item Id</label>
+				    <input type="text" class="form-control" id="itemId" placeholder="Item ID">
+				    <label id="num-sku-feedback" class="feedback hide"></label>
+				  </div>
+				  <div class="form-group col-2">
+				    <label for="itemNo">Item Number</label>
+				    <input type="text" class="form-control" id="itemNo" placeholder="Item Number">
+				  </div>
+				  <div class="form-group col-2">
+				    <label for="sku">Sku</label>
+				    <input type="text" class="form-control" id="sku" placeholder="Sku">
+				  </div>
+				  <div class="form-group col-2">
+				    <label for="title">Title</label>
+				    <input type="text" class="form-control" id="itemTitle" placeholder="Title">
+				  </div>
+				  <div class="form-group col-2">
+					<button id="getItem" type="button" class="btn btn-primary">Get</button>
+				  </div>
+				</div>
+			</form>
+					
+			<div id="itemTable">
+				<div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Id</span>
+					  </div>
+					  <input type="text" class="form-control" id="id-table" readonly>
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Store</span>
+					  </div>
+					  <select class="form-control" id="table-store">
+					     <option>-</option>
+					  </select>
+					  <!-- <input type="text" class="form-control" id="store-table"> -->
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">ItemNo</span>
+					  </div>
+					  <input type="text" class="form-control" id="itemNo-table">
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Sku</span>
+					  </div>
+					  <input type="text" class="form-control" id="sku-table">
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">ItemTitle</span>
+					  </div>
+					  <input type="text" class="form-control" id="itemTitle-table">
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">CartonMutiple</span>
+					  </div>
+					  <input type="text" class="form-control" id="itemMultiple-table">
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">SingleItemMutiple</span>
+					  </div>
+					  <input type="text" class="form-control" id="singleitemMultiple-table">
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">ItemWeight</span>
+					  </div>
+					  <input type="text" class="form-control" id="itemWeight-table">
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Carton Barcode</span>
+					  </div>
+					  <input type="text" class="form-control" id="itemCartonBarcode-table">
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Individual Barcode</span>
+					  </div>
+					  <input type="text" class="form-control" id="itemIndivBarcode-table">
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Flatpack</span>
+					  </div>
+					  <div class="form-check item-check">
+						  <input type="radio" name="flatpack" class="form-check-input" id="flatpack-y-table" value="1">
+						  <label class="form-check-label" for="flatpack-y-table">
+						    Yes
+						  </label>
+					  </div>
+					  <div class="form-check item-check">
+						  <input type="radio" name="flatpack" class="form-check-input" id="flatpack-n-table" value="0">
+						  <label class="form-check-label" for="flatpack-n-table">
+						    No
+						  </label>
+					  </div>
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">VR</span>
+					  </div>
+					  <div class="form-check item-check">
+						  <input type="radio" name="vr" class="form-check-input" id="vr-y-table" value="1">
+						  <label class="form-check-label" for="vr-y-table">
+						    Yes
+						  </label>
+					  </div>
+					  <div class="form-check item-check">
+						  <input type="radio" name="vr" class="form-check-input" id="vr-n-table" value="0">
+						  <label class="form-check-label" for="vr-n-table">
+						    No
+						  </label>
+					  </div>
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Fastway FP</span>
+					  </div>
+					  <div class="form-check item-check">
+						  <input type="radio" name="fwfp" class="form-check-input" id="fwfp-y-table" value="1">
+						  <label class="form-check-label" for="fwfp-y-table">
+						    Yes
+						  </label>
+					  </div>
+					  <div class="form-check item-check">
+						  <input type="radio" name="fwfp" class="form-check-input" id="fwfp-n-table" value="0">
+						  <label class="form-check-label" for="fwfp-n-table">
+						    No
+						  </label>
+					  </div>
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Bay</span>
+					  </div>
+					  <select class="form-control" id="bay-table">
+					     <option value='null'>-</option>
+					  </select>
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">Satchel</span>
+					  </div>
+					  <select class="form-control" id="satchel-table">
+					     <option value='null'>-</option>
+					  </select>
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">ItemPhotoURL</span>
+					  </div>
+					  <input type="text" class="form-control" id="itemPhoto-table">
+					</div>
+					<div class="input-group mb-12">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Combo Items</span>
+						</div>
+						<div>
+							<button id="add-combo-item" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-combo-item">
+								Add combo items
+							</button>
+						</div>
+						<table class="table table-striped" id="tblComboItems">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">SKU</th>
+									<th scope="col">Item Name</th>
+									<th scope="col">Quantity</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">PhotoFile</span>
+					  </div>
+					  <input type="file" class="form-control" id="photoFile">
+					  <div class="input-group-append">
+					    <button class="btn btn-primary" id="update-photo">Update Photo</button>
+					  </div>
+					</div>
+					<div class="input-group mb-3">
+					  <p>*Use Update Photo button to upload a photo. Update Item button will not upload photos.</p>
+					</div>
+					<div class="input-group mb-3" id="image">
+					</div>
+				</div>
+				<div>
+					<button class="btn btn-primary" id="update-item">Update Item</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+
+<div id="box-outer" class="">
+	<div id="box-container">
+		<div id="item-select-box" class="hide">
+			<div class="title">Select Item</div>
+
+			<table id="item-table" class="table">
+				<thead>
+					<tr>
+						<!-- <th class="selected-all"><input type="checkbox" autocomplete="off"></th> -->
+						<th>  </th>
+						<th>Id</th>
+						<th>Store</th>
+						<th>Item Title</th>
+						<th>Sku</th>
+						<th>Item#</th>
+					</tr>
+				</thead>
+				<tbody id="item-table-body"></tbody>
+			</table>
+			<div class="box-actions">
+				<button id="select-item" class="btn btn-primary">Select</button>
+				<button id="select-item-cancel" class="btn btn-secondary">Close</button>
+			</div>
+		</div>
+		<!-- <div class="close"></div> -->
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-combo-item" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Select Combo Item</h5>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-row">
+						<div class="form-group col-2">
+							<label>Store</label>
+							<select class="form-control" id="combo-item-store">
+								<option>-</option>
+							</select>
+							<label id="combo-store-feedback" class="feedback hide"></label>
+						</div>
+						<div class="form-group col-2">
+							<label for="itemId">Item Id</label>
+							<input type="text" class="form-control" id="combo-itemId" placeholder="Item ID">
+							<label id="combo-num-sku-feedback" class="feedback hide"></label>
+						</div>
+						<div class="form-group col-2">
+							<label for="itemNo">Item Number</label>
+							<input type="text" class="form-control" id="combo-itemNo" placeholder="Item Number">
+						</div>
+						<div class="form-group col-2">
+							<label for="sku">Sku</label>
+							<input type="text" class="form-control" id="combo-itemSku" placeholder="Sku">
+						</div>
+						<div class="form-group col-2">
+							<label for="title">Title</label>
+							<input type="text" class="form-control" id="combo-itemTitle" placeholder="Title">
+						</div>
+						<div class="form-group col-2">
+							<label for="button">&nbsp;</label>
+							<button id="getComboItem" type="button" class="btn btn-primary form-control">Search</button>
+						</div>
+					</div>
+				</form>
+				<table id="combo-item-table" class="table">
+					<thead>
+						<tr>
+							<th> </th>
+							<th>Id</th>
+							<th>Store</th>
+							<th>Item Title</th>
+							<th>Sku</th>
+							<th>Item#</th>
+						</tr>
+					</thead>
+					<tbody id="combo-item-table-body"></tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

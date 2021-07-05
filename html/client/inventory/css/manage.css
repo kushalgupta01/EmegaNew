@@ -1,0 +1,253 @@
+
+#container {
+	/*display: unset;
+	flex-direction: initial;*/
+}
+#home {
+	margin: 0;
+	padding: 20px 15px;
+	height: auto;
+	overflow-y: auto;
+  display: inline-block;
+}
+#home-content.manage {
+	/*display: flex;
+    flex-direction: column;
+    justify-content: center;*/
+}
+#home-content.manage .page-line, #record-details {
+	margin-bottom: 20px !important;
+}
+#home-content.manage .page-line input, #home-content.manage label, #home-content.manage label select, #record-details {
+	font-size: 16px;
+}
+#home-content.manage .page-line input {
+	margin: 0 15px 10px 0;
+	width: auto;
+}
+
+#record-details {
+	font-family: "Arial", sans-serif;
+	text-align: left;
+}
+#record-store-input, #record-details > * {
+	margin-bottom: 10px;
+}
+#record-store {
+	margin-left: 10px;
+}
+#home-content.manage label, #home-content.manage textarea {
+	display: block;
+	font-size: 16px;
+}
+#home-content.manage label select {
+	    padding: 0 8px;
+    margin-left: 10px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#record-details .line {
+	margin-bottom: 15px;
+}
+#record-details .line span {
+	margin-left: 10px;
+}
+#record-details .line .bold {
+	font-weight: bold;
+}
+
+#record-combined-list {
+	display: block !important;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    border-radius: 3px;
+}
+#record-combined-list div {
+	display: inline-block;
+	background: #143569;
+	border-right: 1px solid #ccc;
+	padding: 0px 8px;
+	line-height: 40px;
+	height: 40px;
+	cursor: pointer;
+    color: #fff;
+}
+#record-combined-list div:hover, #record-combined-list div.selected {
+	background: #0c1f3e;
+}
+
+.content-table {
+	border-collapse: collapse;
+    border: 1px solid #ccc;
+    padding-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px !important;
+    width: 100%;
+}
+.content-table thead tr {
+	background: #b9deff;
+	border-bottom: 1px solid #ccc;
+}
+.content-table tr td{
+	font-size: 16px;
+}
+.content-table tr, .content-table th, .content-table td {
+    font-size: 16px;
+	font-weight: normal;
+	padding: 0;
+	margin: 0;
+}
+
+.content-table thead tr, .content-table tbody tr {
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ccc;
+}
+.content-table tbody tr {
+	border-bottom: 1px solid #ccc;
+}
+.content-table th, .content-table td {
+    border-right: 1px solid #ccc;
+    padding: 10px 10px;
+    height: auto;
+}
+.content-table th {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+#record-buyer-details td:first-child {
+	max-width: 130px;
+	border-right: 1px solid #e6f3fb;
+    background: #f7fcff;
+    font-weight: bold;
+}
+/*.content-table td:last-child {
+	width: 420px;
+}*/
+.content-table td:not(:last-child) {
+
+}
+
+
+textarea.wide {
+	font-size: 16px;
+	padding: 5px;
+	height: 70px;
+	width: 100%;
+}
+#record-group {
+	text-align: left !important;
+	margin-left: 10px !important;
+	overflow: visible !important;
+	width: 250px !important;
+}
+
+#record-show-abn + label {
+	display: inline-block !important;
+	margin-left: 10px;
+}
+#record-show-abn + label::after {
+	top: 18px !important;
+}
+
+.checkbox {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.centre {
+	text-align: center;
+}
+.hide {
+	display: none;
+}
+.mb30 {
+	margin-bottom: 20px !important;
+}
+.manage #record-details {
+    margin-bottom: 20px !important;
+    margin: auto;
+}
+
+
+.manage #record-buyer-details thead tr {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    background: #143569;
+    border-bottom: 1px solid #eee;
+}
+.manage #record-buyer-details thead tr th{
+	font-weight: bold;
+}
+#record-details select, #record-details textarea{
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+
+table.content-table:not(#record-buyer-details) {
+  width: 100%;
+}
+table.content-table:not(#record-buyer-details) th,
+table.content-table:not(#record-buyer-details) td {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+}
+table.content-table:not(#record-buyer-details) th {
+  background-color: #eee;
+}
+
+/*.group-table {
+  display: inline-block;
+  width: 100%;
+  overflow: auto;
+}*/
+@media screen {
+  table.content-table:not(#record-buyer-details),
+table.content-table:not(#record-buyer-details) th,
+table.content-table:not(#record-buyer-details) td,
+table.content-table:not(#record-buyer-details) tr,
+table.content-table:not(#record-buyer-details) tr th,
+table.content-table:not(#record-buyer-details) tr td,
+table.content-table:not(#record-buyer-details) thead,
+table.content-table:not(#record-buyer-details) thead th,
+table.content-table:not(#record-buyer-details) thead td,
+table.content-table:not(#record-buyer-details) thead tr,
+table.content-table:not(#record-buyer-details) thead tr th,
+table.content-table:not(#record-buyer-details) thead tr td,
+table.content-table:not(#record-buyer-details) tbody,
+table.content-table:not(#record-buyer-details) tbody th,
+table.content-table:not(#record-buyer-details) tbody td,
+table.content-table:not(#record-buyer-details) tbody tr,
+table.content-table:not(#record-buyer-details) tbody tr th,
+table.content-table:not(#record-buyer-details) tbody tr td,
+table.content-table:not(#record-buyer-details) tfoot,
+table.content-table:not(#record-buyer-details) tfoot th,
+table.content-table:not(#record-buyer-details) tfoot td,
+table.content-table:not(#record-buyer-details) tfoot tr,
+table.content-table:not(#record-buyer-details) tfoot tr th,
+table.content-table:not(#record-buyer-details) tfoot tr td {
+  display: block;
+}
+
+table.content-table:not(#record-buyer-details) > thead {
+  float: left;
+}
+table.content-table:not(#record-buyer-details) > tbody > tr {
+  display: inline-block;
+  vertical-align: top;
+}
+
+table.content-table:not(#record-buyer-details) > tbody {
+  width: auto;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+}

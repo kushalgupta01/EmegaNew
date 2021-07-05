@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>Packing Home</title>
+<link href="../common/buttons.css" rel="stylesheet" />
+<link href="main.css" rel="stylesheet" />
+<script src="../common/jquery-3.2.1.min.js"></script>
+<script src="js/index.js" type="module"></script>
+<script src="js/config.js" type="module"></script>
+</head>
+
+<body>
+<div id="loading">
+  <img id="loading-image" src="/order-collect/img/5.gif" alt="Loading..." />
+</div>
+<div id="container">
+	<div id="header">
+		<h1>Packing Home</h1>
+		<button class="menu action-btn btn-green">Back to menu</button>
+	</div>
+	<div id="home">
+		<div class="page-line">
+			<input type="text" id="page-username" placeholder="Enter your name" value="" required>
+		</div>
+		<div id="packing-store" class='packing-buttons'>
+			<label class="action-label">Store: </label>
+			<select id="pack-store" class="action-label">
+				<option value='-'>-</option>
+			</select>
+		</div>
+		<div id="packing-buttons" class='packing-buttons'>
+			<!-- <button onclick="window.location.href='packing-manage.html'">Packing Manage</button> -->
+		</div>
+		<div id="pack-scan" class='pack-scan'>
+			<button class="action-btn btn-grey">Pack Scan</button>
+		</div>
+		<div>
+			<p>Orders Left:</p>
+			<table id="orderlefttable">
+				<thead></thead>
+				<tbody></tbody>
+			</table>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>

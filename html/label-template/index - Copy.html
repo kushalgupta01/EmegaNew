@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Label Templates 📃</title>
+<link rel="shortcut icon" href="/favicon.ico" sizes="32x32">
+<link href="/common/buttons.css" rel="stylesheet" />
+<link href="css/main.css" rel="stylesheet" />
+
+<script src="js/main.js" type="module"></script>
+<script src="/common/FileSaver.min.js"></script>
+<script src="/common/xlsx.full.min.js"></script>
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<div class="title">Label Templates 📃</div>
+		<button class="menu action-btn btn-green">Back to menu</button>
+	</div>
+	<div id="main">
+		<nav id="menu-list">
+			<ul>
+				<li data-panel="content-main">Main</li>
+			</ul>
+		</nav>
+		<div id="content-container">
+			<div id="content-get-order" class="options hide">
+				<span>Add order:</span>
+				<form class="checkbox" autocomplete="off"></form><br>
+				<input id="content-get-order-input" placeholder="Record/order ID/DB ID" autocomplete="off">
+				<button id="content-get-order-id" class="action-btn">Get order</button>
+				<button id="content-get-order-dbid" class="action-btn">Get DB ID</button>
+				<button id="content-add-row" class="action-btn">Add blank row</button>
+			</div>
+			<div id="content-main" class="content-page hide">
+				<div>Welcome to the label template generator</div>
+			</div>
+			<!-- eParcels auspost -->
+			<div id="template-auspost" class="content-page hide">
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="select-all"><input type="checkbox" autocomplete="off"></th>
+							<th data-name="A_ACTUAL_CUBIC_WEIGHT" data-required="true">Weight (kg)</th>
+							<th data-name="quantity" data-exclude="true">Carton Qty</th>
+							<th data-name="indivquantity" data-exclude="true">Individual Qty</th>
+							<th data-name="item_name" data-id="item_name" data-exclude="true">Items</th>
+
+							<th data-name="C_CONSIGNMENT_ID" class="hide">CONSIGNMENT ID</th>
+							<th data-name="C_POST_CHARGE_TO_ACCOUNT" class="hide">POST CHARGE TO ACCOUNT</th>
+							<th data-name="C_CHARGE_CODE" class="hide">CHARGE CODE</th>
+							<th data-name="C_MERCHANT_CONSIGNEE_CODE" class="hide">MERCHANT CONSIGNEE CODE</th>
+							<th data-name="C_CONSIGNEE_NAME">Name</th>
+							<th data-name="C_CONSIGNEE_BUSINESS_NAME">Company</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_1">Address1</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_2">Add2</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_3">Add3</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_4" class="hide">Add4</th>
+							<th data-name="C_CONSIGNEE_SUBURB" data-id="recipient_city">City</th>
+							<th data-name="C_CONSIGNEE_STATE_CODE" data-id="recipient_state">State</th>
+							<th data-name="C_CONSIGNEE_POSTCODE" data-id="recipient_postcode">Postcode</th>
+							<th data-name="C_CONSIGNEE_COUNTRY_CODE" class="hide">Country</th>
+							<th data-name="C_CONSIGNEE_PHONE_NUMBER">Phone</th>
+							<th data-name="C_PHONE_PRINT_REQUIRED" class="hide">PHONE PRINT REQUIRED</th>
+							<th data-name="C_CONSIGNEE_FAX_NUMBER" class="hide">Fax</th>
+							<th data-name="C_DELIVERY_INSTRUCTION">Delivery note</th>
+							<th data-name="C_SIGNATURE_REQUIRED" class="hide">SIGNATURE REQUIRED</th>
+							<th data-name="C_PART_DELIVERY" class="hide">PART DELIVERY</th>
+							<th data-name="C_COMMENTS" class="hide">COMMENTS</th>
+							<th data-name="C_ADD_TO_ADDRESS_BOOK" class="hide">ADD TO ADDRESS BOOK</th>
+							<th data-name="C_CTC_AMOUNT" class="hide">CTC AMOUNT</th>
+							<th data-name="C_REF" data-id="order_reference">Reference</th>
+							<th data-name="C_REF_PRINT_REQUIRED" class="hide">REF PRINT REQUIRED</th>
+							<th data-name="C_REF2" class="hide">Reference2</th>
+							<th data-name="C_REF2_PRINT_REQUIRED" class="hide">REF2 PRINT REQUIRED</th>
+							<th data-name="C_CHARGEBACK_ACCOUNT">Chargeback Account</th>
+							<th data-name="C_RECURRING_CONSIGNMENT" class="hide">RECURRING CONSIGNMENT</th>
+							<th data-name="C_RETURN_NAME" class="hide">Return Name</th>
+							<th data-name="C_RETURN_ADDRESS_1" class="hide">Return Address1</th>
+							<th data-name="C_RETURN_ADDRESS_2" class="hide">Return Add2</th>
+							<th data-name="C_RETURN_ADDRESS_3" class="hide">Return Add3</th>
+							<th data-name="C_RETURN_ADDRESS_4" class="hide">Return Add4</th>
+							<th data-name="C_RETURN_SUBURB" class="hide">Return City</th>
+							<th data-name="C_RETURN_STATE_CODE" class="hide">Return State</th>
+							<th data-name="C_RETURN_POSTCODE" class="hide">Return Postcode</th>
+							<th data-name="C_RETURN_COUNTRY_CODE" class="hide">Return Country</th>
+							<th data-name="C_REDIR_COMPANY_NAME" class="hide">Redirect Company</th>
+							<th data-name="C_REDIR_NAME" class="hide">Redirect Name</th>
+							<th data-name="C_REDIR_ADDRESS_1" class="hide">Redirect Address1</th>
+							<th data-name="C_REDIR_ADDRESS_2" class="hide">Redirect Add2</th>
+							<th data-name="C_REDIR_ADDRESS_3" class="hide">Redirect Add3</th>
+							<th data-name="C_REDIR_ADDRESS_4" class="hide">Redirect Add4</th>
+							<th data-name="C_REDIR_SUBURB"  class="hide">Redirect City</th>
+							<th data-name="C_REDIR_STATE_CODE" class="hide">Redirect State</th>
+							<th data-name="C_REDIR_POSTCODE" class="hide">Redirect Postcode</th>
+							<th data-name="C_REDIR_COUNTRY_CODE" class="hide">Redirect Country</th>
+							<th data-name="C_MANIFEST_ID" class="hide">MANIFEST ID</th>
+							<th data-name="C_CONSIGNEE_EMAIL">Email</th>
+							<th data-name="C_EMAIL_NOTIFICATION" data-default="Y">Email notification</th>
+							
+							<th data-name="C_APCN" class="hide">APCN</th>
+							<th data-name="C_SURVEY" class="hide">SURVEY</th>
+							<th data-name="C_DELIVERY_SUBSCRIPTION" class="hide">DELIVERY SUBSCRIPTION</th>
+							<th data-name="C_EMBARGO_DATE" class="hide">EMBARGO DATE</th>
+							<th data-name="C_SPECIFIED_DATE" class="hide">SPECIFIED DATE</th>
+							<th data-name="C_DELIVER_DAY" class="hide">DELIVER DAY</th>
+							<th data-name="C_DO_NOT_DELIVER_DAY" class="hide">DO NOT DELIVER DAY</th>
+							<th data-name="C_DELIVERY_WINDOW" class="hide">DELIVERY WINDOW</th>
+							<th data-name="C_CDP_LOCATION" class="hide">CDP LOCATION</th>
+							<th data-name="C_ID25" class="hide">ID25</th>
+							
+							<th data-name="A_LENGTH" class="hide">Length</th>
+							<th data-name="A_WIDTH" class="hide">Width</th>
+							<th data-name="A_HEIGHT" class="hide">Height</th>
+							<th data-name="A_NUMBER_IDENTICAL_ARTS" class="hide">NUMBER IDENTICAL ARTS</th>
+							<th data-name="A_CONSIGNMENT_ARTICLE_TYPE_DESCRIPTION" class="hide">CONSIGNMENT ARTICLE TYPE DESCRIPTION</th>
+							<th data-name="A_IS_DANGEROUS_GOODS" class="hide">IS DANGEROUS GOODS</th>
+							<th data-name="A_IS_TRANSIT_COVER_REQUIRED" class="hide">IS TRANSIT COVER REQUIRED</th>
+							<th data-name="A_TRANSIT_COVER_AMOUNT" class="hide">TRANSIT COVER AMOUNT</th>
+						
+							<th data-name="G_ORIGIN_COUNTRY_CODE" class="hide">ORIGIN COUNTRY CODE</th>
+							<th data-name="G_HS_TARIFF" class="hide">HS TARIFF</th>
+							<th data-name="G_DESCRIPTION" class="hide">DESCRIPTION</th>
+							<th data-name="G_PRODUCT_TYPE" class="hide">PRODUCT TYPE</th>
+							<th data-name="G_PRODUCT_CLASSIFICATION" class="hide">PRODUCT CLASSIFICATION</th>
+							<th data-name="G_QUANTITY" class="hide">QUANTITY</th>
+							<th data-name="G_WEIGHT" class="hide">WEIGHT</th>
+							<th data-name="G_UNIT_VALUE" class="hide">UNIT VALUE</th>
+							<th data-name="G_TOTAL_VALUE" class="hide">TOTAL VALUE</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<ul class="notice">
+					<li>Orange rows indicate possible errors with the suburb/state/postcode.</li>
+				</ul>
+			</div>
+			<!-- eParcels express -->
+			<div id="template-express" class="content-page hide">
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="select-all"><input type="checkbox" autocomplete="off"></th>
+							<th data-name="A_ACTUAL_CUBIC_WEIGHT" data-required="true">Weight (kg)</th>
+							<th data-name="quantity" data-exclude="true">Carton Qty</th>
+							<th data-name="indivquantity" data-exclude="true">Individual Qty</th>
+							<th data-name="item_name" data-id="item_name" data-exclude="true">Items</th>
+
+							<th data-name="C_CONSIGNMENT_ID" class="hide">CONSIGNMENT ID</th>
+							<th data-name="C_POST_CHARGE_TO_ACCOUNT" class="hide">POST CHARGE TO ACCOUNT</th>
+							<th data-name="C_CHARGE_CODE" class="hide">CHARGE CODE</th>
+							<th data-name="C_MERCHANT_CONSIGNEE_CODE" class="hide">MERCHANT CONSIGNEE CODE</th>
+							<th data-name="C_CONSIGNEE_NAME">Name</th>
+							<th data-name="C_CONSIGNEE_BUSINESS_NAME">Company</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_1">Address1</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_2">Add2</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_3">Add3</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_4" class="hide">Add4</th>
+							<th data-name="C_CONSIGNEE_SUBURB" data-id="recipient_city">City</th>
+							<th data-name="C_CONSIGNEE_STATE_CODE" data-id="recipient_state">State</th>
+							<th data-name="C_CONSIGNEE_POSTCODE" data-id="recipient_postcode">Postcode</th>
+							<th data-name="C_CONSIGNEE_COUNTRY_CODE" class="hide">Country</th>
+							<th data-name="C_CONSIGNEE_PHONE_NUMBER">Phone</th>
+							<th data-name="C_PHONE_PRINT_REQUIRED" class="hide">PHONE PRINT REQUIRED</th>
+							<th data-name="C_CONSIGNEE_FAX_NUMBER" class="hide">Fax</th>
+							<th data-name="C_DELIVERY_INSTRUCTION">Delivery note</th>
+							<th data-name="C_SIGNATURE_REQUIRED" class="hide">SIGNATURE REQUIRED</th>
+							<th data-name="C_PART_DELIVERY" class="hide">PART DELIVERY</th>
+							<th data-name="C_COMMENTS" class="hide">COMMENTS</th>
+							<th data-name="C_ADD_TO_ADDRESS_BOOK" class="hide">ADD TO ADDRESS BOOK</th>
+							<th data-name="C_CTC_AMOUNT" class="hide">CTC AMOUNT</th>
+							<th data-name="C_REF" data-id="order_reference">Reference</th>
+							<th data-name="C_REF_PRINT_REQUIRED" class="hide">REF PRINT REQUIRED</th>
+							<th data-name="C_REF2" class="hide">Reference2</th>
+							<th data-name="C_REF2_PRINT_REQUIRED" class="hide">REF2 PRINT REQUIRED</th>
+							<th data-name="C_CHARGEBACK_ACCOUNT">Chargeback Account</th>
+							<th data-name="C_RECURRING_CONSIGNMENT" class="hide">RECURRING CONSIGNMENT</th>
+							<th data-name="C_RETURN_NAME" class="hide">Return Name</th>
+							<th data-name="C_RETURN_ADDRESS_1" class="hide">Return Address1</th>
+							<th data-name="C_RETURN_ADDRESS_2" class="hide">Return Add2</th>
+							<th data-name="C_RETURN_ADDRESS_3" class="hide">Return Add3</th>
+							<th data-name="C_RETURN_ADDRESS_4" class="hide">Return Add4</th>
+							<th data-name="C_RETURN_SUBURB" class="hide">Return City</th>
+							<th data-name="C_RETURN_STATE_CODE" class="hide">Return State</th>
+							<th data-name="C_RETURN_POSTCODE" class="hide">Return Postcode</th>
+							<th data-name="C_RETURN_COUNTRY_CODE" class="hide">Return Country</th>
+							<th data-name="C_REDIR_COMPANY_NAME" class="hide">Redirect Company</th>
+							<th data-name="C_REDIR_NAME" class="hide">Redirect Name</th>
+							<th data-name="C_REDIR_ADDRESS_1" class="hide">Redirect Address1</th>
+							<th data-name="C_REDIR_ADDRESS_2" class="hide">Redirect Add2</th>
+							<th data-name="C_REDIR_ADDRESS_3" class="hide">Redirect Add3</th>
+							<th data-name="C_REDIR_ADDRESS_4" class="hide">Redirect Add4</th>
+							<th data-name="C_REDIR_SUBURB"  class="hide">Redirect City</th>
+							<th data-name="C_REDIR_STATE_CODE" class="hide">Redirect State</th>
+							<th data-name="C_REDIR_POSTCODE" class="hide">Redirect Postcode</th>
+							<th data-name="C_REDIR_COUNTRY_CODE" class="hide">Redirect Country</th>
+							<th data-name="C_MANIFEST_ID" class="hide">MANIFEST ID</th>
+							<th data-name="C_CONSIGNEE_EMAIL">Email</th>
+							<th data-name="C_EMAIL_NOTIFICATION" data-default="Y">Email notification</th>
+							
+							<th data-name="C_APCN" class="hide">APCN</th>
+							<th data-name="C_SURVEY" class="hide">SURVEY</th>
+							<th data-name="C_DELIVERY_SUBSCRIPTION" class="hide">DELIVERY SUBSCRIPTION</th>
+							<th data-name="C_EMBARGO_DATE" class="hide">EMBARGO DATE</th>
+							<th data-name="C_SPECIFIED_DATE" class="hide">SPECIFIED DATE</th>
+							<th data-name="C_DELIVER_DAY" class="hide">DELIVER DAY</th>
+							<th data-name="C_DO_NOT_DELIVER_DAY" class="hide">DO NOT DELIVER DAY</th>
+							<th data-name="C_DELIVERY_WINDOW" class="hide">DELIVERY WINDOW</th>
+							<th data-name="C_CDP_LOCATION" class="hide">CDP LOCATION</th>
+							<th data-name="C_ID25" class="hide">ID25</th>
+							
+							<th data-name="A_LENGTH" class="hide">Length</th>
+							<th data-name="A_WIDTH" class="hide">Width</th>
+							<th data-name="A_HEIGHT" class="hide">Height</th>
+							<th data-name="A_NUMBER_IDENTICAL_ARTS" class="hide">NUMBER IDENTICAL ARTS</th>
+							<th data-name="A_CONSIGNMENT_ARTICLE_TYPE_DESCRIPTION" class="hide">CONSIGNMENT ARTICLE TYPE DESCRIPTION</th>
+							<th data-name="A_IS_DANGEROUS_GOODS" class="hide">IS DANGEROUS GOODS</th>
+							<th data-name="A_IS_TRANSIT_COVER_REQUIRED" class="hide">IS TRANSIT COVER REQUIRED</th>
+							<th data-name="A_TRANSIT_COVER_AMOUNT" class="hide">TRANSIT COVER AMOUNT</th>
+						
+							<th data-name="G_ORIGIN_COUNTRY_CODE" class="hide">ORIGIN COUNTRY CODE</th>
+							<th data-name="G_HS_TARIFF" class="hide">HS TARIFF</th>
+							<th data-name="G_DESCRIPTION" class="hide">DESCRIPTION</th>
+							<th data-name="G_PRODUCT_TYPE" class="hide">PRODUCT TYPE</th>
+							<th data-name="G_PRODUCT_CLASSIFICATION" class="hide">PRODUCT CLASSIFICATION</th>
+							<th data-name="G_QUANTITY" class="hide">QUANTITY</th>
+							<th data-name="G_WEIGHT" class="hide">WEIGHT</th>
+							<th data-name="G_UNIT_VALUE" class="hide">UNIT VALUE</th>
+							<th data-name="G_TOTAL_VALUE" class="hide">TOTAL VALUE</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<ul class="notice">
+					<li>Orange rows indicate possible errors with the suburb/state/postcode.</li>
+				</ul>
+			</div>
+			<!-- FastTrack eParcels -->
+			<div id="template-fwfp" class="content-page hide">
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="select-all"><input type="checkbox" autocomplete="off"></th>
+							<th data-name="weight" data-required="true">Weight (kg)</th>
+							<th data-name="quantity" data-exclude="true">Carton Qty</th>
+							<th data-name="indivquantity" data-exclude="true">Individual Qty</th>
+							
+							<!-- <th data-name="quantity" data-exclude="true">Qty</th> -->
+							<th data-name="item_name" data-id="item_name" data-exclude="true">Items</th>
+							<th data-name="recipient_name">Name</th>
+							<th data-name="recipient_company">Company</th>
+							<th data-name="recipient_phone">Phone</th>
+							<th data-name="recipient_email">Email</th>
+							<th data-name="recipient_address1">Address1</th>
+							<th data-name="recipient_address2">Add2</th>
+							<th data-name="recipient_address3">Add3</th>
+							<th data-name="recipient_city" data-id="recipient_city">City</th>
+							<th data-name="recipient_state" data-id="recipient_state">State</th>
+							<th data-name="recipient_postcode" data-id="recipient_postcode">Postcode</th>
+							<th data-name="description" class="hide">Description</th>
+							<th data-name="delivery_instruction">Delivery note</th>
+							<th data-name="customer_reference" data-id="order_reference">Reference</th>
+							<th data-name="email_notification" data-default="Y">Email notification</th>
+							<th data-name="sender_name" class="hide">Sender name</th>
+							<th data-name="sender_company" class="hide">Sender company</th>
+							<th data-name="sender_phone" class="hide">Sender phone</th>
+							<th data-name="sender_email" class="hide">Sender email</th>
+							<th data-name="sender_address1" class="hide">Sender address1</th>
+							<th data-name="sender_address2" class="hide">Sender address2</th>
+							<th data-name="sender_address3" class="hide">Sender address3</th>
+							<th data-name="sender_city" class="hide">Sender city</th>
+							<th data-name="sender_state" class="hide">Sender state</th>
+							<th data-name="sender_postcode" class="hide">Sender postcode</th>
+							<th data-name="ebay_item_number" data-id="ebay_item_number" class="hide">ebay item number</th>
+							<th data-name="ebay_transaction_id" data-id="ebay_transaction_id" class="hide">ebay transaction id</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<ul class="notice">
+					<li>Orange rows indicate possible errors with the suburb/state/postcode.</li>
+				</ul>
+			</div>
+			<!-- Fastway Couriers -->
+			<div id="template-fastway" class="content-page hide">
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="select-all"><input type="checkbox" autocomplete="off"></th>
+							<th data-name="Conote no" class="hide">Conote no</th>
+							<th data-name="Multibusiness" class="hide">Multibusiness</th>
+							<th data-name="Account no" class="hide">Account no</th>
+							<th data-name="Contact">Name</th>
+							<th data-name="Company">Company</th>
+							<th data-name="ADD1">Add1</th>
+							<th data-name="ADD2">Add2</th>
+							<th data-name="SUBURB" data-id="recipient_city">Suburb</th>
+							<th data-name="CITY" data-id="recipient_state">City/State</th>
+							<th data-name="PCODE" data-id="recipient_postcode">Postcode</th>
+							<th data-name="EMAIL">Email</th>
+							<th data-name="PHONE">Phone</th>
+							<th data-name="MOBILE">Mobile</th>
+							<th data-name="SPECIAL1">Delivery Note</th>
+							<th data-name="SPECIAL2" class="hide">SPECIAL2</th>
+							<th data-name="SPECIAL3" class="hide">SPECIAL3</th>
+							<th data-name="ITEMS" class="hide">ITEMS</th>
+							<th data-name="Reference" data-id="order_reference">Reference</th>
+							<th data-name="Packaging" data-default="6">Packaging</th>
+							<th data-name="Weight" data-default="1">Weight</th>
+							<th data-name="Width" class="hide">Width</th>
+							<th data-name="Lenth" class="hide">Lenth</th>
+							<th data-name="Height" class="hide">Height</th>
+							<th data-name="Count" data-default="1" class="hide">Count</th>
+							<th data-name="ebay_item_number" data-id="ebay_item_number" data-exclude="true" class="hide">Item Num</th>
+							<th data-name="ebay_transaction_id" data-id="ebay_transaction_id" data-exclude="true" class="hide">Trans ID</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<ul class="notice">
+					<li>Orange rows indicate possible errors with the suburb/state/postcode.</li>
+				</ul>
+			</div>
+			<!-- Delivere -->
+			<div id="template-delivere" class="content-page hide">
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="select-all"><input type="checkbox" autocomplete="off"></th>
+							<th data-name="Conote no" class="hide">Conote no</th>
+							<th data-name="Multibusiness" class="hide">Multibusiness</th>
+							<th data-name="Account no" class="hide">Account no</th>
+							<th data-name="Contact">Name</th>
+							<th data-name="Company">Company</th>
+							<th data-name="ADD1">Add1</th>
+							<th data-name="ADD2">Add2</th>
+							<th data-name="SUBURB" data-id="recipient_city">Suburb</th>
+							<th data-name="CITY" data-id="recipient_state">City/State</th>
+							<th data-name="PCODE" data-id="recipient_postcode">Postcode</th>
+							<th data-name="EMAIL">Email</th>
+							<th data-name="PHONE">Phone</th>
+							<th data-name="MOBILE">Mobile</th>
+							<th data-name="SPECIAL1">Delivery Note</th>
+							<th data-name="SPECIAL2" class="hide">SPECIAL2</th>
+							<th data-name="SPECIAL3" class="hide">SPECIAL3</th>
+							<th data-name="ITEMS" class="hide">ITEMS</th>
+							<th data-name="Reference" data-id="order_reference">Reference</th>
+							<th data-name="Packaging" data-default="6">Packaging</th>
+							<th data-name="Weight" data-default="1">Weight</th>
+							<th data-name="Width" class="hide">Width</th>
+							<th data-name="Lenth" class="hide">Lenth</th>
+							<th data-name="Height" class="hide">Height</th>
+							<th data-name="Count" data-default="1" class="hide">Count</th>
+							<th data-name="ebay_item_number" data-id="ebay_item_number" data-exclude="true" class="hide">Item Num</th>
+							<th data-name="ebay_transaction_id" data-id="ebay_transaction_id" data-exclude="true" class="hide">Trans ID</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<ul class="notice">
+					<li>Orange rows indicate possible errors with the suburb/state/postcode.</li>
+				</ul>
+			</div>
+			<!-- Australia Post eParcels International -->
+			<div id="template-international" class="content-page hide">
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="select-all"><input type="checkbox" autocomplete="off"></th>
+							<th data-name="C_CONSIGNMENT_ID" class="hide">CONSIGNMENT_ID</th>
+							<th data-name="C_POST_CHARGE_TO_ACCOUNT" class="hide">POST CHARGE TO ACCOUNT</th>
+							<th data-name="C_CHARGE_CODE">CHARGE CODE</th>
+							<th data-name="C_MERCHANT_CONSIGNEE_CODE" class="hide">MERCHANT CONSIGNEE CODE</th>
+							<th data-name="C_CONSIGNEE_NAME">CONSIGNEE NAME</th>
+							<th data-name="C_CONSIGNEE_BUSINESS_NAME">CONSIGNEE BUSINESS NAME</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_1">ADDRESS 1</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_2">ADDRESS 2</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_3" class="hide">ADDRESS 3</th>
+							<th data-name="C_CONSIGNEE_ADDRESS_4" class="hide">ADDRESS 4</th>
+							<th data-name="C_CONSIGNEE_SUBURB" data-id="recipient_city">SUBURB</th>
+							<th data-name="C_CONSIGNEE_STATE_CODE" data-id="recipient_state">STATE</th>
+							<th data-name="C_CONSIGNEE_POSTCODE" data-id="recipient_postcode">POSTCODE</th>
+							<th data-name="C_CONSIGNEE_COUNTRY_CODE">COUNTRY CODE</th>
+							<th data-name="C_CONSIGNEE_PHONE_NUMBER">PHONE</th>
+							<th data-name="C_PHONE_PRINT_REQUIRED" class="hide">PHONE PRINT REQUIRED</th>
+							<th data-name="C_CONSIGNEE_FAX_NUMBER" class="hide">FAX NUMBER</th>
+							<th data-name="C_DELIVERY_INSTRUCTION">DELIVERY INSTRUCTION</th>
+							<th data-name="C_SIGNATURE_REQUIRED">SIGNATURE REQUIRED</th>
+							<th data-name="C_PART_DELIVERY" class="hide"></th>
+							<th data-name="C_COMMENTS" class="hide"></th>
+							<th data-name="C_ADD_TO_ADDRESS_BOOK" class="hide"></th>
+							<th data-name="C_CTC_AMOUNT" class="hide"></th>
+							<th data-name="C_REF" data-id="order_reference">REF</th>
+							<th data-name="C_REF_PRINT_REQUIRED" class="hide"></th>
+							<th data-name="C_REF2" class="hide"></th>
+							<th data-name="C_REF2_PRINT_REQUIRED" class="hide"></th>
+							<th data-name="C_CHARGEBACK_ACCOUNT">CHARGEBACK ACCOUNT</th>
+							<th data-name="C_RECURRING_CONSIGNMENT" class="hide"></th>
+							<th data-name="C_RETURN_NAME" class="hide"></th>
+							<th data-name="C_RETURN_ADDRESS_1" class="hide"></th>
+							<th data-name="C_RETURN_ADDRESS_2" class="hide"></th>
+							<th data-name="C_RETURN_ADDRESS_3" class="hide"></th>
+							<th data-name="C_RETURN_ADDRESS_4" class="hide"></th>
+							<th data-name="C_RETURN_SUBURB" class="hide"></th>
+							<th data-name="C_RETURN_STATE_CODE" class="hide"></th>
+							<th data-name="C_RETURN_POSTCODE" class="hide"></th>
+							<th data-name="C_RETURN_COUNTRY_CODE" class="hide"></th>
+							<th data-name="C_REDIR_COMPANY_NAME" class="hide"></th>
+							<th data-name="C_REDIR_NAME" class="hide"></th>
+							<th data-name="C_REDIR_ADDRESS_1" class="hide"></th>
+							<th data-name="C_REDIR_ADDRESS_2" class="hide"></th>
+							<th data-name="C_REDIR_ADDRESS_3" class="hide"></th>
+							<th data-name="C_REDIR_ADDRESS_4" class="hide"></th>
+							<th data-name="C_REDIR_SUBURB" class="hide"></th>
+							<th data-name="C_REDIR_STATE_CODE" class="hide"></th>
+							<th data-name="C_REDIR_POSTCODE" class="hide"></th>
+							<th data-name="C_REDIR_COUNTRY_CODE" class="hide"></th>
+							<th data-name="C_MANIFEST_ID" class="hide"></th>
+							<th data-name="C_CONSIGNEE_EMAIL">EMAIL</th>
+							<th data-name="C_EMAIL_NOTIFICATION" class="hide"></th>
+							<th data-name="C_APCN" class="hide"></th>
+							<th data-name="C_SURVEY" class="hide"></th>
+							<th data-name="C_DELIVERY_SUBSCRIPTION" class="hide"></th>
+							<th data-name="C_EMBARGO_DATE" class="hide"></th>
+							<th data-name="C_SPECIFIED_DATE" class="hide"></th>
+							<th data-name="C_DELIVER_DAY" class="hide"></th>
+							<th data-name="C_DO_NOT_DELIVER_DAY" class="hide"></th>
+							<th data-name="C_DELIVERY_WINDOW" class="hide"></th>
+							<th data-name="C_CDP_LOCATION" class="hide"></th>
+							<th data-name="C_IMPORTERREFNBR" data-id="order_reference">IMPORTERREFNBR</th>
+							<th data-name="C_SENDER_NAME" class="hide"></th>
+							<th data-name="C_SENDER_CUSTOMS_REFERENCE" class="hide"></th>
+							<th data-name="C_SENDER_BUSINESS_NAME" class="hide"></th>
+							<th data-name="C_SENDER_ADDRESS_LINE1" class="hide"></th>
+							<th data-name="C_SENDER_ADDRESS_LINE2" class="hide"></th>
+							<th data-name="C_SENDER_ADDRESS_LINE3" class="hide"></th>
+							<th data-name="C_SENDER_SUBURB_CITY" class="hide"></th>
+							<th data-name="C_SENDER_STATE_CODE" class="hide"></th>
+							<th data-name="C_SENDER_POSTCODE" class="hide"></th>
+							<th data-name="C_SENDER_COUNTRY_CODE" class="hide"></th>
+							<th data-name="C_SENDER_PHONE_NUMBER" class="hide"></th>
+							<th data-name="C_SENDER_EMAIL" class="hide"></th>
+							<th data-name="C_RTN_LABEL" class="hide"></th>
+							<th data-name="A_ACTUAL_CUBIC_WEIGHT" data-required="true">ACTUAL CUBIC WEIGHT</th>
+							<th data-name="A_LENGTH" class="hide"></th>
+							<th data-name="A_WIDTH" class="hide"></th>
+							<th data-name="A_HEIGHT" class="hide"></th>
+							<th data-name="A_NUMBER_IDENTICAL_ARTS" class="hide"></th>
+							<th data-name="A_CONSIGNMENT_ARTICLE_TYPE_DESCRIPTION" class="hide"></th>
+							<th data-name="A_IS_DANGEROUS_GOODS" class="hide"></th>
+							<th data-name="A_IS_TRANSIT_COVER_REQUIRED" class="hide"></th>
+							<th data-name="A_TRANSIT_COVER_AMOUNT" class="hide"></th>
+							<th data-name="A_CUSTOMS_DECLARED_VALUE" data-required="true">DECLARED VALUE</th>
+							<th data-name="A_CLASSIFICATION_EXPLANATION" class="hide"></th>
+							<th data-name="A_EXPORT_CLEARANCE_NUMBER" class="hide"></th>
+							<th data-name="A_IS_RETURN_SURFACE" class="hide"></th>
+							<th data-name="A_IS_RETURN_AIR" class="hide"></th>
+							<th data-name="A_IS_ABANDON" class="hide"></th>
+							<th data-name="A_IS_REDIRECT_SURFACE" class="hide"></th>
+							<th data-name="A_IS_REDIRECT_AIR" class="hide"></th>
+							<th data-name="A_PROD_CLASSIFICATION">CLASSIFICATION</th>
+							<th data-name="A_IS_COMMERCIAL_VALUE" class="hide"></th>
+							<th data-name="G_ORIGIN_COUNTRY_CODE">ORIGIN COUNTRY CODE</th>
+							<th data-name="G_HS_TARIFF" class="hide"></th>
+							<th data-name="G_DESCRIPTION">DESCRIPTION</th>
+							<th data-name="G_PRODUCT_TYPE" class="hide"></th>
+							<th data-name="G_PRODUCT_CLASSIFICATION" class="hide"></th>
+							<th data-name="G_QUANTITY" data-required="true">QUANTITY</th>
+							<th data-name="G_WEIGHT" data-required="true">WEIGHT</th>
+							<th data-name="G_UNIT_VALUE">UNIT VALUE</th>
+							<th data-name="G_TOTAL_VALUE">TOTAL VALUE</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<ul class="notice">
+					<li>Orange rows indicate possible errors with the suburb/state/postcode.</li>
+				</ul>
+			</div>
+			<!-- Repeat Customers -->
+			<div id="template-repeatcustomer" class="content-page hide">
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th class="select-all"><input type="checkbox" autocomplete="off"></th>
+							<th data-name="weight" data-required="true">Weight (kg)</th>
+							<th data-name="quantity" data-exclude="true">Carton Qty</th>
+							<th data-name="indivquantity" data-exclude="true">Individual Qty</th>
+							<th data-name="item_name" data-id="item_name" data-exclude="true">Items</th>
+							<th data-name="recipient_name">Name</th>
+							<th data-name="recipient_company">Company</th>
+							<th data-name="recipient_phone">Phone</th>
+							<th data-name="recipient_email">Email</th>
+							<th data-name="recipient_address1">Address1</th>
+							<th data-name="recipient_address2">Add2</th>
+							<th data-name="recipient_address3">Add3</th>
+							<th data-name="recipient_city" data-id="recipient_city">City</th>
+							<th data-name="recipient_state" data-id="recipient_state">State</th>
+							<th data-name="recipient_postcode" data-id="recipient_postcode">Postcode</th>
+							<th data-name="description" class="hide">Description</th>
+							<th data-name="delivery_instruction">Delivery note</th>
+							<th data-name="customer_reference" data-id="order_reference">Reference</th>
+							<th data-name="email_notification" data-default="Y">Email notification</th>
+							<th data-name="sender_name" class="hide">Sender name</th>
+							<th data-name="sender_company" class="hide">Sender company</th>
+							<th data-name="sender_phone" class="hide">Sender phone</th>
+							<th data-name="sender_email" class="hide">Sender email</th>
+							<th data-name="sender_address1" class="hide">Sender address1</th>
+							<th data-name="sender_address2" class="hide">Sender address2</th>
+							<th data-name="sender_address3" class="hide">Sender address3</th>
+							<th data-name="sender_city" class="hide">Sender city</th>
+							<th data-name="sender_state" class="hide">Sender state</th>
+							<th data-name="sender_postcode" class="hide">Sender postcode</th>
+							<th data-name="ebay_item_number" data-id="ebay_item_number" class="hide">ebay item number</th>
+							<th data-name="ebay_transaction_id" data-id="ebay_transaction_id" class="hide">ebay transaction id</th>
+							<th data-name="pre_orders" data-id="pre_orders">Previous Orders</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<ul class="notice">
+					<li>Orange rows indicate possible errors with the suburb/state/postcode.</li>
+				</ul>
+			</div>
+			<div id="content-action-btns" class="action-btns hide">
+				<button id="content-orders-duplicate" class="action-btn">Duplicate selected row</button>
+				<button id="content-orders-save" class="action-btn">Save document for upload</button>
+				<button id="content-orders-tracking" class="action-btn">Copy tracking links</button>
+				<button id="content-orders-remove" class="action-btn btn-red">Remove selected orders</button>
+				<button id="check-orders-3p" class="action-btn">Check orders 3kg+</button>
+				<button id="orders-checked-save" class="action-btn">Save selected orders</button>
+				<!--<button id="content-orders-reset" class="action-btn">Reset</button>-->
+			</div>
+		</div>
+	</div>
+	<div id="notification" class="hide">
+		<div class="content"></div>
+		<div class="close"></div>
+	</div>
+</div>
+<div id="box-outer">
+	<div id="box-container">
+		<div id="box-orders-remove" class="hide">
+			<div class="title"></div>
+			<div class="line padded centre">Are you sure you want to remove the selected orders?</div>
+			<div class="box-actions">
+				<button id="box-orders-remove-confirm" class="action-btn btn-red">Remove selected orders</button>
+				<button id="box-orders-remove-cancel" class="action-btn">Cancel</button>
+			</div>
+		</div>
+		<div class="close"></div>
+	</div>
+</div>
+</body>
+</html>
