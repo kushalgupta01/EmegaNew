@@ -49,7 +49,7 @@ body {
     line-height: 45px;
     display: block;
     font-size: 20px;
-    background: #FFC300;
+    background: grey;
     border-radius: 50%;
     margin: auto;
     padding: 0px
@@ -98,7 +98,7 @@ body {
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-    background: #DC3545
+    background: green
 }
 
 #progressbar li.active:before {
@@ -107,8 +107,8 @@ body {
 }
 
 .icon {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     margin-right: 15px
 }
 

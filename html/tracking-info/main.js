@@ -1,6 +1,6 @@
 import '/order-collect/js/config.js';
 
-window.page = {	
+window.page = {
 	local: window.location.hostname.startsWith('192.168')
 }
 
@@ -8,53 +8,58 @@ if (page.local) {
 	apiServer = apiServerLocal;
 }
 
-document.addEventListener('DOMContentLoaded', async function() {	
+document.addEventListener('DOMContentLoaded', async function () {
+	const urlParams = new URLSearchParams(window.location.search);
+	const id = urlParams.get('id');
 	let hideOrderNo = document.getElementById("hideOrderNo");
-	hideOrderNo.parentNode.removeChild(hideOrderNo);
-	
 	let hideOrderContentSteps = document.getElementById("hideOrderContentSteps");
-	hideOrderContentSteps.parentNode.removeChild(hideOrderContentSteps);	
-	document.querySelector('#searchOrder').addEventListener('click', searchOrder);
+	searchOrder(id)
 	return false;
 });
 
-async function searchOrder(){
-	let orderNo = document.getElementById("orderNo").value;	
-	if(!orderNo){
-		document.getElementById("errorMsg").innerHTML = "Order no. is required";
-		return false;
-	}else{
-		document.getElementById("errorMsg").innerHTML = "";
-	}
-	
-	try{
-		let response = await fetch(apiServer+'user-order-status-tracking?orderNo='+orderNo, {method: 'get'});	
+async function searchOrder(orderNo) {
+try {
+		let response = await fetch(apiServer + 'user-order-status-tracking?orderNo=' + orderNo, { method: 'get' });
 		let data = await response.json();
 		console.log(data);
-		if(data.result == "success"){
+		if (data.result == "success") {
 			let orderData = data.orderData;
-			if(orderData.trackingId != "")
+			if (orderData.trackingId != "") {
 				document.getElementById("trackingNoValue").innerHTML = orderData.trackingId;
-			
-			if(orderData.orderStatus != ""){
+			}
+			else {
+				document.getElementById("trackingNoValue").innerHTML = "-";
+			}
+
+			if (orderData.orderStatus != "") {
 				let hideOrderNo = document.getElementById("hideOrderNo");
 				hideOrderNo.parentNode.appendChild(hideOrderNo);
-				document.getElementById("orderNoValue").innerHTML = orderNo;
+				document.getElementById("orderNoValue").innerHTML = orderData.orderNumber;
 				let hideOrderContentSteps = document.getElementById("hideOrderContentSteps");
 				hideOrderContentSteps.parentNode.appendChild(hideOrderContentSteps);
-				if(orderData.orderStatus == "New Order"){
-					document.getElementById("orderNoValue").innerHTML = orderNo;
-				}else if(orderData.orderStatus == "COLLECTED"){
-				
-				}else if(orderData.orderStatus == "PACKED" || orderData.orderStatus == "OVERRIDE"){
-				
+				if (["New Order","COLLECTED","PACKED","OVERRIDE","On the Way","Delivered"].includes(orderData.orderStatus)) {
+					document.getElementById("new-order").classList.add("active");
 				}
+				if (["COLLECTED","PACKED","OVERRIDE","On the Way","Delivered"].includes(orderData.orderStatus)) {
+					document.getElementById("collected-order").classList.add("active");
+				}
+				if (["PACKED","OVERRIDE","On the Way","Delivered"].includes(orderData.orderStatus)) {
+					document.getElementById("packed-order").classList.add("active");
+				}
+				if (["On the Way","Delivered"].includes(orderData.orderStatus)) {
+					document.getElementById("on-way-order").classList.add("active");
+				}
+				if (["Delivered"].includes(orderData.orderStatus)) {
+					document.getElementById("delivered-order").classList.add("active");
+				}
+
+				
 			}
-			
+
 		}
-	}catch(e){
+	} catch (e) {
 		document.getElementById("errorMsg").innerHTML = "Please check internet connection";
 		console.log(e);
 	}
-	
+
 }

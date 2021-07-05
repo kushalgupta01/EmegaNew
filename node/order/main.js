@@ -41,7 +41,7 @@ const ordersImportMydeal = require('./orders-import-mydeal');
 const orderAdd = require('./order-add');
 const searchOrder = require('./orders-search');
 const searchPurchaseOrder = require('./orders-purchase-search');
-const getOrderTrackingStatus = require('./orders-tracking-status');
+const {getOrderTrackingStatus} = require('./orders-tracking-status');
 
 const addOrderItem = require('./order-add-item');
 const modifyOrderItem = require('./order-modify-item');

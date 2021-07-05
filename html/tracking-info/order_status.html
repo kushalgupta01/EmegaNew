@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 
   <link rel="stylesheet" href="main.css">
   <script src="main.js" type="module"></script>
 </head>
@@ -14,26 +14,19 @@
 	<h1><font color="red"><b><center>
 		<img src="../common/images/logo.svg" alt="" width="120" class="img-fluid mb-5 mt-3">
 	</center></b></font></h1>
-		<div class="row ml-5 form-inline mb-3">			
-            <div class="form-group">				
-				<label for="orderNo"> <h5> Order No. </h5></label>
-				<input type="text" placeholder="Enter order no." id="orderNo" class="form-control ml-3" name="orderNo">
-				<button type="button" class="btn btn-danger ml-3" id="searchOrder"><i class="fa fa-search"></i></button>
-				<span id="errorMsg" class="text-danger ml-3"><span>
-			</div>           
-        </div>
+
         <div class="row d-flex justify-content-between px-3 top" id="hideOrderNo">			 
            <div class="d-flex">
                 <h5> Order No : <span class="text-danger font-weight-bold" id="orderNoValue"></span></h5>
             </div> 
-			<div class="d-flex mr-5">
+			<div class="d-flex">
 				<h5> Tracking No : <span class="text-danger font-weight-bold" id="trackingNoValue"></span></h5>
             </div> 			
         </div> <!-- Add class 'active' to progress -->
         <div class="row d-flex justify-content-center" id="hideOrderContentSteps">		
             <div class="col-12">
                 <ul id="progressbar" class="text-center">
-                    <li class="step0">
+                    <li id="new-order" class="step0">
 						<div class="mx-auto">
 							<center class="font-weight-bold text-danger">Your order is processed and sent for collection</center>
 							<div class="row d-flex icon-content ml-5 mt-5"> 
@@ -44,18 +37,18 @@
 							</div>
 						</div>
 					</li>
-                    <li class="step0">
+                    <li id="collected-order" class="step0">
 						<div class="mx-auto">
 							<center class="font-weight-bold text-danger">Your order is collected and ready for dispatch</center>
 							<div class="row d-flex icon-content mt-5 ml-5"> 
-								<img class="icon" src="https://img-premium.flaticon.com/png/512/3091/premium/3091813.png?token=exp=1624188439~hmac=4b53987febd531b7b32a5b14d9da2d76">
+								<i class="fa fa-archive icon" style ="font-size: 40px;color: black;" aria-hidden="true" ></i>
 								<div class="d-flex flex-column">
 									<p class="font-weight-bold">Order<br>Collected</p>
 								</div>
 							</div>
 						</div>
 					</li>                    
-					<li class="step0">
+					<li  id="packed-order" class="step0">
 						<div class="mx-auto">
 							<center class="font-weight-bold text-danger">Your order is packed and awaiting pickup</center>
 							<div class="row d-flex icon-content mt-5 ml-3"> 
@@ -66,7 +59,7 @@
 							</div>
 						</div>
 					</li>
-                    <li class="step0">
+                    <li id="on-way-order" class="step0">
 						<div class="mx-auto">
 							<center class="font-weight-bold text-danger">Your order is on the way</center>
 							<div class="row d-flex icon-content mt-5 ml-5"> 
@@ -77,7 +70,7 @@
 							</div>
 						</div>
 					</li>
-					<li class="step0">
+					<li id="delivered-order" class="step0">
 						<div class="mx-auto">
 							<center class="font-weight-bold text-danger">Hurray! your order arrived</center>
 							<div class="row d-flex icon-content mt-5 ml-5"> 

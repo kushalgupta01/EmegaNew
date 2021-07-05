@@ -164,4 +164,4 @@ console.log(params);
 	}
 }
 
-module.exports = getOrderTrackingStatus;
+module.exports = {getOrderTrackingStatus,getFastwayStatus,getAusPostStatus};
